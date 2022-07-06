@@ -8,11 +8,11 @@ import           Initial
 import           PlayerModel
 
 background :: Color
-background = makeColorI 218 240 247 0x8C
+background = makeColorI 245 228 185 0x8C
 
 width, height, xOffset, yOffset :: Int
-width = 1100
-height = 700
+width = 1200
+height = 800
 xOffset = 10
 yOffset = 10
 

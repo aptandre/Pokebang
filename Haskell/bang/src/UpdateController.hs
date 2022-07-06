@@ -10,4 +10,4 @@ updateController seconds game = case gameState game of
     End     -> game
 
 updateGame :: BANG -> BANG
-updateGame game = game { gameState = End }
+updateGame game = updatePositions $ updateShot $ 

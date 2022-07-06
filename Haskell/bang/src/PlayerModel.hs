@@ -1,11 +1,12 @@
 module PlayerModel where
 
-type Tuple = (Int, Int)
+type Tuple = (Float, Float)
 
 data Player = Player
-    { life :: Int
-    , gun  :: Gun
-    , name :: String
+    { life     :: Int
+    , gun      :: Gun
+    , name     :: String
+    , position :: Float
     }
     deriving (Show, Eq)
 
