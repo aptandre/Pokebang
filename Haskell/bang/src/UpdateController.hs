@@ -28,8 +28,8 @@ fireShotsPlayer1 :: BANG -> BANG
 fireShotsPlayer1 game | not move  = game
                       | otherwise = game { player1 = _player1 }
  where
-  move           = isFired (onShoot (player1 game))
-  bullet         = onShoot (player1 game)
+  move           = isFired $ last (onShoot (player1 game))
+  bullet         = last $ onShoot (player1 game)
   multiplier     = 4
   (velx, vely)   = speed bullet
   (x   , y   )   = actualLocation bullet
@@ -37,14 +37,14 @@ fireShotsPlayer1 game | not move  = game
   y'             = y + (vely * multiplier)
 
   _movingBullet1 = bullet { actualLocation = (x', y') }
-  _player1       = (player1 game) { onShoot = _movingBullet1 }
+  _player1       = (player1 game) { onShoot = ((onShoot $ player1 game) ++ [_movingBullet1]) }
 
 fireShotsPlayer2 :: BANG -> BANG
 fireShotsPlayer2 game | not move  = game
                       | otherwise = game { player2 = _player2 }
  where
-  move           = isFired (onShoot (player2 game))
-  bullet         = onShoot (player2 game)
+  move           = isFired $ last (onShoot (player2 game))
+  bullet         = last $ onShoot (player2 game)
   multiplier     = 4
   (velx, vely)   = speed bullet
   (x   , y   )   = actualLocation bullet
@@ -52,4 +52,5 @@ fireShotsPlayer2 game | not move  = game
   y'             = y + (vely * multiplier)
 
   _movingBullet2 = bullet { actualLocation = (x', y') }
-  _player2       = (player2 game) { onShoot = _movingBullet2 }
+  _player2       = (player2 game) { onShoot = ((onShoot $ player2 game) ++ [_movingBullet2]) }
+ 

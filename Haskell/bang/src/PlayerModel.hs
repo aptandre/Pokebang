@@ -8,7 +8,7 @@ data Player = Player
     { life     :: Int
     , location :: Tuple
     , name     :: String
-    , onShoot  :: Bullet
+    , onShoot  :: [Bullet]
     }
     deriving (Show, Eq)
 

@@ -9,8 +9,8 @@ data BANG = Game
     { gameState :: GameState
     , player1   :: Player
     , player2   :: Player
-    , shotP1    :: Bullet
-    , shotP2    :: Bullet
+    , shotP1    :: [Bullet]
+    , shotP2    :: [Bullet]
     , winner    :: String
     , time      :: Float
     }

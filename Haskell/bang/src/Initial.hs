@@ -33,16 +33,16 @@ initializePlayer2 = Player { life     = 100
                            , onShoot  = initializeBullet2
                            }
 
-initializeBullet1 :: Bullet
-initializeBullet1 = Bullet { isFired        = False
+initializeBullet1 :: [Bullet]
+initializeBullet1 = [Bullet { isFired        = False
                            , damage         = 100
                            , speed          = (4, 0)
                            , actualLocation = (-10000, 0)
-                           }
+                           }]
 
-initializeBullet2 :: Bullet
-initializeBullet2 = Bullet { isFired        = False
+initializeBullet2 :: [Bullet]
+initializeBullet2 = [Bullet { isFired        = False
                            , damage         = 100
                            , speed          = (-4, 0)
                            , actualLocation = (10000, 0)
-                           }
+                           }]

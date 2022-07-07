@@ -48,8 +48,8 @@ makePlayer2 _player2 = translate x y $ color playerColor $ rectangleSolid 45 90
   (x, y)      = location _player2
   playerColor = dark magenta
 
-makeBullet :: Bullet -> Picture
-makeBullet _bullet = translate x y $ color bulletColor $ rectangleSolid 10 20
+makeBullet :: [Bullet] -> Picture
+makeBullet bullets = translate x y $ color bulletColor $ rectangleSolid 10 20
  where
-  (x, y)      = actualLocation _bullet
+  (x, y)      = actualLocation $ last bullets
   bulletColor = black
