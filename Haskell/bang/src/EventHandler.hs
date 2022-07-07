@@ -63,12 +63,14 @@ updateLocationDown player
     eixoY         = snd (location player)
     finalPosition = eixoY - 50
 
+-- atira uma bala para o Player 1 periodicamente
 fireGunPlayer1 :: Player -> Player
 fireGunPlayer1 player1 = if not (hasFired player1)
     then player1 { hasFired = True, onShoot = bullet }
     else player1
     where bullet = generateMovingBullet1 player1
 
+-- atira uma bala para o Player 2 periodicamente
 fireGunPlayer2 :: Player -> Player
 fireGunPlayer2 player2 = if not (hasFired player2)
     then player2 { hasFired = True, onShoot = bullet }

@@ -5,6 +5,7 @@ module Render where
 import           GameModel
 import           GameState
 import           Graphics.Gloss
+import           ObstaclesModel                 ( Stone )
 import           PlayerModel
 
 render :: BANG -> Picture
@@ -17,6 +18,9 @@ render game@Game { gameState = Playing } = frame
     , makePlayer2 $ player2 game
     , makeBullet $ onShoot (player1 game)
     , makeBullet $ onShoot (player2 game)
+    -- , map (makeObstacleCactus (cactus game))
+    -- , map (makeObstacleWheat (wheats game))
+    -- , map (makeObstacleStone (stones game))
     ]
 
 -- renderiza as imagens referentes ao jogo em estado de menu
@@ -27,7 +31,10 @@ render game@Game { gameState = Menu } = pictures
   ]
 
 -- renderiza as imagens referentes ao jogo em estado de end 
-render game@Game { gameState = End } = makeText black "WIN!" 0.6 0.6 (-100) 0
+render game@Game { gameState = End } = pictures
+  [ makeText black "WIN!"        0.6 0.6 (-100) 0
+  , makeText black (winner game) 0.3 0.3 (-100) (-100)
+  ]
 
 -- constroí a imagem responsável por mostrar o texto na tela
 makeText :: Color -> String -> Float -> Float -> Float -> Float -> Picture
@@ -48,8 +55,18 @@ makePlayer2 _player2 = translate x y $ color playerColor $ rectangleSolid 45 90
   (x, y)      = location _player2
   playerColor = dark magenta
 
+-- constroí a imagem responsável por mostrar as balas na tela
 makeBullet :: Bullet -> Picture
-makeBullet _bullet = translate x y $ color bulletColor $ rectangleSolid 10 20
+makeBullet _bullet = translate x y $ color bulletColor $ rectangleSolid 10 10
  where
   (x, y)      = actualLocation _bullet
   bulletColor = black
+
+-- makeObstacleCactus :: [Cactus] -> Picture
+-- makeObstacleCactus = 
+
+-- makeObstacleWheat :: [Wheat] -> Picture
+-- makeObstacleWheat
+
+-- makeObstacleStone :: [Stone] -> Picture
+-- makeObstacleStone
