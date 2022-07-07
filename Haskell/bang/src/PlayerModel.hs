@@ -1,23 +1,21 @@
+-- módulo responsável por definir o objeto Player
+-- cada Player possui armas, que guardam balas para atirar
 module PlayerModel where
 
 type Tuple = (Float, Float)
 
 data Player = Player
     { life     :: Int
-    , gun      :: Gun
+    , location :: Tuple
     , name     :: String
-    , position :: Float
-    }
-    deriving (Show, Eq)
-
-data Gun = Gun
-    { shotsCount :: Int
-    , bullets    :: [Bullet]
+    , onShoot  :: Bullet
     }
     deriving (Show, Eq)
 
 data Bullet = Bullet
-    { damage :: Int
-    , speed  :: Tuple
+    { isFired        :: Bool
+    , speed          :: Tuple
+    , damage         :: Int
+    , actualLocation :: Tuple
     }
     deriving (Show, Eq)
