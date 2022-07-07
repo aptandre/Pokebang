@@ -15,8 +15,8 @@ render game@Game { gameState = Playing } = frame
   frame = pictures
     [ makePlayer1 $ player1 game
     , makePlayer2 $ player2 game
-    , makeBullet $ shotP1 game
-    , makeBullet $ shotP2 game
+    , makeBullet $ onShoot (player1 game)
+    , makeBullet $ onShoot (player2 game)
     ]
 
 -- renderiza as imagens referentes ao jogo em estado de menu

@@ -26,7 +26,7 @@ updateShots game = fireShotsPlayer2 $ fireShotsPlayer1 game
 
 fireShotsPlayer1 :: BANG -> BANG
 fireShotsPlayer1 game | not move  = game
-                      | otherwise = game { shotP1 = _movingBullet1 }
+                      | otherwise = game { player1 = _player1 }
  where
   move           = isFired (onShoot (player1 game))
   bullet         = onShoot (player1 game)
@@ -37,10 +37,11 @@ fireShotsPlayer1 game | not move  = game
   y'             = y + (vely * multiplier)
 
   _movingBullet1 = bullet { actualLocation = (x', y') }
+  _player1       = (player1 game) { onShoot = _movingBullet1 }
 
 fireShotsPlayer2 :: BANG -> BANG
 fireShotsPlayer2 game | not move  = game
-                      | otherwise = game { shotP2 = _movingBullet2 }
+                      | otherwise = game { player2 = _player2 }
  where
   move           = isFired (onShoot (player2 game))
   bullet         = onShoot (player2 game)
@@ -51,3 +52,4 @@ fireShotsPlayer2 game | not move  = game
   y'             = y + (vely * multiplier)
 
   _movingBullet2 = bullet { actualLocation = (x', y') }
+  _player2       = (player2 game) { onShoot = _movingBullet2 }
