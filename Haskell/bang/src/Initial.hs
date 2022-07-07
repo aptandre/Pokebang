@@ -23,6 +23,7 @@ initializePlayer1 = Player { life     = 100
                            , name     = "Player 1"
                            , location = (-500, 0)
                            , onShoot  = initializeBullet1
+                           , hasFired = False
                            }
 
 -- cria o Player 2 base para ínicio da aplicação
@@ -31,18 +32,13 @@ initializePlayer2 = Player { life     = 100
                            , name     = "Player 2"
                            , location = (500, 0)
                            , onShoot  = initializeBullet2
+                           , hasFired = False
                            }
 
 initializeBullet1 :: Bullet
-initializeBullet1 = Bullet { isFired        = False
-                           , damage         = 100
-                           , speed          = (4, 0)
-                           , actualLocation = (-10000, 0)
-                           }
+initializeBullet1 =
+    Bullet { damage = 100, speed = (4, 0), actualLocation = (-10000, 0) }
 
 initializeBullet2 :: Bullet
-initializeBullet2 = Bullet { isFired        = False
-                           , damage         = 100
-                           , speed          = (-4, 0)
-                           , actualLocation = (10000, 0)
-                           }
+initializeBullet2 =
+    Bullet { damage = 100, speed = (-4, 0), actualLocation = (10000, 0) }

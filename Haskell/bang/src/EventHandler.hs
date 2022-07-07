@@ -64,9 +64,13 @@ updateLocationDown player
     finalPosition = eixoY - 50
 
 fireGunPlayer1 :: Player -> Player
-fireGunPlayer1 player1 = player1 { onShoot = bullet }
+fireGunPlayer1 player1 = if not (hasFired player1)
+    then player1 { hasFired = True, onShoot = bullet }
+    else player1
     where bullet = generateMovingBullet1 player1
 
 fireGunPlayer2 :: Player -> Player
-fireGunPlayer2 player2 = player2 { onShoot = bullet }
+fireGunPlayer2 player2 = if not (hasFired player2)
+    then player2 { hasFired = True, onShoot = bullet }
+    else player2
     where bullet = generateMovingBullet2 player2

@@ -4,6 +4,7 @@ import           GameModel
 import           GameState
 import           Initial
 import           PlayerModel
+import           Util
 
 updateController :: Float -> BANG -> BANG
 updateController seconds game = case gameState game of
@@ -25,11 +26,14 @@ updateShots :: BANG -> BANG
 updateShots game = fireShotsPlayer2 $ fireShotsPlayer1 game
 
 fireShotsPlayer1 :: BANG -> BANG
-fireShotsPlayer1 game | not move  = game
-                      | otherwise = game { player1 = _player1 }
+fireShotsPlayer1 game
+  | offMap bullet = game
+    { player1 = (player1 game) { hasFired = False, onShoot = initializeBullet1 }
+    }
+  | otherwise = game { player1 = (player1 game) { onShoot = _movingBullet1 } }
  where
-  move           = isFired (onShoot (player1 game))
   bullet         = onShoot (player1 game)
+  fireBullet     = hasFired (player1 game)
   multiplier     = 4
   (velx, vely)   = speed bullet
   (x   , y   )   = actualLocation bullet
@@ -37,19 +41,23 @@ fireShotsPlayer1 game | not move  = game
   y'             = y + (vely * multiplier)
 
   _movingBullet1 = bullet { actualLocation = (x', y') }
-  _player1       = (player1 game) { onShoot = _movingBullet1 }
 
 fireShotsPlayer2 :: BANG -> BANG
-fireShotsPlayer2 game | not move  = game
-                      | otherwise = game { player2 = _player2 }
+fireShotsPlayer2 game
+  | offMap bullet = game
+    { player2 = (player2 game) { hasFired = False, onShoot = initializeBullet2 }
+    }
+  | otherwise = game { player2 = (player2 game) { onShoot = _movingBullet2 } }
  where
-  move           = isFired (onShoot (player2 game))
   bullet         = onShoot (player2 game)
-  multiplier     = 4
+  fireBullet     = hasFired (player2 game)
   (velx, vely)   = speed bullet
   (x   , y   )   = actualLocation bullet
-  x'             = x + (velx * multiplier)
-  y'             = y + (vely * multiplier)
+  x'             = x + (velx * generateMultiplier)
+  y'             = y + (vely * generateMultiplier)
 
   _movingBullet2 = bullet { actualLocation = (x', y') }
-  _player2       = (player2 game) { onShoot = _movingBullet2 }
+
+offMap :: Bullet -> Bool
+offMap bullet =
+  fst (actualLocation bullet) > 700 || fst (actualLocation bullet) < -700

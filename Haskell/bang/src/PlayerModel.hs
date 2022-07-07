@@ -9,12 +9,12 @@ data Player = Player
     , location :: Tuple
     , name     :: String
     , onShoot  :: Bullet
+    , hasFired :: Bool
     }
     deriving (Show, Eq)
 
 data Bullet = Bullet
-    { isFired        :: Bool
-    , speed          :: Tuple
+    { speed          :: Tuple
     , damage         :: Int
     , actualLocation :: Tuple
     }
