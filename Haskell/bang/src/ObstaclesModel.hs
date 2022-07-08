@@ -1,6 +1,6 @@
 module ObstaclesModel where
 
-type Tuple = (Float, Float)
+import PlayerModel
 
 data Wheat = Wheat
     { wheatName     :: String

@@ -7,6 +7,7 @@ import           GameState
 import           Initial
 import           PlayerModel
 import           Util
+import           ObstaclesModel
 
 -- controla as atualizações do jogo
 updateController :: Float -> BANG -> BANG
@@ -32,7 +33,7 @@ updateState seconds game
 -- os tiros só podem ser disparados após outros tiros saírem da tela
 updateShots :: BANG -> BANG
 updateShots game =
-  checkCollision $ fireShotsPlayer2 $ checkCollision $ fireShotsPlayer1 game
+  checkCollisionObstacle $ checkCollision $ fireShotsPlayer2 $ checkCollision $ fireShotsPlayer1 game
 
 -- atualiza os tiros do Player 1 movimentando esses
 fireShotsPlayer1 :: BANG -> BANG
@@ -86,6 +87,16 @@ checkCollision game
     }
   | otherwise = game
 
+checkCollisionObstacle :: BANG -> BANG
+checkCollisionObstacle game
+  | hasCollidedStone (onShoot $ player1 game) ((stones game)!!0) = interceptBullet (player1 game) game
+  | hasCollidedStone (onShoot $ player2 game) ((stones game)!!0) = interceptBullet (player2 game) game
+  | hasCollidedWheat (onShoot $ player1 game) ((wheats game)!!0) = slowDownBullet (player1 game) game
+  | hasCollidedWheat (onShoot $ player2 game) ((wheats game)!!0) = slowDownBullet (player2 game) game
+  | hasCollidedCactus (onShoot $ player1 game) ((cactus game)!!0) = killCactus (player1 game) game
+  | hasCollidedCactus (onShoot $ player2 game) ((cactus game)!!0) = killCactus (player2 game) game
+  | otherwise = game
+
 -- verifica se houve collisão do player 1 com algum tiro do player 2
 hasCollidedPlayer1 :: Bullet -> Player -> Bool
 hasCollidedPlayer1 bullet player
@@ -113,3 +124,49 @@ hasCollidedPlayer2 bullet player
   ybullet = snd (actualLocation bullet)
   xplayer = fst (location player)
   yplayer = snd (location player)
+
+-- Verifica se houve colisão com uma pedra
+hasCollidedStone :: Bullet -> Stone -> Bool
+hasCollidedStone bullet stone
+  | (xbullet + 5 >= xstone - 20 && xbullet - 5 <= xstone + 20) && (ybullet + 5 <= ystone + 20 && ybullet - 5 >= ystone - 20) = True
+  | otherwise = False 
+ where
+    xbullet = fst (actualLocation bullet)
+    ybullet = snd (actualLocation bullet)
+    xstone  = fst (stoneLocation stone)
+    ystone  = snd (stoneLocation stone)
+
+hasCollidedWheat :: Bullet -> Wheat -> Bool
+hasCollidedWheat bullet wheat
+  | (xbullet + 5 >= xwheat - 20 && xbullet - 5 <= xwheat + 20) && (ybullet + 5 <= ywheat + 20 && ybullet - 5 >= ywheat - 20) = True
+  | otherwise = False 
+ where
+    xbullet = fst (actualLocation bullet)
+    ybullet = snd (actualLocation bullet)
+    xwheat  = fst (wheatLocation wheat)
+    ywheat  = snd (wheatLocation wheat)
+
+hasCollidedCactus :: Bullet -> Cactus -> Bool
+hasCollidedCactus bullet cactus
+  | (xbullet + 5 >= xcactus - 20 && xbullet - 5 <= xcactus + 20) && (ybullet + 5 <= ycactus + 20 && ybullet - 5 >= ycactus - 20) = True
+  | otherwise = False 
+ where
+    xbullet = fst (actualLocation bullet)
+    ybullet = snd (actualLocation bullet)
+    xcactus  = fst (cactusLocation cactus)
+    ycactus  = snd (cactusLocation cactus)
+
+interceptBullet :: Player -> BANG -> BANG
+interceptBullet playerx game
+  | (name playerx) == "Player 1" = game { player1 = (player1 game) { onShoot = initializeBullet } }
+  | otherwise = game { player2 = (player2 game) { onShoot = initializeBullet } }
+
+slowDownBullet :: Player -> BANG -> BANG
+slowDownBullet playerx game
+  | (name playerx) == "Player 1" = game { wheats = tail $ (wheats game), player1 = (player1 game) { onShoot = (onShoot $ player1 game) { speed = (1.5, 0)} } }
+  | otherwise = game { wheats = tail $ (wheats game), player2 = (player2 game) { onShoot = (onShoot $ player2 game) { speed = (-1.5, 0)} } }
+
+killCactus :: Player -> BANG -> BANG
+killCactus playerx game
+  | (name playerx) == "Player 1" = game { cactus = tail $ cactus game, player1 = (player1 game) { onShoot = initializeBullet } }
+  | otherwise = game { cactus = tail $ cactus game, player2 = (player2 game) { onShoot = initializeBullet } }

@@ -62,9 +62,6 @@ makeBullet _bullet = translate x y $ color bulletColor $ rectangleSolid 10 10
   (x, y)      = actualLocation _bullet
   bulletColor = black
 
-makeBulbbasaur :: Picture
-makeBulbbasaur = bitmap (loadBMP "sem-png-bulba.bmp")
-
 makeObstacleCactus :: Cactus -> Picture
 makeObstacleCactus _cactus =
   translate x y $ color obstacleColor $ rectangleSolid 40 40

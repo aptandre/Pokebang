@@ -37,15 +37,47 @@ initializePlayer2 = Player { life     = 100
                            , hasFired = False
                            }
 
+-- Função responsável por retornar a bala inicial
 initializeBullet :: Bullet
 initializeBullet =
     Bullet { damage = 100, speed = (4, 0), actualLocation = (-10000, 0) }
 
+-- Função utilizada para gerar objetos cacto
+makeCactus :: String -> Integer -> Spike -> Tuple -> Cactus
+makeCactus name life spike location = Cactus { cactusName     = name,
+                                               cactusLife     = life,
+                                               cactusShoot    = spike,
+                                               cactusLocation = location
+                                             }
+
+-- Função utilizada para gerar objetos trigo
+makeWheat :: String -> Integer -> Tuple -> Wheat
+makeWheat name life location = Wheat {
+    wheatName = name,
+    wheatLife = life,
+    wheatLocation = location
+}
+
+-- Função utilizada para gerar objetos pedra
+makeStone :: String -> Integer -> Tuple -> Stone
+makeStone name life location = Stone {
+    stoneName = name,
+    stoneLife = life,
+    stoneLocation = location
+}
+
+-- Função utilizada para pegar a lista de cactos
 getCactus :: [Cactus]
-getCactus = []
+getCactus = [makeCactus "Juliette" 20 Spike { cactusSpeed = (3, 0), cactusDamage = 100, spikeLocation = (-200,100)} (0, 0),
+             makeCactus "André" 20 Spike { cactusSpeed = (3, 0), cactusDamage = 100, spikeLocation = (20,-200)} (20, -290)]
 
+-- Função utilizada para pegar a lista de trigos
 getWheats :: [Wheat]
-getWheats = []
+getWheats = [makeWheat "Trigo" 100 (110, 305),
+             makeWheat "Trigo" 100 (-200, 130),
+             makeWheat "Trigo" 100 (200, -150)]
 
+-- Função utilizada para pegar a lista de pedras
 getStones :: [Stone]
-getStones = []
+getStones = [makeStone "Preda" 100 (-10, 245),
+             makeStone "Preda" 100 (-200, -250)]
