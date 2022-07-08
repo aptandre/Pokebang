@@ -5,7 +5,7 @@ module Render where
 import           GameModel
 import           GameState
 import           Graphics.Gloss
-import           ObstaclesModel                 ( Stone )
+import           ObstaclesModel
 import           PlayerModel
 
 render :: BANG -> Picture
@@ -14,14 +14,14 @@ render :: BANG -> Picture
 render game@Game { gameState = Playing } = frame
  where
   frame = pictures
-    [ makePlayer1 $ player1 game
-    , makePlayer2 $ player2 game
-    , makeBullet $ onShoot (player1 game)
-    , makeBullet $ onShoot (player2 game)
-    -- , map (makeObstacleCactus (cactus game))
-    -- , map (makeObstacleWheat (wheats game))
-    -- , map (makeObstacleStone (stones game))
-    ]
+    (  [makePlayer1 $ player1 game]
+    ++ [makePlayer2 $ player2 game]
+    ++ [makeBullet $ onShoot (player1 game)]
+    ++ [makeBullet $ onShoot (player2 game)]
+    ++ map makeObstacleCactus (cactus game)
+    ++ map makeObstacleWheat  (wheats game)
+    ++ map makeObstacleStone  (stones game)
+    )
 
 -- renderiza as imagens referentes ao jogo em estado de menu
 render game@Game { gameState = Menu } = pictures
@@ -62,11 +62,28 @@ makeBullet _bullet = translate x y $ color bulletColor $ rectangleSolid 10 10
   (x, y)      = actualLocation _bullet
   bulletColor = black
 
--- makeObstacleCactus :: [Cactus] -> Picture
--- makeObstacleCactus = 
+makeBulbbasaur :: Picture
+makeBulbbasaur = bitmap (loadBMP "sem-png-bulba.bmp")
 
--- makeObstacleWheat :: [Wheat] -> Picture
--- makeObstacleWheat
+makeObstacleCactus :: Cactus -> Picture
+makeObstacleCactus _cactus =
+  translate x y $ color obstacleColor $ rectangleSolid 40 40
+ where
+  (x, y)        = cactusLocation _cactus
+  obstacleColor = dark green
 
--- makeObstacleStone :: [Stone] -> Picture
--- makeObstacleStone
+makeObstacleWheat :: Wheat -> Picture
+makeObstacleWheat _wheat = translate x y $ color obstacleColor $ rectangleSolid
+  40
+  40
+ where
+  (x, y)        = wheatLocation _wheat
+  obstacleColor = light yellow
+
+makeObstacleStone :: Stone -> Picture
+makeObstacleStone _stone = translate x y $ color obstacleColor $ rectangleSolid
+  40
+  40
+ where
+  (x, y)        = stoneLocation _stone
+  obstacleColor = light (light black)

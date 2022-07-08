@@ -14,3 +14,4 @@ generateMovingBullet2 playerM2 =
 
 generateMultiplier :: Float
 generateMultiplier = 4
+
