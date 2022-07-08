@@ -4,16 +4,16 @@ module GameModel where
 
 import           GameState
 import           ObstaclesModel
-import           PlayerModel
+import           PokemonModel
 
 -- objeto 
 data BANG = Game
-    { gameState :: GameState
-    , player1   :: Player
-    , player2   :: Player
-    , winner    :: String
-    , time      :: Float
-    , cactus    :: [Cactus]
-    , wheats    :: [Wheat]
-    , stones    :: [Stone]
+    { gameState  :: GameState
+    , bulbasaur  :: Pokemon
+    , charmander :: Pokemon
+    , winner     :: String
+    , time       :: Float
+    , stones     :: [Stone]
+    , slowpokes  :: [SlowPoke]
+    , belossoms  :: [Belossom]
     }

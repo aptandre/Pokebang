@@ -5,7 +5,7 @@ module UpdateController where
 import           GameModel
 import           GameState
 import           Initial
-import           PlayerModel
+import           PokemonModel
 import           Util
 
 -- controla as atualizações do jogo
@@ -20,96 +20,110 @@ updateGame :: Float -> BANG -> BANG
 updateGame seconds game = updateShots $ updateState seconds game
 
 -- atualiza o estado do jogo
--- verifica se algum dos players foi atingido para definir um vencedor
+-- verifica se algum dos pokemons foi atingido para definir um vencedor
 updateState :: Float -> BANG -> BANG
 updateState seconds game
-  | life (player1 game) == 0 = game { gameState = End, winner = "Player 2" }
-  | life (player2 game) == 0 = game { gameState = End, winner = "Player 1" }
-  | otherwise                = game { time = oldTime + 1 }
+  | life (bulbasaur game) == 0 = game { gameState = End, winner = "Charmander" }
+  | life (charmander game) == 0 = game { gameState = End, winner = "Bulbasaur" }
+  | otherwise = game { time = oldTime + 1 }
   where oldTime = time game
 
 -- atualiza os tiros dos jogadores
 -- os tiros só podem ser disparados após outros tiros saírem da tela
 updateShots :: BANG -> BANG
 updateShots game =
-  checkCollision $ fireShotsPlayer2 $ checkCollision $ fireShotsPlayer1 game
+  checkCollision
+    $ firePokeballCharmander
+    $ checkCollision
+    $ firePokeballBulbasaur game
 
--- atualiza os tiros do Player 1 movimentando esses
-fireShotsPlayer1 :: BANG -> BANG
-fireShotsPlayer1 game
-  | not fireBullet = game
-  | offMap bullet = game
-    { player1 = (player1 game) { hasFired = False, onShoot = initializeBullet }
+-- atualiza os tiros do pokemon 1 movimentando esses
+firePokeballBulbasaur :: BANG -> BANG
+firePokeballBulbasaur game
+  | not firePokeball = game
+  | offMap pokeball = game
+    { bulbasaur = (bulbasaur game) { hasFired = False
+                                   , onShoot  = initializePokeball
+                                   }
     }
-  | otherwise = game { player1 = (player1 game) { onShoot = _movingBullet1 } }
- where
-  bullet         = onShoot (player1 game)
-  fireBullet     = hasFired (player1 game)
-  (velx, vely)   = speed bullet
-  (x   , y   )   = actualLocation bullet
-  x'             = x + (velx * generateMultiplier)
-  y'             = y + (vely * generateMultiplier)
-
-  _movingBullet1 = bullet { actualLocation = (x', y') }
-
--- atualiza os tiros do Player 2 movimentando esses
-fireShotsPlayer2 :: BANG -> BANG
-fireShotsPlayer2 game
-  | not fireBullet = game
-  | offMap bullet = game
-    { player2 = (player2 game) { hasFired = False, onShoot = initializeBullet }
+  | otherwise = game
+    { bulbasaur = (bulbasaur game) { onShoot = _movingPokeballBulbasaur }
     }
-  | otherwise = game { player2 = (player2 game) { onShoot = _movingBullet2 } }
  where
-  bullet         = onShoot (player2 game)
-  fireBullet     = hasFired (player2 game)
-  (velx, vely)   = speed bullet
-  (x   , y   )   = actualLocation bullet
-  x'             = x + (velx * generateMultiplier)
-  y'             = y + (vely * generateMultiplier)
+  pokeball                 = onShoot (bulbasaur game)
+  firePokeball             = hasFired (bulbasaur game)
+  (velx, vely)             = speed pokeball
+  (x   , y   )             = locationPokeball pokeball
+  x'                       = x + (velx * generateMultiplier)
+  y'                       = y + (vely * generateMultiplier)
 
-  _movingBullet2 = bullet { actualLocation = (x', y') }
+  _movingPokeballBulbasaur = pokeball { locationPokeball = (x', y') }
+
+-- atualiza os tiros do pokemon 2 movimentando esses
+firePokeballCharmander :: BANG -> BANG
+firePokeballCharmander game
+  | not firePokeball = game
+  | offMap pokeball = game
+    { charmander = (charmander game) { hasFired = False
+                                     , onShoot  = initializePokeball
+                                     }
+    }
+  | otherwise = game
+    { charmander = (charmander game) { onShoot = _movingPokeballCharmander }
+    }
+ where
+  pokeball                  = onShoot (charmander game)
+  firePokeball              = hasFired (charmander game)
+  (velx, vely)              = speed pokeball
+  (x   , y   )              = locationPokeball pokeball
+  x'                        = x + (velx * generateMultiplier)
+  y'                        = y + (vely * generateMultiplier)
+
+  _movingPokeballCharmander = pokeball { locationPokeball = (x', y') }
 
 -- verirfica se o tiro está fora do mapa
-offMap :: Bullet -> Bool
-offMap bullet =
-  fst (actualLocation bullet) > 750 || fst (actualLocation bullet) < -750
+offMap :: Pokeball -> Bool
+offMap pokeball =
+  fst (locationPokeball pokeball)
+    >  750
+    || fst (locationPokeball pokeball)
+    <  -750
 
--- verifica se ocorreu colisão entre os tiros e os players
+-- verifica se ocorreu colisão entre os tiros e os pokemons
 checkCollision :: BANG -> BANG
 checkCollision game
-  | hasCollidedPlayer1 (onShoot (player2 game)) (player1 game) = game
-    { player1 = (player1 game) { life = 0 }
+  | hasCollidedpokemon1 (onShoot (charmander game)) (bulbasaur game) = game
+    { bulbasaur = (bulbasaur game) { life = 0 }
     }
-  | hasCollidedPlayer2 (onShoot (player1 game)) (player2 game) = game
-    { player2 = (player2 game) { life = 0 }
+  | hasCollidedpokemon2 (onShoot (bulbasaur game)) (charmander game) = game
+    { charmander = (charmander game) { life = 0 }
     }
   | otherwise = game
 
--- verifica se houve collisão do player 1 com algum tiro do player 2
-hasCollidedPlayer1 :: Bullet -> Player -> Bool
-hasCollidedPlayer1 bullet player
-  | ((xbullet - 5 >= xplayer - 22.5) && (xbullet - 5 <= xplayer + 22.5))
-    && ((ybullet - 5 >= yplayer - 45) && (ybullet + 5 <= yplayer + 45))
+-- verifica se houve collisão do pokemon 1 com algum tiro do pokemon 2
+hasCollidedpokemon1 :: Pokeball -> Pokemon -> Bool
+hasCollidedpokemon1 pokeball pokemon
+  | ((xpokeball - 5 >= xpokemon - 22.5) && (xpokeball - 5 <= xpokemon + 22.5))
+    && ((ypokeball - 5 >= ypokemon - 45) && (ypokeball + 5 <= ypokemon + 45))
   = True
   | otherwise
   = False
  where
-  xbullet = fst (actualLocation bullet)
-  ybullet = snd (actualLocation bullet)
-  xplayer = fst (location player)
-  yplayer = snd (location player)
+  xpokeball = fst (locationPokeball pokeball)
+  ypokeball = snd (locationPokeball pokeball)
+  xpokemon  = fst (location pokemon)
+  ypokemon  = snd (location pokemon)
 
--- verifica se houve collisão do player 2 com algum tiro do player 1
-hasCollidedPlayer2 :: Bullet -> Player -> Bool
-hasCollidedPlayer2 bullet player
-  | ((xbullet + 5 >= xplayer - 22.5) && (xbullet + 5 <= xplayer + 22.5))
-    && ((ybullet - 5 >= yplayer - 45) && (ybullet + 5 <= yplayer + 45))
+-- verifica se houve collisão do pokemon 2 com algum tiro do pokemon 1
+hasCollidedpokemon2 :: Pokeball -> Pokemon -> Bool
+hasCollidedpokemon2 pokeball pokemon
+  | ((xpokeball + 5 >= xpokemon - 22.5) && (xpokeball + 5 <= xpokemon + 22.5))
+    && ((ypokeball - 5 >= ypokemon - 45) && (ypokeball + 5 <= ypokemon + 45))
   = True
   | otherwise
   = False
  where
-  xbullet = fst (actualLocation bullet)
-  ybullet = snd (actualLocation bullet)
-  xplayer = fst (location player)
-  yplayer = snd (location player)
+  xpokeball = fst (locationPokeball pokeball)
+  ypokeball = snd (locationPokeball pokeball)
+  xpokemon  = fst (location pokemon)
+  ypokemon  = snd (location pokemon)

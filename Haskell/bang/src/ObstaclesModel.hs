@@ -2,10 +2,10 @@ module ObstaclesModel where
 
 type Tuple = (Float, Float)
 
-data Wheat = Wheat
-    { wheatName     :: String
-    , wheatLife     :: Integer
-    , wheatLocation :: Tuple
+data SlowPoke = SlowPoke
+    { slowPokeName     :: String
+    , slowPokeLife     :: Integer
+    , slowPokeLocation :: Tuple
     }
     deriving (Show, Eq)
 
@@ -16,17 +16,17 @@ data Stone = Stone
     }
     deriving (Show, Eq)
 
-data Cactus = Cactus
-    { cactusName     :: String
-    , cactusLife     :: Integer
-    , cactusShoot    :: Spike
-    , cactusLocation :: Tuple
+data Belossom = Belossom
+    { belossomName     :: String
+    , belossomLife     :: Integer
+    , belossomShoot    :: Spike
+    , belossomLocation :: Tuple
     }
     deriving (Show, Eq)
 
 data Spike = Spike
-    { cactusSpeed   :: Tuple
-    , cactusDamage  :: Int
+    { spikeSpeed    :: Tuple
+    , spikeDamage   :: Int
     , spikeLocation :: Tuple
     }
     deriving (Show, Eq)

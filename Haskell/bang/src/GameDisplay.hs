@@ -7,7 +7,7 @@ import           Graphics.Gloss
 
 import           GameModel
 import           Initial
-import           PlayerModel
+import           PokemonModel
 
 -- define a cor de fundo da tela
 background :: Color

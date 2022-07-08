@@ -1,16 +1,22 @@
 module Util where
 
-import           PlayerModel
+import           PokemonModel
 
 -- cria balas para uso na arma do Player 1
-generateMovingBullet1 :: Player -> Bullet
-generateMovingBullet1 playerM1 =
-    Bullet { damage = 100, speed = (4, 0), actualLocation = location playerM1 }
+generateMovingPokeball1 :: Pokemon -> Pokeball
+generateMovingPokeball1 bulbasaur = Pokeball
+    { damage           = 100
+    , speed            = (4, 0)
+    , locationPokeball = location bulbasaur
+    }
 
 -- cria balas para uso na arma do Player 2
-generateMovingBullet2 :: Player -> Bullet
-generateMovingBullet2 playerM2 =
-    Bullet { damage = 100, speed = (-4, 0), actualLocation = location playerM2 }
+generateMovingPokeball2 :: Pokemon -> Pokeball
+generateMovingPokeball2 charmander = Pokeball
+    { damage           = 100
+    , speed            = (-4, 0)
+    , locationPokeball = location charmander
+    }
 
 generateMultiplier :: Float
 generateMultiplier = 4
