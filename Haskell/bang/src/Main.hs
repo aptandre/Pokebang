@@ -15,4 +15,14 @@ window :: Display
 window = InWindow "BANG!" (width, height) (xOffset, yOffset)
 
 main = do
-    play window background fps initialState render eventHandler updateController
+    bulba      <- loadBMP "bulba.bmp"
+    charm      <- loadBMP "charm.bmp"
+    pokeball   <- loadBMP "pokebola.bmp"
+    foreground <- loadBMP "background.bmp"
+    play window
+         background
+         fps
+         initialState
+         (render bulba charm pokeball foreground)
+         eventHandler
+         updateController

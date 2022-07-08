@@ -1,6 +1,7 @@
 -- módulo responsável por definir o objeto Player
 -- cada Player possui armas, que guardam balas para atirar
 module PlayerModel where
+import           Graphics.Gloss                 ( Picture )
 
 type Tuple = (Float, Float)
 

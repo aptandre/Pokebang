@@ -8,30 +8,36 @@ import           Graphics.Gloss
 import           ObstaclesModel
 import           PlayerModel
 
-render :: BANG -> Picture
+render :: Picture -> Picture -> Picture -> Picture -> BANG -> Picture
 
 -- renderiza as imagens referentes ao jogo em estado de jogo
-render game@Game { gameState = Playing } = frame
+render bulbasaur charmander pokeball foreground game@Game { gameState = Playing }
+  = frame
  where
   frame = pictures
-    (  [makePlayer1 $ player1 game]
+    (  [positionForegorund foreground]
+    ++ [makePlayer1 $ player1 game]
     ++ [makePlayer2 $ player2 game]
     ++ [makeBullet $ onShoot (player1 game)]
     ++ [makeBullet $ onShoot (player2 game)]
     ++ map makeObstacleCactus (cactus game)
     ++ map makeObstacleWheat  (wheats game)
     ++ map makeObstacleStone  (stones game)
+    ++ [makeBulbasaur (player1 game) bulbasaur]
+    ++ [makeCharmander (player2 game) charmander]
+    ++ [makePokeBall (onShoot (player1 game)) pokeball]
+    ++ [makePokeBall (onShoot (player2 game)) pokeball]
     )
 
 -- renderiza as imagens referentes ao jogo em estado de menu
-render game@Game { gameState = Menu } = pictures
+render _ _ _ _ game@Game { gameState = Menu } = pictures
   [ makeText black "BANG!"                0.6 0.6 (-100) 0
   , makeText black "PRESS ENTER TO START" 0.3 0.3 (-215) 100
   , makeText black "PRESS ESC TO QUIT"    0.3 0.3 (-190) (-100)
   ]
 
 -- renderiza as imagens referentes ao jogo em estado de end 
-render game@Game { gameState = End } = pictures
+render _ _ _ _ game@Game { gameState = End } = pictures
   [ makeText black "WIN!"        0.6 0.6 (-100) 0
   , makeText black (winner game) 0.3 0.3 (-100) (-100)
   ]
@@ -62,9 +68,6 @@ makeBullet _bullet = translate x y $ color bulletColor $ rectangleSolid 10 10
   (x, y)      = actualLocation _bullet
   bulletColor = black
 
-makeBulbbasaur :: Picture
-makeBulbbasaur = bitmap (loadBMP "sem-png-bulba.bmp")
-
 makeObstacleCactus :: Cactus -> Picture
 makeObstacleCactus _cactus =
   translate x y $ color obstacleColor $ rectangleSolid 40 40
@@ -87,3 +90,27 @@ makeObstacleStone _stone = translate x y $ color obstacleColor $ rectangleSolid
  where
   (x, y)        = stoneLocation _stone
   obstacleColor = light (light black)
+
+
+makeBulbasaur :: Player -> Picture -> Picture
+makeBulbasaur _player1 _bulbasaur = translate x y
+  $ color playerColor _bulbasaur
+ where
+  (x, y)      = location _player1
+  playerColor = dark cyan
+
+makeCharmander :: Player -> Picture -> Picture
+makeCharmander _player2 _charmander = translate x y
+  $ color playerColor _charmander
+ where
+  (x, y)      = location _player2
+  playerColor = dark magenta
+
+makePokeBall :: Bullet -> Picture -> Picture
+makePokeBall _bullet _pokeball = translate x y $ color bulletColor _pokeball
+ where
+  (x, y)      = actualLocation _bullet
+  bulletColor = black
+
+positionForegorund :: Picture -> Picture
+positionForegorund = translate 0.0 0.0
