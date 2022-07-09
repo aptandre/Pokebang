@@ -74,3 +74,10 @@ initializeSpike = Spike { spikeDamage   = 100
                         , spikeLocation = (-10000, 0)
                         , spikeSpeed    = (10, 10)
                         }
+
+initializeCollision :: Collision
+initializeCollision = Collision { obstacleType      = ""
+                                , collisionLocation = (0, 0)
+                                , pokemonCollided   = initializeCharmander
+                                }
+

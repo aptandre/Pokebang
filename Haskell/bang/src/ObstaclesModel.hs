@@ -30,3 +30,10 @@ data Spike = Spike
     , spikeLocation :: Tuple
     }
     deriving (Show, Eq)
+
+data Collision = Collision
+    { obstacleType      :: String
+    , collisionLocation :: Tuple
+    , pokemonCollided   :: Pokemon
+    }
+    deriving (Show, Eq)
