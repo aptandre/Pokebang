@@ -150,40 +150,33 @@ checkObstaclesCharmander game
   | otherwise = collisionResolver "Charmander" charmanderCollisions game
   where charmanderCollisions = mapCollision (charmander game) game
 
-collisionResolver :: String -> [[Collision]] -> BANG -> BANG
+collisionResolver :: String -> [Collision] -> BANG -> BANG
 collisionResolver name collisions game
-  | not (null stoneCollisionList) = interceptPokeball name game
-  | not (null slowPokeCollisionList) = slowDownPokeball
-    name
-    (collisionLocation slowPokeCollision)
-    game
-  | not (null vilePlumCollisionList) = killsVileplum
-    name
-    (collisionLocation vilePlumCollision)
-    game
-  | otherwise = game
+  | null collisions        = game
+  | obstacle == "Stone"    = interceptPokeball collision game
+  | obstacle == "SlowPoke" = slowDownPokeball collision game
+  | obstacle == "VilePlum" = killsVileplum collision game
+  | otherwise              = game
  where
-  stoneCollisionList    = collisions !! 0
-  slowPokeCollisionList = collisions !! 1
-  slowPokeCollision     = head slowPokeCollisionList
-  vilePlumCollisionList = collisions !! 2
-  vilePlumCollision     = head vilePlumCollisionList
+  obstacle  = obstacleType (head collisions)
+  collision = head collisions
 
-mapCollision :: Pokemon -> BANG -> [[Collision]]
+
+mapCollision :: Pokemon -> BANG -> [Collision]
 mapCollision pokemon game =
-  [ [ x
+  [ x
     | x <- map (hasCollidedStone pokemon) (stones game)
     , x /= initializeCollision
     ]
-  , [ x
-    | x <- map (hasCollidedSlowPoke pokemon) (slowpokes game)
-    , x /= initializeCollision
-    ]
-  , [ x
-    | x <- map (hasCollidedVilePlum pokemon) (vileplums game)
-    , x /= initializeCollision
-    ]
-  ]
+    ++ [ x
+       | x <- map (hasCollidedSlowPoke pokemon) (slowpokes game)
+       , x /= initializeCollision
+       ]
+    ++ [ x
+       | x <- map (hasCollidedVilePlum pokemon) (vileplums game)
+       , x /= initializeCollision
+       ]
+
 
 hasCollidedStone :: Pokemon -> Stone -> Collision
 hasCollidedStone pokemon stone
@@ -217,7 +210,7 @@ hasCollidedVilePlum :: Pokemon -> VilePlum -> Collision
 hasCollidedVilePlum pokemon vileplum
   | (xpokeball + 5 >= xvileplum - 20 && xpokeball - 5 <= xvileplum + 20)
     && (ypokeball + 5 <= yvileplum + 20 && ypokeball - 5 >= yvileplum - 20)
-  = Collision "vilePlum" (vilePlumLocation vileplum) pokemon
+  = Collision "VilePlum" (vilePlumLocation vileplum) pokemon
   | otherwise
   = initializeCollision
  where

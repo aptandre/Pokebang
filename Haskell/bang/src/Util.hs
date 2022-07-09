@@ -24,19 +24,23 @@ generateMovingPokeball2 charmander = Pokeball
 generateMultiplier :: Float
 generateMultiplier = 4
 
-interceptPokeball :: String -> BANG -> BANG
-interceptPokeball name game
-    | name == "Bulbasaur" = game
+
+interceptPokeball :: Collision -> BANG -> BANG
+interceptPokeball collision game
+    | pokemon == "Bulbasaur" = game
         { bulbasaur = (bulbasaur game) { onShoot = initializePokeball }
         }
-    | name == "Charmander" = game
+    | pokemon == "Charmander" = game
         { charmander = (charmander game) { onShoot = initializePokeball }
         }
     | otherwise = game
+  where
+    pokemon  = name (pokemonCollided collision)
+    position = collisionLocation collision
 
-slowDownPokeball :: String -> Tuple -> BANG -> BANG
-slowDownPokeball name position game
-    | name == "Bulbasaur" = game
+slowDownPokeball :: Collision -> BANG -> BANG
+slowDownPokeball collision game
+    | pokemon == "Bulbasaur" = game
         { slowpokes = removeFromListSlowPoke position (slowpokes game)
         , bulbasaur = (bulbasaur game)
                           { onShoot = (onShoot $ bulbasaur game)
@@ -44,7 +48,7 @@ slowDownPokeball name position game
                                           }
                           }
         }
-    | name == "Charmander" = game
+    | pokemon == "Charmander" = game
         { slowpokes  = removeFromListSlowPoke position (slowpokes game)
         , charmander = (charmander game)
                            { onShoot = (onShoot $ charmander game)
@@ -53,30 +57,41 @@ slowDownPokeball name position game
                            }
         }
     | otherwise = game
+  where
+    pokemon  = name (pokemonCollided collision)
+    position = collisionLocation collision
 
-killsVileplum :: String -> Tuple -> BANG -> BANG
-killsVileplum name position game
-    | name == "Bulbasaur" = game
+killsVileplum :: Collision -> BANG -> BANG
+killsVileplum collision game
+    | pokemon == "Bulbasaur" = game
         { vileplums = removeVilePlumeFromList position (vileplums game)
         , bulbasaur = (bulbasaur game) { onShoot = initializePokeball }
         }
-    | name == "Charmander" = game
+    | pokemon == "Charmander" = game
         { vileplums  = removeVilePlumeFromList position (vileplums game)
         , charmander = (charmander game) { onShoot = initializePokeball }
         }
     | otherwise = game
+  where
+    pokemon  = name (pokemonCollided collision)
+    position = collisionLocation collision
+
 
 removeFromListSlowPoke :: Tuple -> [SlowPoke] -> [SlowPoke]
 removeFromListSlowPoke position [] = []
-removeFromListSlowPoke position slowpokes =
-    if position == slowPokeLocation (head slowpokes)
-        then drop 1 slowpokes
-        else take 1 slowpokes
+removeFromListSlowPoke position slowpokes
+    | slowPokeLocation (head slowpokes) == position = removeFromListSlowPoke
+        position
+        (tail slowpokes)
+    | otherwise = head slowpokes
+    : removeFromListSlowPoke position (tail slowpokes)
 
 removeVilePlumeFromList :: Tuple -> [VilePlum] -> [VilePlum]
 removeVilePlumeFromList position [] = []
-removeVilePlumeFromList position vileplums =
-    if position == vilePlumLocation (head vileplums)
-        then drop 1 vileplums
-        else take 1 vileplums
+removeVilePlumeFromList position vileplums
+    | vilePlumLocation (head vileplums) == position = removeVilePlumeFromList
+        position
+        (tail vileplums)
+    | otherwise = head vileplums
+    : removeVilePlumeFromList position (tail vileplums)
 
