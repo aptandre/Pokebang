@@ -19,16 +19,13 @@ render
   -> BANG
   -> Picture
 
--- map (func arg1 arg2) your_list
-
-
 -- renderiza as imagens referentes ao jogo em estado de jogo
-render image_bulbasaur image_charmander image_pokeball foreground image_belossom image_slowpoke image_stone game@Game { gameState = Playing }
+render image_bulbasaur image_charmander image_pokeball foreground image_vileplum image_slowpoke image_stone game@Game { gameState = Playing }
   = frame
  where
   frame = pictures
     (  [positionedForegorund foreground]
-    ++ map (makeObstacleBelossom image_belossom) (belossoms game)
+    ++ map (makeObstacleVilePlum image_vileplum) (vileplums game)
     ++ map (makeObstacleSlowPoke image_slowpoke) (slowpokes game)
     ++ map (makeObstacleStone image_stone)       (stones game)
     ++ [makeBulbasaur (bulbasaur game) image_bulbasaur]
@@ -68,9 +65,9 @@ makePokeBall :: Pokeball -> Picture -> Picture
 makePokeBall _pokeball = translate x y
   where (x, y) = locationPokeball _pokeball
 
-makeObstacleBelossom :: Picture -> Belossom -> Picture
-makeObstacleBelossom _image _belossom = translate x y _image
-  where (x, y) = belossomLocation _belossom
+makeObstacleVilePlum :: Picture -> VilePlum -> Picture
+makeObstacleVilePlum _image _vilePlum = translate x y _image
+  where (x, y) = vilePlumLocation _vilePlum
 
 makeObstacleSlowPoke :: Picture -> SlowPoke -> Picture
 makeObstacleSlowPoke _image _slowpoke = translate x y _image

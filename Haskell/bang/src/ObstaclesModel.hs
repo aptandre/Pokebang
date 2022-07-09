@@ -1,6 +1,6 @@
 module ObstaclesModel where
 
-type Tuple = (Float, Float)
+import           PokemonModel
 
 data SlowPoke = SlowPoke
     { slowPokeName     :: String
@@ -16,11 +16,11 @@ data Stone = Stone
     }
     deriving (Show, Eq)
 
-data Belossom = Belossom
-    { belossomName     :: String
-    , belossomLife     :: Integer
-    , belossomShoot    :: Spike
-    , belossomLocation :: Tuple
+data VilePlum = VilePlum
+    { vilePlumName     :: String
+    , vilePlumLife     :: Integer
+    , vilePlumShoot    :: Spike
+    , vilePlumLocation :: Tuple
     }
     deriving (Show, Eq)
 

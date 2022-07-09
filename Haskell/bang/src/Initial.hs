@@ -14,7 +14,7 @@ initialState = Game { gameState  = Menu
                     , charmander = initializeCharmander
                     , winner     = ""
                     , time       = 0.0
-                    , belossoms  = getBelossoms
+                    , vileplums  = getVileplums
                     , slowpokes  = getSlowpokes
                     , stones     = getStones
                     }
@@ -41,12 +41,12 @@ initializePokeball :: Pokeball
 initializePokeball =
     Pokeball { damage = 100, speed = (4, 0), locationPokeball = (-10000, 0) }
 
-getBelossoms :: [Belossom]
-getBelossoms =
-    [ Belossom { belossomName     = "belossom"
-               , belossomLife     = 100
-               , belossomShoot    = initializeSpike
-               , belossomLocation = (400, 50)
+getVileplums :: [VilePlum]
+getVileplums =
+    [ VilePlum { vilePlumName     = "vileplum"
+               , vilePlumLife     = 100
+               , vilePlumShoot    = initializeSpike
+               , vilePlumLocation = (400, 50)
                }
     ]
 

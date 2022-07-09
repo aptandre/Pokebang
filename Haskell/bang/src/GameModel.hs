@@ -15,5 +15,5 @@ data BANG = Game
     , time       :: Float
     , stones     :: [Stone]
     , slowpokes  :: [SlowPoke]
-    , belossoms  :: [Belossom]
+    , vileplums  :: [VilePlum]
     }

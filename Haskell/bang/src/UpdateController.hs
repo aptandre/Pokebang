@@ -5,6 +5,7 @@ module UpdateController where
 import           GameModel
 import           GameState
 import           Initial
+import           ObstaclesModel
 import           PokemonModel
 import           Util
 
@@ -17,7 +18,8 @@ updateController seconds game = case gameState game of
 
 -- atualiza o jogo em estado de Playing
 updateGame :: Float -> BANG -> BANG
-updateGame seconds game = updateShots $ updateState seconds game
+updateGame seconds game =
+  updateObstacles $ updateShots $ updateState seconds game
 
 -- atualiza o estado do jogo
 -- verifica se algum dos pokemons foi atingido para definir um vencedor
@@ -127,3 +129,85 @@ hasCollidedpokemon2 pokeball pokemon
   ypokeball = snd (locationPokeball pokeball)
   xpokemon  = fst (location pokemon)
   ypokemon  = snd (location pokemon)
+
+
+--  AQUI DESENVOLVEMOS O DIABO DO OBSTÁCULO
+
+updateObstacles :: BANG -> BANG
+updateObstacles game = checkObstaclesCharmander $ checkObstaclesBulbasaur game
+
+
+checkObstaclesBulbasaur :: BANG -> BANG
+checkObstaclesBulbasaur game
+  | null bulbasaurCollisions = collisionResolver "Bulbasaur"
+                                                 bulbasaurCollisions
+                                                 game
+  | otherwise = game
+  where bulbasaurCollisions = mapCollision (onShoot $ bulbasaur game) game
+
+checkObstaclesCharmander :: BANG -> BANG
+checkObstaclesCharmander game
+  | null charmanderCollisions = collisionResolver "Charmander"
+                                                  charmanderCollisions
+                                                  game
+  | otherwise = game
+  where charmanderCollisions = mapCollision (onShoot $ charmander game) game
+
+collisionResolver :: String -> [[Tuple]] -> BANG -> BANG
+collisionResolver name collisions game
+  | null (collisions !! 0) = interceptPokeball name game
+  | null (collisions !! 1) = slowDownPokeball name (collisions !! 1) game
+  | null (collisions !! 2) = killsVileplum name (collisions !! 2) game
+  | otherwise              = game
+
+mapCollision :: Pokeball -> BANG -> [[Tuple]]
+mapCollision pokeball game =
+  [ [ x | x <- map (hasCollidedStone pokeball) (stones game), x /= (0, 0) ]
+  , [ x
+    | x <- map (hasCollidedSlowPoke pokeball) (slowpokes game)
+    , x /= (0, 0)
+    ]
+  , [ x
+    | x <- map (hasCollidedVilePlum pokeball) (vileplums game)
+    , x /= (0, 0)
+    ]
+  ]
+
+hasCollidedStone :: Pokeball -> Stone -> Tuple
+hasCollidedStone pokeball stone
+  | (xpokeball + 5 >= xstone - 20 && xpokeball - 5 <= xstone + 20)
+    && (ypokeball + 5 <= ystone + 20 && ypokeball - 5 >= ystone - 20)
+  = stoneLocation stone
+  | otherwise
+  = (0, 0)
+ where
+  xpokeball = fst (locationPokeball pokeball)
+  ypokeball = snd (locationPokeball pokeball)
+  xstone    = fst (stoneLocation stone)
+  ystone    = snd (stoneLocation stone)
+
+hasCollidedSlowPoke :: Pokeball -> SlowPoke -> Tuple
+hasCollidedSlowPoke pokeball slowpoke
+  | (xpokeball + 5 >= xslowpoke - 20 && xpokeball - 5 <= xslowpoke + 20)
+    && (ypokeball + 5 <= yslowpoke + 20 && ypokeball - 5 >= yslowpoke - 20)
+  = slowPokeLocation slowpoke
+  | otherwise
+  = (0, 0)
+ where
+  xpokeball = fst (locationPokeball pokeball)
+  ypokeball = snd (locationPokeball pokeball)
+  xslowpoke = fst (slowPokeLocation slowpoke)
+  yslowpoke = snd (slowPokeLocation slowpoke)
+
+hasCollidedVilePlum :: Pokeball -> VilePlum -> Tuple
+hasCollidedVilePlum pokeball vileplum
+  | (xpokeball + 5 >= xvileplum - 20 && xpokeball - 5 <= xvileplum + 20)
+    && (ypokeball + 5 <= yvileplum + 20 && ypokeball - 5 >= yvileplum - 20)
+  = vilePlumLocation vileplum
+  | otherwise
+  = (0, 0)
+ where
+  xpokeball = fst (locationPokeball pokeball)
+  ypokeball = snd (locationPokeball pokeball)
+  xvileplum = fst (vilePlumLocation vileplum)
+  yvileplum = snd (vilePlumLocation vileplum)
