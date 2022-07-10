@@ -26,6 +26,7 @@ updateGame seconds game =
 -- verifica se algum dos pokemons foi atingido para definir um vencedor
 updateState :: Float -> BANG -> BANG
 updateState seconds game
+  | life (bulbasaur game) == 0 && life (charmander game) == 0 = game { gameState = End, winner = "Vileplume" }
   | life (bulbasaur game) == 0 = game { gameState = End, winner = "Charmander" }
   | life (charmander game) == 0 = game { gameState = End, winner = "Bulbasaur" }
   | otherwise = game { time = oldTime + 1 }
@@ -95,12 +96,15 @@ offMap pokeball =
 -- verifica se ocorreu colisão entre os tiros e os pokemons
 checkCollision :: BANG -> BANG
 checkCollision game
+  | (vileplums game) == [] = game
   | hasCollidedpokemon1 (onShoot (charmander game)) (bulbasaur game) = game
     { bulbasaur = (bulbasaur game) { life = 0 }
     }
   | hasCollidedpokemon2 (onShoot (bulbasaur game)) (charmander game) = game
     { charmander = (charmander game) { life = 0 }
     }
+  | hasCollidedpokemon1 (vilePlumShootLeft $ head $ vileplums game) (bulbasaur game) = game { bulbasaur = (bulbasaur game) { life = 0 } }
+  | hasCollidedpokemon2 (vilePlumShootRight $ head $ vileplums game) (charmander game) = game { charmander = (charmander game) { life = 0 } }
   | otherwise = game
 
 -- verifica se houve collisão do pokemon 1 com algum tiro do pokemon 2
