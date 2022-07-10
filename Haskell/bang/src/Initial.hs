@@ -45,7 +45,7 @@ getVileplums :: [VilePlum]
 getVileplums =
     [ VilePlum { vilePlumName     = "vileplum"
                , vilePlumLife     = 100
-               , vilePlumShoot    = initializeSpike
+               , vilePlumShoot    = initializePokeball
                , vilePlumLocation = (400, 50)
                }
     ]

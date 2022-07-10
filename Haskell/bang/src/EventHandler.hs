@@ -7,6 +7,7 @@ import           GameState
 import           Graphics.Gloss
 import           Graphics.Gloss.Interface.IO.Game
 import           PokemonModel
+import           ObstaclesModel
 import           Util
 
 -- associa eventos no teclado a eventos do jogo
@@ -39,6 +40,9 @@ eventHandler (EventKey (SpecialKey KeyUp) Down _ _) game@Game { gameState = Play
 -- move o Player 2 para baixo ao apertar a tecla seta para baixo
 eventHandler (EventKey (SpecialKey KeyDown) Down _ _) game@Game { gameState = Playing }
     = game { charmander = updateLocationDown (charmander game) }
+
+eventHandler (EventKey (Char 'v') Down _ _) game@Game { gameState = Playing } =
+    if (vileplums game) == [] then game else game { vileplums = [ fireVileplum $ head $ (vileplums game) ] }
 
 eventHandler _ game = game
 
@@ -75,3 +79,7 @@ throwPokeBallCharmander charmander = if not (hasFired charmander)
     then charmander { hasFired = True, onShoot = pokeball }
     else charmander
     where pokeball = generateMovingPokeball2 charmander
+
+fireVileplum :: VilePlum -> VilePlum
+fireVileplum vileplume = vileplume { vilePlumShoot = newShoot }
+    where newShoot = generateMovingShootVileplume (2, 0) vileplume

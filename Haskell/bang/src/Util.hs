@@ -95,3 +95,6 @@ removeVilePlumeFromList position vileplums
     | otherwise = head vileplums
     : removeVilePlumeFromList position (tail vileplums)
 
+generateMovingShootVileplume :: Tuple -> VilePlum -> Pokeball
+generateMovingShootVileplume projSpeed vileplume =  Pokeball { speed = projSpeed, damage = 100, locationPokeball = (vilePlumLocation vileplume) }
+

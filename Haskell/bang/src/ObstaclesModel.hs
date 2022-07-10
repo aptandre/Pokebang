@@ -19,7 +19,7 @@ data Stone = Stone
 data VilePlum = VilePlum
     { vilePlumName     :: String
     , vilePlumLife     :: Integer
-    , vilePlumShoot    :: Spike
+    , vilePlumShoot    :: Pokeball
     , vilePlumLocation :: Tuple
     }
     deriving (Show, Eq)
