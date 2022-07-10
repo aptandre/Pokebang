@@ -19,7 +19,8 @@ updateController seconds game = case gameState game of
 -- atualiza o jogo em estado de Playing
 updateGame :: Float -> BANG -> BANG
 updateGame seconds game =
-  updateObstacles $ updateShots $ updateState seconds game
+  vilePlumeShoot $ updateObstacles $ updateShots $ updateState seconds game
+
 
 -- atualiza o estado do jogo
 -- verifica se algum dos pokemons foi atingido para definir um vencedor
@@ -219,3 +220,13 @@ hasCollidedVilePlum pokemon vileplum
   ypokeball = snd (locationPokeball pokeball)
   xvileplum = fst (vilePlumLocation vileplum)
   yvileplum = snd (vilePlumLocation vileplum)
+
+vilePlumeShoot :: BANG -> BANG
+vilePlumeShoot game
+  | (vileplums game) == [] = game
+  | offMap (vilePlumShoot (head (vileplums game))) = game { vileplums = [ (head (vileplums game)) { vilePlumShoot = initializeVileplumBall }] }
+  | otherwise = game { vileplums = [ (head (vileplums game)) {vilePlumShoot = (vilePlumShoot $ (head (vileplums game))) { locationPokeball = (x', y)} }] }
+  where
+    verx             = 2
+    (x   , y   )              = locationPokeball $ vilePlumShoot ((vileplums $ game)!!0)
+    x'                        = x - (verx * generateMultiplier)

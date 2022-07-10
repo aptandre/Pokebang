@@ -25,8 +25,8 @@ render image_bulbasaur image_charmander image_pokeball foreground image_vileplum
  where
   frame = pictures
     (  [positionedForegorund foreground]
-    -- Aqui dá problema
     ++ map (makeObstacleVilePlum image_vileplum) (vileplums game)
+    -- acho que dá b.o aqui pq teoricamente não altero o estado do game
     ++ [makeVilePlumBall image_pokeball game]
     ++ map (makeObstacleSlowPoke image_slowpoke) (slowpokes game)
     ++ map (makeObstacleStone image_stone)       (stones game)

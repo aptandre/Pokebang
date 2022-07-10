@@ -41,11 +41,15 @@ initializePokeball :: Pokeball
 initializePokeball =
     Pokeball { damage = 100, speed = (4, 0), locationPokeball = (-10000, 0) }
 
+initializeVileplumBall :: Pokeball
+initializeVileplumBall =
+    Pokeball { damage = 100, speed = (4, 0), locationPokeball = (0, 0) }
+
 getVileplums :: [VilePlum]
 getVileplums =
     [ VilePlum { vilePlumName     = "vileplum"
                , vilePlumLife     = 100
-               , vilePlumShoot    = initializePokeball
+               , vilePlumShoot    = initializeVileplumBall
                , vilePlumLocation = (0, 0)
                }
     ]
