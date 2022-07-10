@@ -224,9 +224,9 @@ hasCollidedVilePlum pokemon vileplum
 vilePlumeShoot :: BANG -> BANG
 vilePlumeShoot game
   | (vileplums game) == [] = game
-  | offMap (vilePlumShoot (head (vileplums game))) = game { vileplums = [ (head (vileplums game)) { vilePlumShoot = initializeVileplumBall }] }
-  | otherwise = game { vileplums = [ (head (vileplums game)) {vilePlumShoot = (vilePlumShoot $ (head (vileplums game))) { locationPokeball = (x', y)} }] }
+  | offMap (vilePlumShootLeft (head (vileplums game))) = game { vileplums = [ (head (vileplums game)) { vilePlumShootLeft = initializeVileplumBall, vilePlumShootRight = initializeVileplumBall }] }
+  | otherwise = game { vileplums = [ (head (vileplums game)) {vilePlumShootLeft = (vilePlumShootLeft $ (head (vileplums game))) { locationPokeball = (x', y)}, vilePlumShootRight = (vilePlumShootRight $ (head (vileplums game))) { locationPokeball = (-x', y)} }] }
   where
     verx             = 2
-    (x   , y   )              = locationPokeball $ vilePlumShoot ((vileplums $ game)!!0)
-    x'                        = x - (verx * generateMultiplier)
+    (x   , y   )              = locationPokeball $ vilePlumShootLeft ((vileplums $ game)!!0)
+    x'                        = x - (verx * 2)

@@ -81,5 +81,7 @@ throwPokeBallCharmander charmander = if not (hasFired charmander)
     where pokeball = generateMovingPokeball2 charmander
 
 fireVileplum :: VilePlum -> VilePlum
-fireVileplum vileplume = vileplume { vilePlumShoot = newShoot }
-    where newShoot = generateMovingShootVileplume (2, 0) vileplume
+fireVileplum vileplume = vileplume { vilePlumShootLeft = newShoot, vilePlumShootRight = newShootRight }
+    where 
+        newShoot = generateMovingShootVileplume (0.3, 0) vileplume
+        newShootRight = generateMovingShootVileplume (-0.3, 0) vileplume

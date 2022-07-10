@@ -49,7 +49,8 @@ getVileplums :: [VilePlum]
 getVileplums =
     [ VilePlum { vilePlumName     = "vileplum"
                , vilePlumLife     = 100
-               , vilePlumShoot    = initializeVileplumBall
+               , vilePlumShootLeft    = initializeVileplumBall
+               , vilePlumShootRight    = initializeVileplumBall
                , vilePlumLocation = (0, 0)
                }
     ]
