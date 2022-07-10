@@ -46,7 +46,7 @@ getVileplums =
     [ VilePlum { vilePlumName     = "vileplum"
                , vilePlumLife     = 100
                , vilePlumShoot    = initializePokeball
-               , vilePlumLocation = (400, 50)
+               , vilePlumLocation = (0, 0)
                }
     ]
 
@@ -64,7 +64,7 @@ getSlowpokes =
 
 getStones :: [Stone]
 getStones =
-    [ Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (0, 0) }
+    [ Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (0, -200) }
     , Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (100, 100) }
     ]
 
