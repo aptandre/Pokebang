@@ -96,15 +96,15 @@ offMap pokeball =
 -- verifica se ocorreu colisão entre os tiros e os pokemons
 checkCollision :: BANG -> BANG
 checkCollision game
-  | (vileplums game) == [] = game
+  -- | (vileplums game) == [] = game
   | hasCollidedpokemon1 (onShoot (charmander game)) (bulbasaur game) = game
     { bulbasaur = (bulbasaur game) { life = 0 }
     }
   | hasCollidedpokemon2 (onShoot (bulbasaur game)) (charmander game) = game
     { charmander = (charmander game) { life = 0 }
     }
-  | hasCollidedpokemon1 (vilePlumShootLeft $ head $ vileplums game) (bulbasaur game) = game { bulbasaur = (bulbasaur game) { life = 0 } }
-  | hasCollidedpokemon2 (vilePlumShootRight $ head $ vileplums game) (charmander game) = game { charmander = (charmander game) { life = 0 } }
+  | hasCollidedpokemon1 (vilePlumShootLeft $ vileplume game) (bulbasaur game) = game { bulbasaur = (bulbasaur game) { life = 0 } }
+  | hasCollidedpokemon2 (vilePlumShootRight $ vileplume game) (charmander game) = game { charmander = (charmander game) { life = 0 } }
   | otherwise = game
 
 -- verifica se houve collisão do pokemon 1 com algum tiro do pokemon 2
@@ -160,7 +160,7 @@ collisionResolver name collisions game
   | null collisions        = game
   | obstacle == "Stone"    = interceptPokeball collision game
   | obstacle == "SlowPoke" = slowDownPokeball collision game
-  | obstacle == "VilePlum" = killsVileplum collision game
+  | obstacle == "VilePlum" = interceptPokeball collision game
   | otherwise              = game
  where
   obstacle  = obstacleType (head collisions)
@@ -177,9 +177,7 @@ mapCollision pokemon game =
        | x <- map (hasCollidedSlowPoke pokemon) (slowpokes game)
        , x /= initializeCollision
        ]
-    ++ [ x
-       | x <- map (hasCollidedVilePlum pokemon) (vileplums game)
-       , x /= initializeCollision
+    ++ [ hasCollidedVilePlum pokemon $ vileplume game
        ]
 
 
@@ -215,7 +213,7 @@ hasCollidedVilePlum :: Pokemon -> VilePlum -> Collision
 hasCollidedVilePlum pokemon vileplum
   | (xpokeball + 5 >= xvileplum - 20 && xpokeball - 5 <= xvileplum + 20)
     && (ypokeball + 5 <= yvileplum + 20 && ypokeball - 5 >= yvileplum - 20)
-  = Collision "VilePlum" (vilePlumLocation vileplum) pokemon
+  = Collision "Stone" (vilePlumLocation vileplum) pokemon
   | otherwise
   = initializeCollision
  where
@@ -227,10 +225,10 @@ hasCollidedVilePlum pokemon vileplum
 
 vilePlumeShoot :: BANG -> BANG
 vilePlumeShoot game
-  | (vileplums game) == [] = game
-  | offMap (vilePlumShootLeft (head (vileplums game))) = game { vileplums = [ (head (vileplums game)) { vilePlumShootLeft = initializeVileplumBall, vilePlumShootRight = initializeVileplumBall }] }
-  | otherwise = game { vileplums = [ (head (vileplums game)) {vilePlumShootLeft = (vilePlumShootLeft $ (head (vileplums game))) { locationPokeball = (x', y)}, vilePlumShootRight = (vilePlumShootRight $ (head (vileplums game))) { locationPokeball = (-x', y)} }] }
+--  | (vileplums game) == [] = game
+  | offMap (vilePlumShootLeft $ vileplume $ game) = game { vileplume = (vileplume game) { vilePlumShootLeft = initializeVileplumBall, vilePlumShootRight = initializeVileplumBall } }
+  | otherwise = game { vileplume = (vileplume game) {vilePlumShootLeft = (vilePlumShootLeft $ (vileplume game)) { locationPokeball = (x', y)}, vilePlumShootRight = (vilePlumShootRight $ vileplume game) { locationPokeball = (-x', y)}} }
   where
     verx             = 2
-    (x   , y   )              = locationPokeball $ vilePlumShootLeft ((vileplums $ game)!!0)
+    (x   , y   )              = locationPokeball $ vilePlumShootLeft $ vileplume $ game
     x'                        = x - (verx * 2)

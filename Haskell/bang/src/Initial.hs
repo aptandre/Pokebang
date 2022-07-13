@@ -14,7 +14,7 @@ initialState = Game { gameState  = Menu
                     , charmander = initializeCharmander
                     , winner     = ""
                     , time       = 0.0
-                    , vileplums  = getVileplums
+                    , vileplume  = generateVileplume
                     , slowpokes  = getSlowpokes
                     , stones     = getStones
                     }
@@ -45,15 +45,13 @@ initializeVileplumBall :: Pokeball
 initializeVileplumBall =
     Pokeball { damage = 100, speed = (4, 0), locationPokeball = (0, 0) }
 
-getVileplums :: [VilePlum]
-getVileplums =
-    [ VilePlum { vilePlumName     = "vileplum"
+generateVileplume :: VilePlum
+generateVileplume = VilePlum { vilePlumName     = "vileplume"
                , vilePlumLife     = 100
                , vilePlumShootLeft    = initializeVileplumBall
                , vilePlumShootRight    = initializeVileplumBall
                , vilePlumLocation = (0, 0)
                }
-    ]
 
 getSlowpokes :: [SlowPoke]
 getSlowpokes =
@@ -72,13 +70,6 @@ getStones =
     [ Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (0, -200) }
     , Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (100, 100) }
     ]
-
-
-initializeSpike :: Spike
-initializeSpike = Spike { spikeDamage   = 100
-                        , spikeLocation = (-10000, 0)
-                        , spikeSpeed    = (10, 10)
-                        }
 
 initializeCollision :: Collision
 initializeCollision = Collision { obstacleType      = ""

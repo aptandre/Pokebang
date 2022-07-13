@@ -61,22 +61,6 @@ slowDownPokeball collision game
     pokemon  = name (pokemonCollided collision)
     position = collisionLocation collision
 
-killsVileplum :: Collision -> BANG -> BANG
-killsVileplum collision game
-    | pokemon == "Bulbasaur" = game
-        { vileplums = removeVilePlumeFromList position (vileplums game)
-        , bulbasaur = (bulbasaur game) { onShoot = initializePokeball }
-        }
-    | pokemon == "Charmander" = game
-        { vileplums  = removeVilePlumeFromList position (vileplums game)
-        , charmander = (charmander game) { onShoot = initializePokeball }
-        }
-    | otherwise = game
-  where
-    pokemon  = name (pokemonCollided collision)
-    position = collisionLocation collision
-
-
 removeFromListSlowPoke :: Tuple -> [SlowPoke] -> [SlowPoke]
 removeFromListSlowPoke position [] = []
 removeFromListSlowPoke position slowpokes
@@ -85,15 +69,6 @@ removeFromListSlowPoke position slowpokes
         (tail slowpokes)
     | otherwise = head slowpokes
     : removeFromListSlowPoke position (tail slowpokes)
-
-removeVilePlumeFromList :: Tuple -> [VilePlum] -> [VilePlum]
-removeVilePlumeFromList position [] = []
-removeVilePlumeFromList position vileplums
-    | vilePlumLocation (head vileplums) == position = removeVilePlumeFromList
-        position
-        (tail vileplums)
-    | otherwise = head vileplums
-    : removeVilePlumeFromList position (tail vileplums)
 
 generateMovingShootVileplume :: Tuple -> VilePlum -> Pokeball
 generateMovingShootVileplume projSpeed vileplume =  Pokeball { speed = projSpeed, damage = 100, locationPokeball = (vilePlumLocation vileplume) }

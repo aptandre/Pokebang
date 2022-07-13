@@ -25,13 +25,6 @@ data VilePlum = VilePlum
     }
     deriving (Show, Eq)
 
-data Spike = Spike
-    { spikeSpeed    :: Tuple
-    , spikeDamage   :: Int
-    , spikeLocation :: Tuple
-    }
-    deriving (Show, Eq)
-
 data Collision = Collision
     { obstacleType      :: String
     , collisionLocation :: Tuple

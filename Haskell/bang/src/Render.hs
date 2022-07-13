@@ -25,9 +25,9 @@ render image_bulbasaur image_charmander image_pokeball foreground image_vileplum
  where
   frame = pictures
     (  [positionedForegorund foreground]
-    ++ [makeVilePlumBallLeft image_pokeball game]
-    ++ [makeVilePlumBallRight image_pokeball game]
-    ++ map (makeObstacleVilePlum image_vileplum) (vileplums game)
+    ++ [makeVileplumLeftBall image_pokeball game]
+    ++ [makeVilePlumRightBall image_pokeball game]
+    ++ [(makeObstacleVilePlum image_vileplum) (vileplume game)]
     ++ map (makeObstacleSlowPoke image_slowpoke) (slowpokes game)
     ++ map (makeObstacleStone image_stone)       (stones game)
     ++ [makeBulbasaur (bulbasaur game) image_bulbasaur]
@@ -79,12 +79,8 @@ makeObstacleStone :: Picture -> Stone -> Picture
 makeObstacleStone _image _stone = translate x y _image
   where (x, y) = stoneLocation _stone
 
-makeVilePlumBallLeft :: Picture -> BANG -> Picture
-makeVilePlumBallLeft picture game
-  | (vileplums game) == [] = makePokeBall (( onShoot $ bulbasaur $ game ) { locationPokeball = (-1000, 0)}) picture
-  | otherwise = makePokeBall (vilePlumShootLeft $ head $ vileplums game) picture
+makeVileplumLeftBall :: Picture -> BANG -> Picture
+makeVileplumLeftBall picture game = makePokeBall (vilePlumShootLeft $ vileplume game) picture
 
-makeVilePlumBallRight :: Picture -> BANG -> Picture
-makeVilePlumBallRight picture game
-  | (vileplums game) == [] = makePokeBall (( onShoot $ charmander $ game ) { locationPokeball = (-1000, 0)}) picture
-  | otherwise = makePokeBall (vilePlumShootRight $ head $ vileplums game) picture
+makeVilePlumRightBall :: Picture -> BANG -> Picture
+makeVilePlumRightBall picture game = makePokeBall (vilePlumShootRight $ vileplume game) picture

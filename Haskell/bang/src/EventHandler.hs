@@ -41,9 +41,6 @@ eventHandler (EventKey (SpecialKey KeyUp) Down _ _) game@Game { gameState = Play
 eventHandler (EventKey (SpecialKey KeyDown) Down _ _) game@Game { gameState = Playing }
     = game { charmander = updateLocationDown (charmander game) }
 
-eventHandler (EventKey (Char 'v') Down _ _) game@Game { gameState = Playing } =
-    if (vileplums game) == [] then game else game { vileplums = [ fireVileplum $ head $ (vileplums game) ] }
-
 eventHandler _ game = game
 
 -- atualiza a posição do Player na tela no sentido para cima
@@ -80,6 +77,7 @@ throwPokeBallCharmander charmander = if not (hasFired charmander)
     else charmander
     where pokeball = generateMovingPokeball2 charmander
 
+-- Método responsável por fazer o Vileplume atirar
 fireVileplum :: VilePlum -> VilePlum
 fireVileplum vileplume = vileplume { vilePlumShootLeft = newShoot, vilePlumShootRight = newShootRight }
     where 
