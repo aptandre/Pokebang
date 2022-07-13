@@ -180,7 +180,6 @@ mapCollision pokemon game =
     ++ [ hasCollidedVilePlum pokemon $ vileplume game
        ]
 
-
 hasCollidedStone :: Pokemon -> Stone -> Collision
 hasCollidedStone pokemon stone
   | (xpokeball + 5 >= xstone - 20 && xpokeball - 5 <= xstone + 20)

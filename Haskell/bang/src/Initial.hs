@@ -57,18 +57,18 @@ getSlowpokes :: [SlowPoke]
 getSlowpokes =
     [ SlowPoke { slowPokeName     = "slowpoke"
                , slowPokeLife     = 100
-               , slowPokeLocation = (-200, 100)
+               , slowPokeLocation = (100, 180)
                }
     , SlowPoke { slowPokeName     = "slowpoke"
                , slowPokeLife     = 100
-               , slowPokeLocation = (200, -100)
+               , slowPokeLocation = (-100, -100)
                }
     ]
 
 getStones :: [Stone]
 getStones =
-    [ Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (0, -200) }
-    , Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (100, 100) }
+    [ Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (200, -200) }
+    , Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (-200, 300) }
     ]
 
 initializeCollision :: Collision
