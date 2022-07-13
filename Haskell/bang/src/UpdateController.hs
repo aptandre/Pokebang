@@ -85,6 +85,8 @@ firePokeballCharmander game
 
   _movingPokeballCharmander = pokeball { locationPokeball = (x', y') }
 
+--  ============== COLISÕES ============== --
+
 -- verirfica se o tiro está fora do mapa
 offMap :: Pokeball -> Bool
 offMap pokeball =
@@ -136,7 +138,7 @@ hasCollidedpokemon2 pokeball pokemon
   ypokemon  = snd (location pokemon)
 
 
---  AQUI DESENVOLVEMOS O DIABO DO OBSTÁCULO
+--  ============== OBSTÁCULOS ============== --
 
 updateObstacles :: BANG -> BANG
 updateObstacles game = checkObstaclesCharmander $ checkObstaclesBulbasaur game
@@ -165,7 +167,6 @@ collisionResolver name collisions game
  where
   obstacle  = obstacleType (head collisions)
   collision = head collisions
-
 
 mapCollision :: Pokemon -> BANG -> [Collision]
 mapCollision pokemon game =
@@ -224,7 +225,6 @@ hasCollidedVilePlum pokemon vileplum
 
 vilePlumeShoot :: BANG -> BANG
 vilePlumeShoot game
---  | (vileplums game) == [] = game
   | offMap (vilePlumShootLeft $ vileplume $ game) = game { vileplume = (vileplume game) { vilePlumShootLeft = initializeVileplumBall, vilePlumShootRight = initializeVileplumBall } }
   | otherwise = game { vileplume = (vileplume game) {vilePlumShootLeft = (vilePlumShootLeft $ (vileplume game)) { locationPokeball = (x', y)}, vilePlumShootRight = (vilePlumShootRight $ vileplume game) { locationPokeball = (-x', y)}} }
   where
