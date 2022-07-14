@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# bang
+=======
 
 # 🎮 _BANG!_ EM [HASKELL](https://github.com/aptandre/BANG/tree/main/Haskell/bang)
 
@@ -59,3 +62,4 @@
 
 ### [@aptandre](https://github.com/aptandre) [@leinharr]() [@gabrielvsc](https://www.github.com/gabrielvsc) [@jonngab](https://github.com/jonngab) [@laysa]()
 
+>>>>>>> 51766c1b73f22964c9caa5282201df0b83160e79
