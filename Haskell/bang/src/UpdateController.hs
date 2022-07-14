@@ -43,6 +43,12 @@ updateShots game =
     $ checkCollision
     $ firePokeballBulbasaur game
 
+-- firePokeball :: Tuple -> Pokemon -> BANG -> BANG
+-- firePokeball speed pokemon game
+--   | (name $ pokemon) == "Bulbasaur" = 
+--   | (name $ pokemon) == "Charmander" =
+--   | otherwise = 
+
 -- atualiza os tiros do pokemon 1 movimentando esses
 firePokeballBulbasaur :: BANG -> BANG
 firePokeballBulbasaur game

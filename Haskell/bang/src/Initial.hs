@@ -49,17 +49,16 @@ generateVileplume = VilePlum { vilePlumName       = "vileplume"
 
 getSlowpokes :: [SlowPoke]
 getSlowpokes =
-    [SlowPoke { slowPokeName = "slowpoke", slowPokeLocation = (200, 250) }
-    -- , SlowPoke { slowPokeName = "slowpoke", slowPokeLocation = (-100, -50) }
-    -- , SlowPoke { slowPokeName = "slowpoke", slowPokeLocation = (-300, -250) }
-                                                                          ]
+    [ SlowPoke { slowPokeName = "slowpoke", slowPokeLocation = (250, 250) }
+    , SlowPoke { slowPokeName = "slowpoke", slowPokeLocation = (150, 50) }
+    , SlowPoke { slowPokeName = "slowpoke", slowPokeLocation = (-300, -150) }
+    ]
 
 getStones :: [Stone]
 getStones =
-    [Stone { stoneName = "stone", stoneLocation = (200, -250) }
-    -- , Stone { stoneName = "stone", stoneLocation = (100, -150) }
-    -- , Stone { stoneName = "stone", stoneLocation = (-200, 300) }
-                                                               ]
+    [ Stone { stoneName = "stone", stoneLocation = (250, -250) }
+    , Stone { stoneName = "stone", stoneLocation = (-100, 150) }
+    ]
 
 initializeCollision :: Collision
 initializeCollision = Collision { obstacleType      = ""
