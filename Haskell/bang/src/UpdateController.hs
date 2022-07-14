@@ -47,11 +47,7 @@ updateShots game =
 firePokeballBulbasaur :: BANG -> BANG
 firePokeballBulbasaur game
   | not firePokeball = game
-  | offMap pokeball = game
-    { bulbasaur = (bulbasaur game) { hasFired = False
-                                   , onShoot  = initializePokeball
-                                   }
-    }
+  | offMap pokeball = game { bulbasaur = (bulbasaur game) { hasFired = False } }
   | otherwise = game
     { bulbasaur = (bulbasaur game) { onShoot = _movingPokeballBulbasaur }
     }
@@ -69,11 +65,8 @@ firePokeballBulbasaur game
 firePokeballCharmander :: BANG -> BANG
 firePokeballCharmander game
   | not firePokeball = game
-  | offMap pokeball = game
-    { charmander = (charmander game) { hasFired = False
-                                     , onShoot  = initializePokeball
-                                     }
-    }
+  | offMap pokeball = game { charmander = (charmander game) { hasFired = False }
+                           }
   | otherwise = game
     { charmander = (charmander game) { onShoot = _movingPokeballCharmander }
     }

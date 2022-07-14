@@ -13,7 +13,7 @@ render :: IMAGES -> BANG -> Picture
 render images game@Game { gameState = Playing } = frame
  where
   frame = pictures
-    (  [positionedForegorund (foreground_menu images)]
+    (  [positionedForegorund (foreground_playing images)]
     ++ [makeVileplumLeftBall (image_pokeball images) game]
     ++ [makeVilePlumRightBall (image_pokeball images) game]
     ++ [makeObstacleVilePlum (image_vileplum images) (vileplume game)]
@@ -26,17 +26,12 @@ render images game@Game { gameState = Playing } = frame
     )
 
 -- renderiza as imagens referentes ao jogo em estado de menu
-render images game@Game { gameState = Menu } = pictures
-  [ makeText black "BANG!"                0.6 0.6 (-100) 0
-  , makeText black "PRESS ENTER TO START" 0.3 0.3 (-215) 100
-  , makeText black "PRESS ESC TO QUIT"    0.3 0.3 (-190) (-100)
-  ]
+render images game@Game { gameState = Menu } = foreground_menu images
 
 -- renderiza as imagens referentes ao jogo em estado de end 
-render images game@Game { gameState = End } = pictures
-  [ makeText black "WIN!"        0.6 0.6 (-100) 0
-  , makeText black (winner game) 0.3 0.3 (-100) (-100)
-  ]
+render images game@Game { gameState = End }  = if winner game == "Bulbasaur"
+  then foreground_winner_bulbasaur images
+  else foreground_winner_charmander images
 
 -- constroí a imagem responsável por mostrar o texto na tela
 makeText :: Color -> String -> Float -> Float -> Float -> Float -> Picture

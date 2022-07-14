@@ -40,41 +40,26 @@ initializePokeball :: Pokeball
 initializePokeball =
     Pokeball { damage = 100, speed = (4, 0), locationPokeball = (-10000, 0) }
 
-initializeVileplumBall :: Pokeball
-initializeVileplumBall =
-    Pokeball { damage = 100, speed = (4, 0), locationPokeball = (0, 0) }
-
 generateVileplume :: VilePlum
 generateVileplume = VilePlum { vilePlumName       = "vileplume"
-                             , vilePlumLife       = 100
                              , vilePlumShootLeft  = initializeVileplumBall
                              , vilePlumShootRight = initializeVileplumBall
-                             , vilePlumLocation   = (0, 0)
+                             , vilePlumLocation   = (0, -50)
                              }
 
 getSlowpokes :: [SlowPoke]
 getSlowpokes =
-    [ SlowPoke { slowPokeName     = "slowpoke"
-               , slowPokeLife     = 100
-               , slowPokeLocation = (100, 180)
-               }
-    , SlowPoke { slowPokeName     = "slowpoke"
-               , slowPokeLife     = 100
-               , slowPokeLocation = (-100, -100)
-               }
-    ]
+    [SlowPoke { slowPokeName = "slowpoke", slowPokeLocation = (200, 250) }
+    -- , SlowPoke { slowPokeName = "slowpoke", slowPokeLocation = (-100, -50) }
+    -- , SlowPoke { slowPokeName = "slowpoke", slowPokeLocation = (-300, -250) }
+                                                                          ]
 
 getStones :: [Stone]
 getStones =
-    [ Stone { stoneName     = "stone"
-            , stoneLife     = 100
-            , stoneLocation = (200, -200)
-            }
-    , Stone { stoneName     = "stone"
-            , stoneLife     = 100
-            , stoneLocation = (-200, 300)
-            }
-    ]
+    [Stone { stoneName = "stone", stoneLocation = (200, -250) }
+    -- , Stone { stoneName = "stone", stoneLocation = (100, -150) }
+    -- , Stone { stoneName = "stone", stoneLocation = (-200, 300) }
+                                                               ]
 
 initializeCollision :: Collision
 initializeCollision = Collision { obstacleType      = ""
@@ -82,3 +67,6 @@ initializeCollision = Collision { obstacleType      = ""
                                 , pokemonCollided   = initializeCharmander
                                 }
 
+initializeVileplumBall :: Pokeball
+initializeVileplumBall =
+    Pokeball { damage = 100, speed = (4, 0), locationPokeball = (0, -50) }
