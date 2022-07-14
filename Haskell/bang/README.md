@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# bang
-=======
-
 # 🎮 _BANG!_ EM [HASKELL](https://github.com/aptandre/BANG/tree/main/Haskell/bang)
 
 &nbsp; _**“BANG!”**_ é um jogo inspirado nos antigos cowboys do velho oeste. É essencialmente um jogo baseado em uma disputa do faroeste, em que dois jogadores entram em uma batalha de tiros, o primeiro a acertar o adversário detêm a vitória.
@@ -61,5 +57,3 @@
 
 
 ### [@aptandre](https://github.com/aptandre) [@leinharr]() [@gabrielvsc](https://www.github.com/gabrielvsc) [@jonngab](https://github.com/jonngab) [@laysa]()
-
->>>>>>> 51766c1b73f22964c9caa5282201df0b83160e79
