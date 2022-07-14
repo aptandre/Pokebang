@@ -3,7 +3,7 @@
 module GameModel where
 
 import           GameState
-import           ObstaclesModel
+import           Graphics.Gloss
 import           PokemonModel
 
 -- objeto 
@@ -17,3 +17,17 @@ data BANG = Game
     , slowpokes  :: [SlowPoke]
     , vileplume  :: VilePlum
     }
+
+data IMAGES = Images
+    { foreground_menu              :: Picture
+    , foreground_playing           :: Picture
+    , foreground_winner_bulbasaur  :: Picture
+    , foreground_winner_charmander :: Picture
+    , image_bulbasaur              :: Picture
+    , image_charmander             :: Picture
+    , image_pokeball               :: Picture
+    , image_vileplum               :: Picture
+    , image_slowpoke               :: Picture
+    , image_stone                  :: Picture
+    }
+

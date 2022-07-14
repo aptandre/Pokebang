@@ -7,7 +7,6 @@ import           GameState
 import           Graphics.Gloss
 import           Graphics.Gloss.Interface.IO.Game
 import           PokemonModel
-import           ObstaclesModel
 import           Util
 
 -- associa eventos no teclado a eventos do jogo
@@ -68,18 +67,20 @@ throwPokeBallBulbasaur :: Pokemon -> Pokemon
 throwPokeBallBulbasaur bulbasaur = if not (hasFired bulbasaur)
     then bulbasaur { hasFired = True, onShoot = pokeball }
     else bulbasaur
-    where pokeball = generateMovingPokeball1 bulbasaur
+    where pokeball = generateMovingPokeballBulbasaur bulbasaur
 
 -- atira uma bala para o Player 2 periodicamente
 throwPokeBallCharmander :: Pokemon -> Pokemon
 throwPokeBallCharmander charmander = if not (hasFired charmander)
     then charmander { hasFired = True, onShoot = pokeball }
     else charmander
-    where pokeball = generateMovingPokeball2 charmander
+    where pokeball = generateMovingPokeballCharmander charmander
 
 -- Método responsável por fazer o Vileplume atirar
 fireVileplum :: VilePlum -> VilePlum
-fireVileplum vileplume = vileplume { vilePlumShootLeft = newShoot, vilePlumShootRight = newShootRight }
-    where 
-        newShoot = generateMovingShootVileplume (0.3, 0) vileplume
-        newShootRight = generateMovingShootVileplume (-0.3, 0) vileplume
+fireVileplum vileplume = vileplume { vilePlumShootLeft  = newShoot
+                                   , vilePlumShootRight = newShootRight
+                                   }
+  where
+    newShoot      = generateMovingShootVileplume (0.3, 0) vileplume
+    newShootRight = generateMovingShootVileplume (-0.3, 0) vileplume

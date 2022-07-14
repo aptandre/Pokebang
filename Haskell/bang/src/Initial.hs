@@ -4,7 +4,6 @@ module Initial where
 
 import           GameModel
 import           GameState
-import           ObstaclesModel
 import           PokemonModel
 
 -- cria o jogo base para ínicio da aplicação
@@ -46,12 +45,12 @@ initializeVileplumBall =
     Pokeball { damage = 100, speed = (4, 0), locationPokeball = (0, 0) }
 
 generateVileplume :: VilePlum
-generateVileplume = VilePlum { vilePlumName     = "vileplume"
-               , vilePlumLife     = 100
-               , vilePlumShootLeft    = initializeVileplumBall
-               , vilePlumShootRight    = initializeVileplumBall
-               , vilePlumLocation = (0, 0)
-               }
+generateVileplume = VilePlum { vilePlumName       = "vileplume"
+                             , vilePlumLife       = 100
+                             , vilePlumShootLeft  = initializeVileplumBall
+                             , vilePlumShootRight = initializeVileplumBall
+                             , vilePlumLocation   = (0, 0)
+                             }
 
 getSlowpokes :: [SlowPoke]
 getSlowpokes =
@@ -67,8 +66,14 @@ getSlowpokes =
 
 getStones :: [Stone]
 getStones =
-    [ Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (200, -200) }
-    , Stone { stoneName = "stone", stoneLife = 100, stoneLocation = (-200, 300) }
+    [ Stone { stoneName     = "stone"
+            , stoneLife     = 100
+            , stoneLocation = (200, -200)
+            }
+    , Stone { stoneName     = "stone"
+            , stoneLife     = 100
+            , stoneLocation = (-200, 300)
+            }
     ]
 
 initializeCollision :: Collision

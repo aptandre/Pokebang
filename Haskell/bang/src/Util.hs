@@ -1,21 +1,46 @@
 module Util where
 
 import           GameModel
+import           Graphics.Gloss
 import           Initial
-import           ObstaclesModel
 import           PokemonModel
 
+makeImagesHolder
+    :: Picture
+    -> Picture
+    -> Picture
+    -> Picture
+    -> Picture
+    -> Picture
+    -> Picture
+    -> Picture
+    -> Picture
+    -> Picture
+    -> IMAGES
+makeImagesHolder foreground_menu foreground_playing foreground_winner_bulbasaur foreground_winner_charmander image_bulbasaur image_charmander image_pokeball image_vileplum image_slowpoke image_stone
+    = Images { foreground_menu              = foreground_menu
+             , foreground_playing           = foreground_playing
+             , foreground_winner_bulbasaur  = foreground_winner_bulbasaur
+             , foreground_winner_charmander = foreground_winner_charmander
+             , image_bulbasaur              = image_bulbasaur
+             , image_charmander             = image_charmander
+             , image_pokeball               = image_pokeball
+             , image_vileplum               = image_vileplum
+             , image_slowpoke               = image_slowpoke
+             , image_stone                  = image_stone
+             }
+
 -- cria balas para uso na arma do Player 1
-generateMovingPokeball1 :: Pokemon -> Pokeball
-generateMovingPokeball1 bulbasaur = Pokeball
+generateMovingPokeballBulbasaur :: Pokemon -> Pokeball
+generateMovingPokeballBulbasaur bulbasaur = Pokeball
     { damage           = 100
     , speed            = (4, 0)
     , locationPokeball = location bulbasaur
     }
 
 -- cria balas para uso na arma do Player 2
-generateMovingPokeball2 :: Pokemon -> Pokeball
-generateMovingPokeball2 charmander = Pokeball
+generateMovingPokeballCharmander :: Pokemon -> Pokeball
+generateMovingPokeballCharmander charmander = Pokeball
     { damage           = 100
     , speed            = (-4, 0)
     , locationPokeball = location charmander
@@ -23,7 +48,6 @@ generateMovingPokeball2 charmander = Pokeball
 
 generateMultiplier :: Float
 generateMultiplier = 4
-
 
 interceptPokeball :: Collision -> BANG -> BANG
 interceptPokeball collision game
@@ -71,5 +95,9 @@ removeFromListSlowPoke position slowpokes
     : removeFromListSlowPoke position (tail slowpokes)
 
 generateMovingShootVileplume :: Tuple -> VilePlum -> Pokeball
-generateMovingShootVileplume projSpeed vileplume =  Pokeball { speed = projSpeed, damage = 100, locationPokeball = (vilePlumLocation vileplume) }
+generateMovingShootVileplume projSpeed vileplume = Pokeball
+    { speed            = projSpeed
+    , damage           = 100
+    , locationPokeball = vilePlumLocation vileplume
+    }
 

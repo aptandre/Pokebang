@@ -5,7 +5,6 @@ module UpdateController where
 import           GameModel
 import           GameState
 import           Initial
-import           ObstaclesModel
 import           PokemonModel
 import           Util
 
@@ -26,7 +25,10 @@ updateGame seconds game =
 -- verifica se algum dos pokemons foi atingido para definir um vencedor
 updateState :: Float -> BANG -> BANG
 updateState seconds game
-  | life (bulbasaur game) == 0 && life (charmander game) == 0 = game { gameState = End, winner = "Vileplume" }
+  | life (bulbasaur game) == 0 && life (charmander game) == 0 = game
+    { gameState = End
+    , winner    = "Vileplume"
+    }
   | life (bulbasaur game) == 0 = game { gameState = End, winner = "Charmander" }
   | life (charmander game) == 0 = game { gameState = End, winner = "Bulbasaur" }
   | otherwise = game { time = oldTime + 1 }
@@ -98,20 +100,22 @@ offMap pokeball =
 -- verifica se ocorreu colisão entre os tiros e os pokemons
 checkCollision :: BANG -> BANG
 checkCollision game
-  -- | (vileplums game) == [] = game
-  | hasCollidedpokemon1 (onShoot (charmander game)) (bulbasaur game) = game
-    { bulbasaur = (bulbasaur game) { life = 0 }
-    }
-  | hasCollidedpokemon2 (onShoot (bulbasaur game)) (charmander game) = game
-    { charmander = (charmander game) { life = 0 }
-    }
-  | hasCollidedpokemon1 (vilePlumShootLeft $ vileplume game) (bulbasaur game) = game { bulbasaur = (bulbasaur game) { life = 0 } }
-  | hasCollidedpokemon2 (vilePlumShootRight $ vileplume game) (charmander game) = game { charmander = (charmander game) { life = 0 } }
-  | otherwise = game
+  | hasCollidedPokemonBulbasaur (onShoot (charmander game)) (bulbasaur game)
+  = game { bulbasaur = (bulbasaur game) { life = 0 } }
+  | hasCollidedPokemonCharmander (onShoot (bulbasaur game)) (charmander game)
+  = game { charmander = (charmander game) { life = 0 } }
+  | hasCollidedPokemonBulbasaur (vilePlumShootLeft $ vileplume game)
+                                (bulbasaur game)
+  = game { bulbasaur = (bulbasaur game) { life = 0 } }
+  | hasCollidedPokemonCharmander (vilePlumShootRight $ vileplume game)
+                                 (charmander game)
+  = game { charmander = (charmander game) { life = 0 } }
+  | otherwise
+  = game
 
 -- verifica se houve collisão do pokemon 1 com algum tiro do pokemon 2
-hasCollidedpokemon1 :: Pokeball -> Pokemon -> Bool
-hasCollidedpokemon1 pokeball pokemon
+hasCollidedPokemonBulbasaur :: Pokeball -> Pokemon -> Bool
+hasCollidedPokemonBulbasaur pokeball pokemon
   | ((xpokeball - 5 >= xpokemon - 22.5) && (xpokeball - 5 <= xpokemon + 22.5))
     && ((ypokeball - 5 >= ypokemon - 45) && (ypokeball + 5 <= ypokemon + 45))
   = True
@@ -124,8 +128,8 @@ hasCollidedpokemon1 pokeball pokemon
   ypokemon  = snd (location pokemon)
 
 -- verifica se houve collisão do pokemon 2 com algum tiro do pokemon 1
-hasCollidedpokemon2 :: Pokeball -> Pokemon -> Bool
-hasCollidedpokemon2 pokeball pokemon
+hasCollidedPokemonCharmander :: Pokeball -> Pokemon -> Bool
+hasCollidedPokemonCharmander pokeball pokemon
   | ((xpokeball + 5 >= xpokemon - 22.5) && (xpokeball + 5 <= xpokemon + 22.5))
     && ((ypokeball - 5 >= ypokemon - 45) && (ypokeball + 5 <= ypokemon + 45))
   = True
@@ -178,8 +182,7 @@ mapCollision pokemon game =
        | x <- map (hasCollidedSlowPoke pokemon) (slowpokes game)
        , x /= initializeCollision
        ]
-    ++ [ hasCollidedVilePlum pokemon $ vileplume game
-       ]
+    ++ [hasCollidedVilePlum pokemon $ vileplume game]
 
 hasCollidedStone :: Pokemon -> Stone -> Collision
 hasCollidedStone pokemon stone
@@ -225,9 +228,22 @@ hasCollidedVilePlum pokemon vileplum
 
 vilePlumeShoot :: BANG -> BANG
 vilePlumeShoot game
-  | offMap (vilePlumShootLeft $ vileplume $ game) = game { vileplume = (vileplume game) { vilePlumShootLeft = initializeVileplumBall, vilePlumShootRight = initializeVileplumBall } }
-  | otherwise = game { vileplume = (vileplume game) {vilePlumShootLeft = (vilePlumShootLeft $ (vileplume game)) { locationPokeball = (x', y)}, vilePlumShootRight = (vilePlumShootRight $ vileplume game) { locationPokeball = (-x', y)}} }
-  where
-    verx             = 2
-    (x   , y   )              = locationPokeball $ vilePlumShootLeft $ vileplume $ game
-    x'                        = x - (verx * 2)
+  | offMap (vilePlumShootLeft $ vileplume game) = game
+    { vileplume = (vileplume game) { vilePlumShootLeft  = initializeVileplumBall
+                                   , vilePlumShootRight = initializeVileplumBall
+                                   }
+    }
+  | otherwise = game
+    { vileplume = (vileplume game)
+                    { vilePlumShootLeft  = (vilePlumShootLeft (vileplume game))
+                                             { locationPokeball = (x', y)
+                                             }
+                    , vilePlumShootRight = (vilePlumShootRight $ vileplume game)
+                                             { locationPokeball = (-x', y)
+                                             }
+                    }
+    }
+ where
+  verx   = 2
+  (x, y) = locationPokeball $ vilePlumShootLeft $ vileplume game
+  x'     = x - (verx * 2)
