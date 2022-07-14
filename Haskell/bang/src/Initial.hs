@@ -42,6 +42,7 @@ initializePokeball =
 
 generateVileplume :: VilePlum
 generateVileplume = VilePlum { vilePlumName       = "vileplume"
+                             , hasPlums           = True
                              , vilePlumShootLeft  = initializeVileplumBall
                              , vilePlumShootRight = initializeVileplumBall
                              , vilePlumLocation   = (0, -50)

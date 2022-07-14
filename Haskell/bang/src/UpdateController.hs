@@ -235,14 +235,17 @@ vilePlumeShoot game
   | otherwise = game
     { vileplume = (vileplume game)
                     { vilePlumShootLeft  = (vilePlumShootLeft (vileplume game))
-                                             { locationPokeball = (x', y)
+                                             { locationPokeball =
+                                               locationPokeballLeft
                                              }
                     , vilePlumShootRight = (vilePlumShootRight $ vileplume game)
-                                             { locationPokeball = (-x', y)
+                                             { locationPokeball =
+                                               locationPokeballRight
                                              }
                     }
     }
  where
-  verx   = 2
-  (x, y) = locationPokeball $ vilePlumShootLeft $ vileplume game
-  x'     = x - (verx * 2)
+  (x, y)                = locationPokeball $ vilePlumShootLeft $ vileplume game
+  x'                    = x - 4
+  locationPokeballLeft  = (x', y)
+  locationPokeballRight = (-x', y)

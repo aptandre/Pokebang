@@ -27,6 +27,7 @@ data Stone = Stone
 
 data VilePlum = VilePlum
     { vilePlumName       :: String
+    , hasPlums           :: Bool
     , vilePlumShootLeft  :: Pokeball
     , vilePlumShootRight :: Pokeball
     , vilePlumLocation   :: Tuple
