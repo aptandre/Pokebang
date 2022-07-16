@@ -1,21 +1,33 @@
 # 🎮 _BANG!_ EM [HASKELL](https://github.com/aptandre/BANG/tree/main/Haskell/bang)
 
-&nbsp; _**“BANG!”**_ é um jogo inspirado nos antigos cowboys do velho oeste. É essencialmente um jogo baseado em uma disputa do faroeste, em que dois jogadores entram em uma batalha de tiros, o primeiro a acertar o adversário detêm a vitória.
+&nbsp; _**“POKEBANG!”**_ é um jogo inspirado nos antigos jogos shooter 2D com o visual da famosa franquia Pokémon. É essencialmente um jogo baseado em uma disputa de Pokémons, em que dois jogadores entram em uma batalha de disparos, o primeiro a acertar o adversário detêm a vitória.
 
 ## 🖥️ INSTALAÇÃO
 
 ⚠️ É NECESSÁRIO TER EM SUA MÁQUINA [HASKELL, CABAL E GHC](https://www.haskell.org/downloads/)
 
-<!--
-
-```bash
-  lorem ipsum
-  ipsum
+### 1. CLONE O REPOSITÓRIO 
 ```
-    
--->    
+  $ git clone https://github.com/aptandre/BANG.git
+```
 
+### 2. ENTRE DENTRO DO REPOSITÓRIO
+```
+  $ cd Haskell/bang
+```
 
+### 3. INSTALE O CABAL, GHCUP e GLOSS
+As instalações abaixo podem durar alguns minutos.
+```
+  $ cabal install Cabal cabal-install
+  $ ghcup install 8.6.5
+  $ cabal install --lib gloss
+```
+
+### 4. EXECUTE COM O COMANDO ABAIXO
+```
+  $ cabal run
+```
 
 ## ❔ COMO JOGAR?
 
@@ -23,15 +35,15 @@
 
 ## 🕹️ COMANDOS
 
-### JOGADOR 1
+### JOGADOR 1 ( BULBASAUR )
 
-&nbsp;&nbsp;&nbsp;**W -** MOVIMENTA PARA CIMA
+&nbsp;&nbsp;**W -** MOVIMENTA PARA CIMA
 
 &nbsp;&nbsp;&nbsp;**S -** MOVIMENTA PARA BAIXO
 
 &nbsp;&nbsp;&nbsp;**D -** ATIRA
 
-### JOGADOR 2
+### JOGADOR 2 ( CHARMANDER )
 
 &nbsp;&nbsp;&nbsp;**↑ -** MOVIMENTA PARA CIMA
 
