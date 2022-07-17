@@ -55,13 +55,11 @@ As instalações abaixo podem durar alguns minutos.
 
 <p>&nbsp; Existem certos <strong>"obstáculos"</strong>, que consistem em outros pokémons que aparecem aleatoriamente para impedir o êxito dos jogadores. Cada um desses têm diferentes características que os tornam adversidades diferentes. Por enquanto, nesse momento, temos três principais: </p>
 
-| Nome  |  Pokémon  | Efeito |
-| --------- | -------- | --------- |
-| **Slowpoke** |<img src="https://img.pokemondb.net/sprites/sword-shield/normal/slowpoke.png"> | Ao ser atingido deixa os projéteis mais lentos. |
-| **Rhydon** | <img src="https://pixelartmaker-data-78746291193.nyc3.digitaloceanspaces.com/image/1234ba855fd443b.png"> | Ao ser atingido, bloqueia o projétil, cancelado-o. |
-| **Vileplume** | <img src="https://img.pokemondb.net/sprites/sword-shield/normal/vileplume.png"> | Solta espinhos na direção dos jogadores, os quais são igualmente fatais a um tiro. Assim os jogadores são obrigados a desviar dos tiros de Vileplume e dos tiros do adversário simultaneamente.
+&nbsp;&nbsp;&nbsp;**Vileplume -** solta espinhos na direção dos jogadores, os quais são tão fatais quanto um tiro;
 
-## 👾 DEMONSTRAÇÃO
+&nbsp;&nbsp;&nbsp;**Rhydon -** intercepta um projétil;
+
+&nbsp;&nbsp;&nbsp;**Slowpoke -** ao ser atingido por um projétil, diminui a velocidade do mesmo;
 
 <!-- LINK DO YOUTUBE -->
 
