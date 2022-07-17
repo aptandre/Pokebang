@@ -12,14 +12,6 @@
 
 &nbsp; <strong> “POKEBANG!” </strong> é um jogo inspirado nos antigos jogos da franquia Pokémon combinado com elementos de um jogo shooter 2D. É essencialmente um jogo baseado em uma disputa entre pokemóns, em que dois jogadores entram em uma batalha de disparos, o primeiro a acertar o adversário detêm a vitória!
 
-## ❔ COMO FUNCIONA?
-
-<p>&nbsp; <strong>POKEBANG!</strong> é um jogo em que dois jogadores assumem os papéis de dois Pokemóns que se movimentam verticalmente e possuem pokébolas para atirar uns contra os outros.</p>
-
-<p>&nbsp; Ambos são capazes disparar as pokébolas um contra o outro, assim como são capazes de alterar sua movimentação, para cima ou para baixo, a fim de desviar dos disparos ou reposicionar seu próximo disparo.</p>
-
-<p>&nbsp; Só é necessário um único acerto para que você ganhe o jogo.</p>
-
 ## 🤔 DIFICULDADES/MECÂNICAS
 
 <p>&nbsp; Existem certos <strong>"obstáculos"</strong>, que consistem em outros pokémons que aparecem aleatoriamente para impedir o êxito dos jogadores. Cada um desses têm diferentes características que os tornam adversidades diferentes. Por enquanto, nesse momento, temos três principais: </p>
