@@ -1,3 +1,7 @@
+-- Módulo responsável por controlar todos os possíveis eventos do game,
+-- ou seja, cliques em botões, movimentações, ações do jogador e outros
+-- tipos de entrada estão descritos aqui
+
 module EventHandler where
 
 import           Initial
@@ -40,6 +44,7 @@ eventHandler (EventKey (SpecialKey KeyUp) Down _ _) game@Game { gameState = Play
 eventHandler (EventKey (SpecialKey KeyDown) Down _ _) game@Game { gameState = Playing }
     = game { charmander = updateLocationDown (charmander game) }
 
+-- Caso nada seja fornecido, ele apenas retorna o game
 eventHandler _ game = game
 
 -- atualiza a posição do Player na tela no sentido para cima

@@ -143,9 +143,12 @@ hasCollidedPokemonCharmander pokeball pokemon
 
 --  ============== OBSTÁCULOS ============== --
 
+-- Atualiza os obstáculos a partir da verificação da colisão com
+-- ambos os pokemons Bulbasaur e Charmander
 updateObstacles :: BANG -> BANG
 updateObstacles game = checkObstaclesCharmander $ checkObstaclesBulbasaur game
 
+-- Checa a colisão dos obstáculos com o Bulbasaur
 checkObstaclesBulbasaur :: BANG -> BANG
 checkObstaclesBulbasaur game
   | not (hasFired (bulbasaur game)) = game
@@ -153,6 +156,7 @@ checkObstaclesBulbasaur game
   | otherwise = collisionResolver "Bulbasaur" bulbasaurCollisions game
   where bulbasaurCollisions = mapCollision (bulbasaur game) game
 
+-- Checa a colisão dos obstáculos com o Charmander
 checkObstaclesCharmander :: BANG -> BANG
 checkObstaclesCharmander game
   | not (hasFired (charmander game)) = game
@@ -160,6 +164,10 @@ checkObstaclesCharmander game
   | otherwise = collisionResolver "Charmander" charmanderCollisions game
   where charmanderCollisions = mapCollision (charmander game) game
 
+-- Verifica as colisões a partir de um array de colisões passado,
+-- além disso, esta função também é responsável por fazer os obstáculos
+-- interativos, provendo-os com as suas mecâncias de jogo: intercepção
+-- de projéteis ou decremento de velocidade de projétil (pokeball).
 collisionResolver :: String -> [Collision] -> BANG -> BANG
 collisionResolver name collisions game
   | null collisions        = game
@@ -171,6 +179,8 @@ collisionResolver name collisions game
   obstacle  = obstacleType (head collisions)
   collision = head collisions
 
+-- Mapeia todas as colisões do jogo para fazer uma lista de colisões
+-- ele compara as posições com a lista de obstáculos necessária
 mapCollision :: Pokemon -> BANG -> [Collision]
 mapCollision pokemon game =
   [ x
@@ -183,6 +193,8 @@ mapCollision pokemon game =
        ]
     ++ [hasCollidedVilePlum pokemon $ vileplume game]
 
+-- Verifica se um determinado Pokémon colidiu com uma Stone
+-- passada e retorna um objeto de Colisão correspondente
 hasCollidedStone :: Pokemon -> Stone -> Collision
 hasCollidedStone pokemon stone
   | (xpokeball + 5 >= xstone - 20 && xpokeball - 5 <= xstone + 20)
@@ -197,6 +209,8 @@ hasCollidedStone pokemon stone
   xstone    = fst (stoneLocation stone)
   ystone    = snd (stoneLocation stone)
 
+-- Verifica se um determinado Pokémon colidiu com um Slowpoke
+-- passado e retorna um objeto de Colisão correspondente
 hasCollidedSlowPoke :: Pokemon -> SlowPoke -> Collision
 hasCollidedSlowPoke pokemon slowpoke
   | (xpokeball + 5 >= xslowpoke - 20 && xpokeball - 5 <= xslowpoke + 20)
@@ -211,6 +225,8 @@ hasCollidedSlowPoke pokemon slowpoke
   xslowpoke = fst (slowPokeLocation slowpoke)
   yslowpoke = snd (slowPokeLocation slowpoke)
 
+-- Verifica se um determinado Pokémon colidiu com um Vileplume
+-- passado e retorna um objeto de Colisão correspondente
 hasCollidedVilePlum :: Pokemon -> VilePlum -> Collision
 hasCollidedVilePlum pokemon vileplum
   | (xpokeball + 5 >= xvileplum - 20 && xpokeball - 5 <= xvileplum + 20)
@@ -225,6 +241,7 @@ hasCollidedVilePlum pokemon vileplum
   xvileplum = fst (vilePlumLocation vileplum)
   yvileplum = snd (vilePlumLocation vileplum)
 
+-- Faz o Vileplume a partir da atualização das balas do objeto vileplume dentro do objeto game
 vilePlumeShoot :: BANG -> BANG
 vilePlumeShoot game
   | offMap (vilePlumShootLeft $ vileplume game) = game

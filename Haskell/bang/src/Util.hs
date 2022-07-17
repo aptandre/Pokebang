@@ -1,3 +1,6 @@
+-- Módulo utilizado para agregar funções úteis, em geral
+-- as funções daqui são bastante utilizadas ou no update
+-- controller ou no event handler
 module Util where
 
 import           GameModel
@@ -5,6 +8,7 @@ import           Graphics.Gloss
 import           Initial
 import           PokemonModel
 
+-- Função que configura todas as imagens utilizadas no jogo
 makeImagesHolder
     :: Picture
     -> Picture
@@ -30,7 +34,7 @@ makeImagesHolder foreground_menu foreground_playing foreground_winner_bulbasaur 
              , image_stone                  = image_stone
              }
 
--- cria balas para uso na arma do Player 1
+-- Cria uma Pokéball que se move para o uso do Bulbasaur
 generateMovingPokeballBulbasaur :: Pokemon -> Pokeball
 generateMovingPokeballBulbasaur bulbasaur = Pokeball
     { damage           = 100
@@ -38,7 +42,7 @@ generateMovingPokeballBulbasaur bulbasaur = Pokeball
     , locationPokeball = location bulbasaur
     }
 
--- cria balas para uso na arma do Player 2
+-- Cria uma Pokéball que se move para o uso do Charmander
 generateMovingPokeballCharmander :: Pokemon -> Pokeball
 generateMovingPokeballCharmander charmander = Pokeball
     { damage           = 100
@@ -46,9 +50,11 @@ generateMovingPokeballCharmander charmander = Pokeball
     , locationPokeball = location charmander
     }
 
+-- Utilizada para gerar os multiplicadores das velocidades
 generateMultiplier :: Float
 generateMultiplier = 4
 
+-- Intercepta Pokebolas a partir de um objeto collision e do game
 interceptPokeball :: Collision -> BANG -> BANG
 interceptPokeball collision game
     | pokemon == "Bulbasaur" = game
@@ -62,6 +68,7 @@ interceptPokeball collision game
     pokemon  = name (pokemonCollided collision)
     position = collisionLocation collision
 
+-- Decrementa a velocidade de Pokebolas a partir de um objeto collision e do game
 slowDownPokeball :: Collision -> BANG -> BANG
 slowDownPokeball collision game
     | pokemon == "Bulbasaur" = game
@@ -85,6 +92,7 @@ slowDownPokeball collision game
     pokemon  = name (pokemonCollided collision)
     position = collisionLocation collision
 
+-- Remove um slowpoke da lista de slowpokes quando ele é atingido por uma pokeball
 removeFromListSlowPoke :: Tuple -> [SlowPoke] -> [SlowPoke]
 removeFromListSlowPoke position [] = []
 removeFromListSlowPoke position slowpokes
@@ -94,6 +102,7 @@ removeFromListSlowPoke position slowpokes
     | otherwise = head slowpokes
     : removeFromListSlowPoke position (tail slowpokes)
 
+-- Faz um objeto vileplume novo
 generateMovingShootVileplume :: Tuple -> VilePlum -> Pokeball
 generateMovingShootVileplume projSpeed vileplume = Pokeball
     { speed            = projSpeed

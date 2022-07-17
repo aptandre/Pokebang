@@ -15,6 +15,8 @@ import           Util                           ( makeImagesHolder )
 window :: Display
 window = InWindow "BANG!" (width, height) (xOffset, yOffset)
 
+-- Função main, conta com a renderização das imagens em .bmp
+-- e todas as funções principais para o funcionamento do jogo
 main = do
     image_bulbasaur             <- loadBMP "images/bulba.bmp"
     image_charmander            <- loadBMP "images/charm.bmp"

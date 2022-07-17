@@ -6,7 +6,7 @@ import           GameState
 import           Graphics.Gloss
 import           PokemonModel
 
--- objeto 
+-- objeto GAME
 data BANG = Game
     { gameState  :: GameState
     , bulbasaur  :: Pokemon
@@ -18,6 +18,8 @@ data BANG = Game
     , vileplume  :: VilePlum
     }
 
+-- objetos IMAGES, serve como uma abstração para implementar as imagens
+-- junto com o Gloss, já que este package utiliza objetos Picture
 data IMAGES = Images
     { foreground_menu              :: Picture
     , foreground_playing           :: Picture
