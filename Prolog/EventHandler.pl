@@ -2,7 +2,7 @@
 :-style_check(-discontiguous).
 :-style_check(-singleton).
 
-handleEvent(menu, _, _, NewGameState, _, _) :-
+eventHandler(menu, NewGameState, _, _, _) :-
     get_single_char(Key),
 
     (
@@ -10,14 +10,25 @@ handleEvent(menu, _, _, NewGameState, _, _) :-
         NewGameState = menu
     ).
 
-handleEvent(game, Shooter, OnShoot, _, NewShooter, NewOnShoot) :-
-    get_single_char(Key),
+eventHandler(game, _, NewBulbasaur, NewCharmander, NewObstacles) :-
+    get_single_char(Key).
 
-    (
-        rightKey(Key) -> moveRight(Shooter, NewShooter), NewOnShoot = OnShoot;
-        leftKey(Key) -> moveLeft(Shooter, NewShooter), NewOnShoot = OnShoot;
-        shootKey(Key), OnShoot = false -> shootBubble(Shooter, NewShooter), NewOnShoot = true;
-        NewShooter = Shooter, NewOnShoot = OnShoot
-    ).
 
-shootBubble([Pos, [_, Color]], [Pos, [Pos, Color]]).
+% teclas apertadas para começar a rodar a aplicação
+startKey(13).
+startKey(10).
+
+% tecla apertada para mover o bulbasaur para cima
+bulbasaurUp(119).
+% tecla apertada para mover o bulbasaur para baixo
+bulbasaurDown(115).
+
+% tecla apertada para mover o charmannder para cima
+charmanderUp(105).
+% tecla apertada para mover o charmannder para baixo
+charmanderDown(107).
+
+%tecla apertada para atirar a pokeball do bulbasaur
+bulbasaurShoot(100).
+%tecla apertada para atirar a pokeball do charmander
+charmanderShoot(106).
