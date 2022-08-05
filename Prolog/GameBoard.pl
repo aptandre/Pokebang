@@ -1,5 +1,6 @@
 :- include('EventHandler.pl').
 :- include('Render.pl').
+:- include('Initial.pl').
 :- include('Util.pl').
 :- include('UpdateController.pl').
 :-style_check(-discontiguous).
@@ -23,4 +24,6 @@ play(game, [], [], []) :-
 play(game, NewBulbasaur, NewCharmander, NewObstacles) :-
     sleep(1),
 
-    render(game, NewBulbasaur, NewCharmander, NewObstacles).
+    render(game, NewBulbasaur, NewCharmander, NewObstacles),
+
+    play(game, NewBulbasaur, NewCharmander, NewObstacles) .

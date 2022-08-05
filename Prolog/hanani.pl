@@ -1,23 +1,14 @@
-main :- 
-    generate_board(50, Board), 
-    print_board(Board), !.
+insert_players([Name|Tail], Board, NewBoard) :-
+    [(X, Y)] = Tail,
+    insert_player_on_board(X, Y, Name, Board, NewBoard), write(NewBoard).
 
-generate_board(Length, Board) :- 
-    length(Board, Length), 
-    matrizLine(100, MatrizLine),
-    maplist(=(MatrizLine), Board).
+insert_player_on_board(0, Y, Name, [Head|Tail], [Insert|Tail]) :- 
+    insert_player_on_list(Y, Name, Head, Insert), !.
+insert_player_on_board(X, Y, Name, [Head|Tail], [Head|Other]) :-
+	NewX is X - 1, 
+	insert_player_on_board(NewX, Y, Name, Tail, Other).
 
-matrizLine(Length, MatrizLine) :- 
-    length(MatrizLine, Length), 
-    maplist(=('#'), MatrizLine).
-
-
-print_board([]).
-print_board([Head|Tail]):-
-    print_line(Head), nl,
-    print_board(Tail).
-
-print_line([]).
-print_line([Head|Tail]):-
-    write(Head), 
-    print_line(Tail).
+insert_player_on_list(0, Name, [_|Tail], [Name|Tail]) :- !.
+insert_player_on_list(Y, Name, [Head|Tail], [Head|Other]) :-
+	NewY is Y - 1, 
+	insert_player_on_list(NewY, Name, Tail, Other).
