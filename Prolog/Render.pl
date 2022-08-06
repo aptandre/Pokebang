@@ -6,7 +6,9 @@ render(menu, _, _, _) :-
     show_menu().
 
 render(game, NewBulbasaur, NewCharmander, NewObstacles) :- 
-    show_game(NewBulbasaur, NewCharmander, NewObstacles).
+    write('bicha'),  nl,
+    show_game(NewBulbasaur, NewCharmander, NewObstacles),
+    write('bicha'),  nl.
 
 show_menu():-
     L0 = "-------------------------------------------------------------------------------------------------",
@@ -22,26 +24,26 @@ print_menu([]) :- nl, nl, nl.
 print_menu([Head|Tail]) :- write(Head), nl, print_menu(Tail).
 
 show_game(NewBulbasaur, NewCharmander, NewObstacles) :-
-    generate_board(25, Board), 
+    generate_board(13, Board), 
     insert_players(NewBulbasaur, Board, IntermidiateBoard1), 
     insert_players(NewCharmander, IntermidiateBoard1, IntermidiateBoard2), 
     insert_players(NewObstacles, IntermidiateBoard2, FinalBoard), 
     print_board(FinalBoard).
     
 show_game(NewBulbasaur, NewCharmander, NewObstacles) :-
-    generate_board(30, Board), 
+    generate_board(13, Board), 
     insert_players(NewBulbasaur, Board, IntermidiateBoard1), 
     insert_players(NewCharmander, IntermidiateBoard1, IntermidiateBoard2), 
     print_board(IntermidiateBoard2).
 
 generate_board(Length, Board) :- 
     length(Board, Length), 
-    matrizLine(100, MatrizLine),
+    matrizLine(25, MatrizLine),
     maplist(=(MatrizLine), Board).
     
- matrizLine(Length, MatrizLine) :- 
+matrizLine(Length, MatrizLine) :- 
     length(MatrizLine, Length), 
-    maplist(=(' '), MatrizLine).
+    maplist(=('_'), MatrizLine).
 
 insert_players([Name|Tail], Board, NewBoard) :-
     [(X, Y)] = Tail,
