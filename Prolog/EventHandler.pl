@@ -2,7 +2,7 @@
 :-style_check(-discontiguous).
 :-style_check(-singleton).
 
-eventHandler(menu, NewGameState, _, _, _, _, _) :-
+eventHandler(menu, NewGameState, _, _, _, _, _, _, _, _, _) :-
     get_single_char(Key),
 
     (
@@ -10,30 +10,43 @@ eventHandler(menu, NewGameState, _, _, _, _, _) :-
         NewGameState = menu
     ).
 
-eventHandler(game, _, Bulbasaur, Charmander, Obstacles, NewBulbasaur, NewCharmander) :-
+eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander) :-
     
     get_single_char(Key),
     
     (
         bulbasaurUp(Key) -> moveUp(Bulbasaur, NewBulbasaur), NewCharmander = Charmander;
         bulbasaurDown(Key) -> moveDown(Bulbasaur, NewBulbasaur), NewCharmander = Charmander;
+        bulbasaurShoot(Key) -> moveShoot(PokeballBulbasaur, NewPokeballBulbasaur), NewBulbasaur = Bulbasaur, NewCharmander = Charmander;
         charmanderUp(Key) -> moveUp(Charmander, NewCharmander), NewBulbasaur = Bulbasaur;
-        charmanderDown(Key) -> moveDown(Charmander, NewCharmander), NewBulbasaur = Bulbasaur
+        charmanderDown(Key) -> moveDown(Charmander, NewCharmander), NewBulbasaur = Bulbasaur; 
+        charmanderShoot(Key) ->  moveShoot(PokeballCharmander, NewPokeballCharmander), NewBulbasaur = Bulbasaur, NewCharmander = Charmander
     ).
 
-moveUp([Name|Tail], [Name, (NewX, Y)]) :- 
+moveUp([Name|Tail], [Name, (X, NewY)]) :- 
     [(X, Y)] = Tail,
+    write(Y),
     (
-        constraintsUp(X) -> NewX is X;
-        NewX is X - 3
+        constraintsUp(Y) -> NewY is Y;
+        NewY is Y - 3
     ).
 
-moveDown([Name|Tail], [Name, (NewX, Y)]) :- 
+moveDown([Name|Tail], [Name, (X, NewY)]) :- 
     [(X, Y)] = Tail,
+    write(Y),
     (
-        constraintsDown(X) -> NewX is X;
-        NewX is X + 3
+        constraintsDown(Y) -> NewY is Y;
+        NewY is Y + 3
     ).
+
+moveShoot([Head|Tail], NewPokeball) :- 
+    (OnShoot, Direction) = Head, 
+    [(X, Y)] = Tail, 
+    (
+        constraintsRight(X) -> NewX is X, NewOnShoot = false;
+        NewX is X + (Direction * 2), NewOnShoot = true
+    ), 
+    NewPokeball = [(NewOnShoot, Direction), (NewX, Y)].
 
 %      W     S    D   J    K     I
 % X = [119, 115, 100, 106, 107, 105].
@@ -58,3 +71,5 @@ charmanderShoot(106).
 
 constraintsUp(0).
 constraintsDown(12).
+constraintsRight(26).
+constraintsLeft(0).

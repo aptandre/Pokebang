@@ -7,25 +7,26 @@
 :-style_check(-singleton).
 
 play(menu, _, _, _) :-
-    render(menu, _, _, _),
+    render(menu, _, _, _, _, _),
     
-    eventHandler(menu, NewGameState, _, _, _, _, _),
+    eventHandler(menu, NewGameState, _, _, _, _, _, _, _, _, _),
 
-    play(NewGameState, [], [], []).
+    play(NewGameState, [], [], [], [], []).
 
-play(game, [], [], []) :-
-
+play(game, [], [], [], [], []) :-
     initialBulbasaur(NewBulbasaur),
     initialCharmander(NewCharmander),
     initialObstacles(NewObstacles),
+    initialShoot(NewBulbasaur, NewPokeballBulbasaur),
+    initialShoot(NewCharmander, NewPokeballCharmander),
 
-    play(game, NewBulbasaur, NewCharmander, NewObstacles).
+    play(game, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, NewObstacles).
 
-play(game, Bulbasaur, Charmander, Obstacles) :-
+play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :-
     sleep(1),
-
-    render(game, Bulbasaur, Charmander, Obstacles),
     
-    eventHandler(game, _, Bulbasaur, Charmander, Obstacles, NewBulbasaur, NewCharmander),
+    render(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles),
     
-    play(game, NewBulbasaur, NewCharmander, Obstacles).
+    eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander),
+    
+    play(game, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, Obstacles).

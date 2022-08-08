@@ -1,6 +1,9 @@
-initialBulbasaur(["B", (6, 0)]).
-initialCharmander(["C", (6, 24)]).
-initialObstacles(["S", (5, 24)]).
+initialBulbasaur(["B", (0, 6)]).
+initialCharmander(["C", (25, 6)]).
+initialObstacles(["S", (20, 6)]).
 
-initialBulbasaurPokeball([(1, 0)]).
-initialCharmanderPokeball([(1, 24)]).
+initialShoot([Head|Tail], Pokeball) :- 
+    [(X, Y)] = Tail,
+    InitialX is X + 2,
+    (X =:= 0-> Direction is 1 ; Direction is -1),
+    Pokeball = [(false, Direction), (InitialX, Y)].

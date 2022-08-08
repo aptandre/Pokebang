@@ -2,43 +2,32 @@
 :-style_check(-discontiguous).
 :-style_check(-singleton).
 
-render(menu, _, _, _) :-
+render(menu, _, _, _, _, _) :-
     show_menu().
 
-render(game, NewBulbasaur, NewCharmander, NewObstacles) :- 
+render(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :- 
     write('bicha'),  nl,
-    show_game(NewBulbasaur, NewCharmander, NewObstacles),
+    show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles),
     write('bicha'),  nl.
 
-show_menu():-
-    L0 = "-------------------------------------------------------------------------------------------------",
-    L1 = "|                                   Press Enter to start the game                               |",
-    L2 = "|                                           POKESHOT!                                           |",
-
-    List = [L0, L1, L2, L0],
-    
-    nl, nl, nl,
-    print_menu(List).
-
-print_menu([]) :- nl, nl, nl.
-print_menu([Head|Tail]) :- write(Head), nl, print_menu(Tail).
-
-show_game(NewBulbasaur, NewCharmander, NewObstacles) :-
+show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :-
     generate_board(13, Board), 
-    insert_players(NewBulbasaur, Board, IntermidiateBoard1), 
-    insert_players(NewCharmander, IntermidiateBoard1, IntermidiateBoard2), 
-    insert_players(NewObstacles, IntermidiateBoard2, FinalBoard), 
-    print_board(FinalBoard).
+    insert_players(Bulbasaur, Board, IntermidiateBoard1), 
+    insert_players(Charmander, IntermidiateBoard1, IntermidiateBoard2), 
+    insert_players(Obstacles, IntermidiateBoard2, IntermidiateBoard3), 
+    % insert_pokeballs(PokeballBulbasaur, IntermidiateBoard3, IntermidiateBoard4), 
+    % insert_pokeballs(PokeballCharmander, IntermidiateBoard4, FinalBoard), 
+    print_board(IntermidiateBoard3).
     
-show_game(NewBulbasaur, NewCharmander, NewObstacles) :-
+show_game(Bulbasaur, Charmander, NewObstacles) :-
     generate_board(13, Board), 
-    insert_players(NewBulbasaur, Board, IntermidiateBoard1), 
-    insert_players(NewCharmander, IntermidiateBoard1, IntermidiateBoard2), 
+    insert_players(Bulbasaur, Board, IntermidiateBoard1), 
+    insert_players(Charmander, IntermidiateBoard1, IntermidiateBoard2), 
     print_board(IntermidiateBoard2).
 
 generate_board(Length, Board) :- 
     length(Board, Length), 
-    matrizLine(25, MatrizLine),
+    matrizLine(26, MatrizLine),
     maplist(=(MatrizLine), Board).
     
 matrizLine(Length, MatrizLine) :- 
@@ -47,24 +36,32 @@ matrizLine(Length, MatrizLine) :-
 
 insert_players([Name|Tail], Board, NewBoard) :-
     [(X, Y)] = Tail,
-    insert_player_on_board(X, Y, Name, Board, NewBoard).
+    insert_on_board(X, Y, Name, Board, NewBoard).
 
-insert_player_on_board(0, Y, Name, [Head|Tail], [Insert|Tail]) :- 
-    insert_player_on_list(Y, Name, Head, Insert), !.
-insert_player_on_board(X, Y, Name, [Head|Tail], [Head|Other]) :-
-	NewX is X - 1, 
-	insert_player_on_board(NewX, Y, Name, Tail, Other).
+% insert_pokeballs([Head|Tail], Board, NewBoard):-
+%     (OnShoot, Direction) = Head, 
+%     [(X, Y)] = Tail,
+%     (
+%         OnShoot -> insert_on_board(X, Y, "@", Board, NewBoard);
+%         NewBoard = Board
+%     ).
 
-insert_player_on_list(0, Name, [_|Tail], [Name|Tail]) :- !.
-insert_player_on_list(Y, Name, [Head|Tail], [Head|Other]) :-
+insert_on_board(X, 0, Name, [Head|Tail], [Insert|Tail]) :- 
+    insert_on_list(X, Name, Head, Insert), !.
+insert_on_board(X, Y, Name, [Head|Tail], [Head|Other]) :-
 	NewY is Y - 1, 
-	insert_player_on_list(NewY, Name, Tail, Other).
-    
+	insert_on_board(X, NewY, Name, Tail, Other).
+
+insert_on_list(0, Name, [_|Tail], [Name|Tail]) :- !.
+insert_on_list(X, Name, [Head|Tail], [Head|Other]) :-
+	NewX is X - 1, 
+	insert_on_list(NewX, Name, Tail, Other).
+
 print_board([]).
 print_board([Head|Tail]):-
     print_line(Head), nl,
     print_board(Tail).
-    
+  
 print_line([]).
 print_line([Head|Tail]):-
     write(Head), 

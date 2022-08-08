@@ -1,16 +1,10 @@
-constraintsUp(0).
-constraintsDown(25).
+insert_on_board(X, 0, Name, [Head|Tail], [Insert|Tail]) :- 
+    insert_on_list(X, Name, Head, Insert), !.
+insert_on_board(X, Y, Name, [Head|Tail], [Head|Other]) :-
+	NewY is Y - 1, 
+	insert_on_board(X, NewY, Name, Tail, Other).
 
-moveUp([Name|Tail], [Name, (NewX, Y)]) :- 
-    [(X, Y)] = Tail,
-    (
-        constraintsUp(X) -> NewX is X;
-        NewX is X - 4
-    ).
-
-moveDown([Name|Tail], [Name, (NewX, Y)]) :- 
-    [(X, Y)] = Tail,
-    (
-        constraintsDown(X) -> NewX is X;
-        NewX is X + 4
-    ).
+insert_on_list(0, Name, [_|Tail], [Name|Tail]) :- !.
+insert_on_list(X, Name, [Head|Tail], [Head|Other]) :-
+	NewX is X - 1, 
+	insert_on_list(NewX, Name, Tail, Other).
