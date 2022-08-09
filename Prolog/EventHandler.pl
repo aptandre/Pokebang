@@ -17,15 +17,20 @@ eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmand
         stopGame(Key) -> false;
         bulbasaurUp(Key) -> moveUp(Bulbasaur, NewBulbasaur), NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
         bulbasaurDown(Key) -> moveDown(Bulbasaur, NewBulbasaur), NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
-        bulbasaurShoot(Key) -> moveShoot(PokeballBulbasaur, NewPokeballBulbasaur), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballCharmander = PokeballCharmander;
+        bulbasaurShoot(Key) -> initializeShoot(Bulbasaur, PokeballBulbasaur, NewPokeball), moveShoot(NewPokeball, NewPokeballBulbasaur), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballCharmander = PokeballCharmander;
         charmanderUp(Key) -> moveUp(Charmander, NewCharmander), NewBulbasaur = Bulbasaur, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
         charmanderDown(Key) -> moveDown(Charmander, NewCharmander), NewBulbasaur = Bulbasaur, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander; 
-        charmanderShoot(Key) ->  moveShoot(PokeballCharmander, NewPokeballCharmander), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur
+        charmanderShoot(Key) ->  initializeShoot(Charmander, PokeballCharmander, NewPokeball), moveShoot(NewPokeball, NewPokeballCharmander), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur
     ).
+
+initializeShoot([_|Location], [Shoot|Position], NewPokeball) :-  
+    (OnShoot, Direction, Speed) = Shoot, 
+	(true, Direction, Speed) = NewShoot,
+    (OnShoot ->  NewPokeball = [Shoot|Position];
+    NewPokeball = [NewShoot|Location]).
 
 moveUp([Name|Tail], [Name, (X, NewY)]) :- 
     [(X, Y)] = Tail,
-    write(Y),
     (
         constraintsUp(Y) -> NewY is Y;
         NewY is Y - 3
@@ -41,12 +46,13 @@ moveDown([Name|Tail], [Name, (X, NewY)]) :-
 moveShoot([Head|Tail], NewPokeball) :- 
     (OnShoot, Direction, Speed) = Head, 
     [(X, Y)] = Tail, 
+    nl, write(Head), nl, write(Tail),
     (   
-        constraintsLeft(X) -> NewX is X, NewOnShoot = false;
-        constraintsRight(X) -> NewX is X, NewOnShoot = false;
+        Direction =:= -1, constraintsLeft(X) -> NewX is X, NewOnShoot = false;
+        Direction =:= 1, constraintsRight(X) -> NewX is X, NewOnShoot = false;
         NewX is X + (Direction * Speed), NewOnShoot = true
     ), 
-    NewPokeball = [(NewOnShoot, Direction, Speed), (NewX, Y)].
+    NewPokeball = [(NewOnShoot, Direction, Speed), (NewX, Y)], nl, write(Direction), nl, write(NewPokeball).
 
 %      W     S    D   J    K     I
 % X = [119, 115, 100, 106, 107, 105].
@@ -74,5 +80,5 @@ stopGame(109).
 
 constraintsUp(0).
 constraintsDown(12).
-constraintsRight(26).
+constraintsRight(24).
 constraintsLeft(0).

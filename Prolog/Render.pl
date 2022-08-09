@@ -27,7 +27,7 @@ show_game(Bulbasaur, Charmander, NewObstacles) :-
 
 generate_board(Length, Board) :- 
     length(Board, Length), 
-    matrizLine(27, MatrizLine),
+    matrizLine(25, MatrizLine),
     maplist(=(MatrizLine), Board).
     
 matrizLine(Length, MatrizLine) :- 
@@ -41,7 +41,6 @@ insert_players([Name|Tail], Board, NewBoard) :-
 insert_pokeballs([Head|Tail], Board, NewBoard):-
     (OnShoot, Direction, Speed) = Head, 
     [(X, Y)] = Tail,
-    write(Head), write(Tail),
     (
         OnShoot -> insert_on_board(X, Y, '@', Board, NewBoard);
         NewBoard = Board
