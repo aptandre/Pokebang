@@ -41,7 +41,8 @@ moveDown([Name|Tail], [Name, (X, NewY)]) :-
 moveShoot([Head|Tail], NewPokeball) :- 
     (OnShoot, Direction, Speed) = Head, 
     [(X, Y)] = Tail, 
-    (
+    (   
+        constraintsLeft(X) -> NewX is X, NewOnShoot = false;
         constraintsRight(X) -> NewX is X, NewOnShoot = false;
         NewX is X + (Direction * Speed), NewOnShoot = true
     ), 
