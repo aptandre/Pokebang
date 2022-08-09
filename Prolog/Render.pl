@@ -6,9 +6,11 @@ render(menu, _, _, _, _, _) :-
     show_menu().
 
 render(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :- 
-    write('bicha'),  nl,
+    nl,
+    write('------------------- new frame of the game --------------------'),  nl,
     show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles),
-    write('bicha'),  nl.
+    nl,
+    write('---------------------------------------------------------------'),  nl.
 
 show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :-
     generate_board(13, Board), 

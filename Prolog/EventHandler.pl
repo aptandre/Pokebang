@@ -20,7 +20,8 @@ eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmand
         bulbasaurShoot(Key) -> initializeShoot(Bulbasaur, PokeballBulbasaur, NewPokeball), moveShoot(NewPokeball, NewPokeballBulbasaur), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballCharmander = PokeballCharmander;
         charmanderUp(Key) -> moveUp(Charmander, NewCharmander), NewBulbasaur = Bulbasaur, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
         charmanderDown(Key) -> moveDown(Charmander, NewCharmander), NewBulbasaur = Bulbasaur, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander; 
-        charmanderShoot(Key) ->  initializeShoot(Charmander, PokeballCharmander, NewPokeball), moveShoot(NewPokeball, NewPokeballCharmander), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur
+        charmanderShoot(Key) ->  initializeShoot(Charmander, PokeballCharmander, NewPokeball), moveShoot(NewPokeball, NewPokeballCharmander), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur;
+        NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander
     ).
 
 initializeShoot([_|Location], [Shoot|Position], NewPokeball) :-  
@@ -46,13 +47,12 @@ moveDown([Name|Tail], [Name, (X, NewY)]) :-
 moveShoot([Head|Tail], NewPokeball) :- 
     (OnShoot, Direction, Speed) = Head, 
     [(X, Y)] = Tail, 
-    nl, write(Head), nl, write(Tail),
     (   
         Direction =:= -1, constraintsLeft(X) -> NewX is X, NewOnShoot = false;
         Direction =:= 1, constraintsRight(X) -> NewX is X, NewOnShoot = false;
         NewX is X + (Direction * Speed), NewOnShoot = true
     ), 
-    NewPokeball = [(NewOnShoot, Direction, Speed), (NewX, Y)], nl, write(Direction), nl, write(NewPokeball).
+    NewPokeball = [(NewOnShoot, Direction, Speed), (NewX, Y)].
 
 %      W     S    D   J    K     I
 % X = [119, 115, 100, 106, 107, 105].
