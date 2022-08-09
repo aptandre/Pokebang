@@ -15,9 +15,9 @@ show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacle
     insert_players(Bulbasaur, Board, IntermidiateBoard1), 
     insert_players(Charmander, IntermidiateBoard1, IntermidiateBoard2), 
     insert_players(Obstacles, IntermidiateBoard2, IntermidiateBoard3), 
-    % insert_pokeballs(PokeballBulbasaur, IntermidiateBoard3, IntermidiateBoard4), 
-    % insert_pokeballs(PokeballCharmander, IntermidiateBoard4, FinalBoard), 
-    print_board(IntermidiateBoard3).
+    insert_pokeballs(PokeballBulbasaur, IntermidiateBoard3, IntermidiateBoard4), 
+    insert_pokeballs(PokeballCharmander, IntermidiateBoard4, FinalBoard), 
+    print_board(FinalBoard).
     
 show_game(Bulbasaur, Charmander, NewObstacles) :-
     generate_board(13, Board), 
@@ -27,7 +27,7 @@ show_game(Bulbasaur, Charmander, NewObstacles) :-
 
 generate_board(Length, Board) :- 
     length(Board, Length), 
-    matrizLine(26, MatrizLine),
+    matrizLine(27, MatrizLine),
     maplist(=(MatrizLine), Board).
     
 matrizLine(Length, MatrizLine) :- 
@@ -38,13 +38,14 @@ insert_players([Name|Tail], Board, NewBoard) :-
     [(X, Y)] = Tail,
     insert_on_board(X, Y, Name, Board, NewBoard).
 
-% insert_pokeballs([Head|Tail], Board, NewBoard):-
-%     (OnShoot, Direction) = Head, 
-%     [(X, Y)] = Tail,
-%     (
-%         OnShoot -> insert_on_board(X, Y, "@", Board, NewBoard);
-%         NewBoard = Board
-%     ).
+insert_pokeballs([Head|Tail], Board, NewBoard):-
+    (OnShoot, Direction, Speed) = Head, 
+    [(X, Y)] = Tail,
+    write(Head), write(Tail),
+    (
+        OnShoot -> insert_on_board(X, Y, '@', Board, NewBoard);
+        NewBoard = Board
+    ).
 
 insert_on_board(X, 0, Name, [Head|Tail], [Insert|Tail]) :- 
     insert_on_list(X, Name, Head, Insert), !.

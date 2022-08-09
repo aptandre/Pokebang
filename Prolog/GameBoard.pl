@@ -9,7 +9,7 @@
 play(menu, _, _, _) :-
     render(menu, _, _, _, _, _),
     
-    eventHandler(menu, NewGameState, _, _, _, _, _, _, _, _, _),
+    eventHandler(menu, NewGameState, _, _, _, _, _, _, _, _),
 
     play(NewGameState, [], [], [], [], []).
 
@@ -27,6 +27,6 @@ play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacl
     
     render(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles),
     
-    eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander),
+    eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander),
     
     play(game, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, Obstacles).

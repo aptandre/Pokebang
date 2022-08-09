@@ -2,7 +2,7 @@
 :-style_check(-discontiguous).
 :-style_check(-singleton).
 
-eventHandler(menu, NewGameState, _, _, _, _, _, _, _, _, _) :-
+eventHandler(menu, NewGameState, _, _, _, _, _, _, _, _) :-
     get_single_char(Key),
 
     (
@@ -10,17 +10,17 @@ eventHandler(menu, NewGameState, _, _, _, _, _, _, _, _, _) :-
         NewGameState = menu
     ).
 
-eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander) :-
-    
+eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander) :-
     get_single_char(Key),
     
     (
-        bulbasaurUp(Key) -> moveUp(Bulbasaur, NewBulbasaur), NewCharmander = Charmander;
-        bulbasaurDown(Key) -> moveDown(Bulbasaur, NewBulbasaur), NewCharmander = Charmander;
-        bulbasaurShoot(Key) -> moveShoot(PokeballBulbasaur, NewPokeballBulbasaur), NewBulbasaur = Bulbasaur, NewCharmander = Charmander;
-        charmanderUp(Key) -> moveUp(Charmander, NewCharmander), NewBulbasaur = Bulbasaur;
-        charmanderDown(Key) -> moveDown(Charmander, NewCharmander), NewBulbasaur = Bulbasaur; 
-        charmanderShoot(Key) ->  moveShoot(PokeballCharmander, NewPokeballCharmander), NewBulbasaur = Bulbasaur, NewCharmander = Charmander
+        stopGame(Key) -> false;
+        bulbasaurUp(Key) -> moveUp(Bulbasaur, NewBulbasaur), NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
+        bulbasaurDown(Key) -> moveDown(Bulbasaur, NewBulbasaur), NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
+        bulbasaurShoot(Key) -> moveShoot(PokeballBulbasaur, NewPokeballBulbasaur), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballCharmander = PokeballCharmander;
+        charmanderUp(Key) -> moveUp(Charmander, NewCharmander), NewBulbasaur = Bulbasaur, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
+        charmanderDown(Key) -> moveDown(Charmander, NewCharmander), NewBulbasaur = Bulbasaur, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander; 
+        charmanderShoot(Key) ->  moveShoot(PokeballCharmander, NewPokeballCharmander), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur
     ).
 
 moveUp([Name|Tail], [Name, (X, NewY)]) :- 
@@ -33,20 +33,19 @@ moveUp([Name|Tail], [Name, (X, NewY)]) :-
 
 moveDown([Name|Tail], [Name, (X, NewY)]) :- 
     [(X, Y)] = Tail,
-    write(Y),
     (
         constraintsDown(Y) -> NewY is Y;
         NewY is Y + 3
     ).
 
 moveShoot([Head|Tail], NewPokeball) :- 
-    (OnShoot, Direction) = Head, 
+    (OnShoot, Direction, Speed) = Head, 
     [(X, Y)] = Tail, 
     (
         constraintsRight(X) -> NewX is X, NewOnShoot = false;
-        NewX is X + (Direction * 2), NewOnShoot = true
+        NewX is X + (Direction * Speed), NewOnShoot = true
     ), 
-    NewPokeball = [(NewOnShoot, Direction), (NewX, Y)].
+    NewPokeball = [(NewOnShoot, Direction, Speed), (NewX, Y)].
 
 %      W     S    D   J    K     I
 % X = [119, 115, 100, 106, 107, 105].
@@ -68,6 +67,9 @@ charmanderDown(107).
 bulbasaurShoot(100).
 %tecla apertada para atirar a pokeball do charmander
 charmanderShoot(106).
+
+%tecla para sair do jogo incondicionalmente
+stopGame(109).
 
 constraintsUp(0).
 constraintsDown(12).
