@@ -29,4 +29,10 @@ play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacl
     
     eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander),
     
-    play(game, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, Obstacles).
+    checkGameOver(NewBulbasaur, NewCharmander, NewGameState),
+    
+    play(NewGameState, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, Obstacles).
+
+play(over, Bulbasaur, _, Charmander, _, _) :- 
+    render(over, Bulbasaur, _, Charmander, _, _), 
+    halt.
