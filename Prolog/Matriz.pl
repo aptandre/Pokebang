@@ -46,7 +46,7 @@ insert_pokeballs([Head|Tail], Board, NewBoard):-
     (OnShoot, Direction, Speed) = Head, 
     [(X, Y)] = Tail,
     (
-        OnShoot -> insert_on_board(X, Y, '@', Board, NewBoard);
+        OnShoot -> insert_on_board(X, Y, '+', Board, NewBoard);
         NewBoard = Board
     ).
 

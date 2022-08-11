@@ -29,9 +29,13 @@ play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacl
     
     eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander),
     
-    checkGameOver(NewBulbasaur, NewCharmander, NewGameState),
+    updateCollisions(NewPokeballBulbasaur, NewPokeballCharmander,  Obstacles, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles), 
+
+    updatePlayers(NewBulbasaur, NewCharmander, FinalBulbasaur, FinalCharmander),
+
+    checkGameOver(FinalBulbasaur, FinalCharmander, NewGameState),
     
-    play(NewGameState, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, Obstacles).
+    play(NewGameState, FinalBulbasaur, NewPokeballBulbasaur, FinalCharmander, NewPokeballCharmander, NewObstacles).
 
 play(over, Bulbasaur, _, Charmander, _, _) :- 
     render(over, Bulbasaur, _, Charmander, _, _), 

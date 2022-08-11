@@ -1,20 +1,36 @@
-% insert_obstacles([], _, NewBoard).
-% insert_obstacles([Head|Tail], Board, _) :-
-%     insert_pokemon(Head, Board, IntermidiateBoard),
-%     NewBoard = IntermidiateBoard,
-%     insert_obstacles(Tail, IntermidiateBoard, NewBoard).
+iterateCollisions(Pokeball, [], ObstaclesList, NewPokeball, NewObstacles):- 
+    write("cu"), 
+    write(NewPokeball), nl, write("bct"), nl,
+    write(NewObstacles), NewPokeball = Pokeball, NewObstacles = ObstaclesList, !.
+iterateCollisions(Pokeball, [Head|Tail], ObstaclesList, _, _) :- 
+    checkCollision(Pokeball, ObstaclesList, Head, NewPokeball, NewObstacles),
+    iterateCollisions(NewPokeball, Tail, NewObstacles, _, _).
 
-% insert_pokemon([Name|Tail], Board, NewBoard) :-
-%     [(X, Y)] = Tail,
-%     insert_on_board(X, Y, Name, Board, NewBoard).
+checkCollision(Pokeball, ObstaclesList, Obstacle, NewPokeball, NewObstacles) :-
+    [(OnShoot, _, _)|[PokeballPosition]] = Pokeball,
+    [Type, ObstaclePosition] = Obstacle,
+    (
+        ObstaclePosition = PokeballPosition, OnShoot -> 
+        resolveCollision(Type, Pokeball, NewPokeball), 
+        removeObstacle(Type, Obstacle, ObstaclesList, NewObstacles) ;
+        NewPokeball = Pokeball,
+        NewObstacles = ObstaclesList
+    ).
 
-% insert_on_board(X, 0, Name, [Head|Tail], [Insert|Tail]) :- 
-%     insert_on_list(X, Name, Head, Insert), !.
-% insert_on_board(X, Y, Name, [Head|Tail], [Head|Other]) :-
-% 	NewY is Y - 1, 
-% 	insert_on_board(X, NewY, Name, Tail, Other).
+removeObstacle("O", _, ObstaclesList, ObstaclesList) :- !.
+removeObstacle(_,  Obstacle, [Obstacle|Tail], Tail) :- !.
+removeObstacle(Type,  Obstacle, [Head|Tail], [Head|Other]) :- 
+    removeObstacle(Type,  Obstacle, Tail, Other).
 
-% insert_on_list(0, Name, [_|Tail], [Name|Tail]) :- !.
-% insert_on_list(X, Name, [Head|Tail], [Head|Other]) :-
-% 	NewX is X - 1, 
-% 	insert_on_list(NewX, Name, Tail, Other).
+resolveCollision("#",  [Shoot|PokeballPosition], NewPokeball):-
+    (OnShoot, Direction, _) = Shoot, 
+    NewSpeed is 2,
+    NewPokeball = [(OnShoot, Direction, NewSpeed), PokeballPosition].
+resolveCollision("@", [Shoot|PokeballPosition], NewPokeball):- 
+    (_, Direction, Speed) = Shoot, 
+    NewOnShoot = false,  
+    NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition].
+resolveCollision("O", [Shoot|PokeballPosition], NewPokeball) :-
+    (_, Direction, Speed) = Shoot, 
+    NewOnShoot = false,  
+    NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition].
