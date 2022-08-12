@@ -30,9 +30,9 @@ constraintsDown(12).
 constraintsRight(24).
 constraintsLeft(0).
 
-winner([Bulbasaur|_]).
-winner([Charmander|_]).
-loser([X|_]).
+winner(["B"|_]).
+winner(["C"|_]).
+loser(["X"|_]).
 
 checkGameOver([Bulbasaur|_], [Charmander|_], NewGameState):- 
     (   

@@ -19,5 +19,16 @@ removeObstacle("#",   ["@", (12, 6)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 
 checkCollision(Pokeball, Obstacle, ObstaclesList, NewPokeball, NewObstacles)
 checkCollision([(true, 1, 4), (16, 12)], ["O", (16, 12)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], FinalPokeball, NewObstacles).
 checkCollision([(true, 1, 4), (8, 0)], ["#", (8, 0)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], FinalPokeball, NewObstacles).
+checkCollision([])
 
-iterateCollisions([(true, 1, 4), (16, 12)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], FinalPokeball, NewObstacles).
+
+iterateCollisions([(true, 1, 4), (8, 9)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], NewPokeball, NewObstacles).
+iterateCollisions([(true, -1, 4), (16, 12)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], NewPokeball, NewObstacles).
+iterateCollisions([(true, 1, 4), (8, 0)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], NewPokeball, NewObstacles).
+iterateCollisions(Pokeball, [], ObstaclesList, NewPokeball, NewObstacles):- 
+
+
+aqui
+iterateCollisions([(true, 1, 4), (8, 0)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], NewPokeball).
+
+updateCollisions([(true, 1, 4), (8, 9)], [(true, -1, 4), (16, 12)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles).

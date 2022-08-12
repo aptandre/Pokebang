@@ -1,21 +1,24 @@
-iterateCollisions(Pokeball, [], ObstaclesList, NewPokeball, NewObstacles):- 
-    write("cu"), 
-    write(NewPokeball), nl, write("bct"), nl,
-    write(NewObstacles), NewPokeball = Pokeball, NewObstacles = ObstaclesList, !.
-iterateCollisions(Pokeball, [Head|Tail], ObstaclesList, _, _) :- 
-    checkCollision(Pokeball, ObstaclesList, Head, NewPokeball, NewObstacles),
-    iterateCollisions(NewPokeball, Tail, NewObstacles, _, _).
+updateCollisions(PokeballBulbasaur, PokeballCharmander, ObstaclesList, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles) :-
+    (
+        iterateCollisions(PokeballBulbasaur, ObstaclesList, ObstaclesList, FinalPokeballBulbasaur, IntermidiateObstacles),
+        iterateCollisions(PokeballCharmander, IntermidiateObstacles, IntermidiateObstacles, FinalPokeballCharmander, NewObstacles)
+    ). 
 
-checkCollision(Pokeball, ObstaclesList, Obstacle, NewPokeball, NewObstacles) :-
+iterateCollisions(Pokeball, [], ObstaclesList, NewPokeball, NewObstacles):- 
+    NewPokeball = Pokeball, NewObstacles = ObstaclesList, !.
+iterateCollisions(Pokeball, [Obstacle|Tail], ObstaclesList, NewPokeball, NewObstacles) :- 
     [(OnShoot, _, _)|[PokeballPosition]] = Pokeball,
     [Type, ObstaclePosition] = Obstacle,
+    checkCollision(ObstaclePosition, PokeballPosition, OnShoot) -> 
     (
-        ObstaclePosition = PokeballPosition, OnShoot -> 
-        resolveCollision(Type, Pokeball, NewPokeball), 
-        removeObstacle(Type, Obstacle, ObstaclesList, NewObstacles) ;
-        NewPokeball = Pokeball,
-        NewObstacles = ObstaclesList
-    ).
+        resolveCollision(Type, Pokeball, OtherPokeball), 
+        removeObstacle(Type, Obstacle, ObstaclesList, OtherObstacles), 
+        iterateCollisions(OtherPokeball, Tail, OtherObstacles, NewPokeball, NewObstacles)
+    );
+    iterateCollisions(Pokeball, Tail, ObstaclesList, NewPokeball, NewObstacles).
+
+checkCollision(ObstaclePosition, PokeballPosition, true) :-
+    ObstaclePosition = PokeballPosition.
 
 removeObstacle("O", _, ObstaclesList, ObstaclesList) :- !.
 removeObstacle(_,  Obstacle, [Obstacle|Tail], Tail) :- !.
@@ -25,12 +28,12 @@ removeObstacle(Type,  Obstacle, [Head|Tail], [Head|Other]) :-
 resolveCollision("#",  [Shoot|PokeballPosition], NewPokeball):-
     (OnShoot, Direction, _) = Shoot, 
     NewSpeed is 2,
-    NewPokeball = [(OnShoot, Direction, NewSpeed), PokeballPosition].
+    NewPokeball = [(OnShoot, Direction, NewSpeed), PokeballPosition],!.
 resolveCollision("@", [Shoot|PokeballPosition], NewPokeball):- 
     (_, Direction, Speed) = Shoot, 
     NewOnShoot = false,  
-    NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition].
+    NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition], !.
 resolveCollision("O", [Shoot|PokeballPosition], NewPokeball) :-
     (_, Direction, Speed) = Shoot, 
     NewOnShoot = false,  
-    NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition].
+    NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition], !.

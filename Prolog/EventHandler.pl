@@ -30,23 +30,23 @@ initializeShoot([_|Location], [Shoot|Position], NewPokeball) :-
     (OnShoot ->  NewPokeball = [Shoot|Position];
     NewPokeball = [NewShoot|Location]).
 
-moveUp([Name|Tail], [Name, (X, NewY)]) :- 
-    [(X, Y)] = Tail,
+moveUp([Name|Location], [Name, (X, NewY)]) :- 
+    [(X, Y)] = Location,
     (
         constraintsUp(Y) -> NewY is Y;
         NewY is Y - 3
     ).
 
-moveDown([Name|Tail], [Name, (X, NewY)]) :- 
-    [(X, Y)] = Tail,
+moveDown([Name|Location], [Name, (X, NewY)]) :- 
+    [(X, Y)] = Location,
     (
         constraintsDown(Y) -> NewY is Y;
         NewY is Y + 3
     ).
 
-moveShoot([Head|Tail], NewPokeball) :- 
-    (OnShoot, Direction, Speed) = Head, 
-    [(X, Y)] = Tail, 
+moveShoot([Shoot|Position], NewPokeball) :- 
+    (OnShoot, Direction, Speed) = Shoot, 
+    [(X, Y)] = Position, 
     (   
         Direction =:= -1, constraintsLeft(X) -> NewX is X, NewOnShoot = false;
         Direction =:= 1, constraintsRight(X) -> NewX is X, NewOnShoot = false;

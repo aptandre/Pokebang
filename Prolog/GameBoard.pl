@@ -2,7 +2,7 @@
 :- include('Render.pl').
 :- include('Initial.pl').
 :- include('Util.pl').
-:- include('UpdateController.pl').
+:- include('GameUpdate.pl').
 :-style_check(-discontiguous).
 :-style_check(-singleton).
 
@@ -29,13 +29,16 @@ play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacl
     
     eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander),
     
-    updateCollisions(NewPokeballBulbasaur, NewPokeballCharmander,  Obstacles, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles), 
+    updateCollisions(NewPokeballBulbasaur, NewPokeballCharmander, Obstacles, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles), 
 
-    updatePlayers(NewBulbasaur, NewCharmander, FinalBulbasaur, FinalCharmander),
+    write("aqui b: "), nl, write(FinalPokeballBulbasaur), nl,
+    write("aqui c: "), nl, write(FinalPokeballCharmander), nl,
+
+    updatePlayers(NewBulbasaur, NewCharmander, FinalPokeballBulbasaur, FinalPokeballCharmander, FinalBulbasaur, FinalCharmander),
 
     checkGameOver(FinalBulbasaur, FinalCharmander, NewGameState),
     
-    play(NewGameState, FinalBulbasaur, NewPokeballBulbasaur, FinalCharmander, NewPokeballCharmander, NewObstacles).
+    play(NewGameState, FinalBulbasaur, FinalPokeballBulbasaur, FinalCharmander, FinalPokeballCharmander, NewObstacles).
 
 play(over, Bulbasaur, _, Charmander, _, _) :- 
     render(over, Bulbasaur, _, Charmander, _, _), 
