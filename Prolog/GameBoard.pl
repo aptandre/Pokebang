@@ -27,9 +27,15 @@ play(game, [], [], [], [], []) :-
 play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :-
     sleep(1),
 
+    write("event"), nl,
+
     eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander),
 
+    write("render"), nl,
+
     render(game, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, Obstacles),
+    
+    write("update"), nl,
     
     updateCollisions(NewPokeballBulbasaur, NewPokeballCharmander, Obstacles, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles), 
 

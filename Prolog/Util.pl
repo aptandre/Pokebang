@@ -30,6 +30,25 @@ constraintsDown(12).
 constraintsRight(24).
 constraintsLeft(0).
 
+movePokeball([Shoot|Position], NewPokeball) :-
+    (OnShoot, _, _) = Shoot, 
+    (
+        OnShoot -> moveShoot([Shoot|Position], NewPokeball);
+        NewPokeball = [Shoot|Position]
+    ).
+
+moveShoot([Shoot|Position], NewPokeball) :- 
+    (OnShoot, Direction, Speed) = Shoot, 
+    [(X, Y)] = Position, 
+    (   
+        Direction =:= -1, constraintsLeft(X) -> NewX is X, NewOnShoot = false;
+        Direction =:= 1, constraintsRight(X) -> NewX is X, NewOnShoot = false;
+        NewX is X + (Direction * Speed), NewOnShoot = true
+    ), 
+    NewPokeball = [(NewOnShoot, Direction, Speed), (NewX, Y)].
+
+
+
 winner(["B"|_]).
 winner(["C"|_]).
 loser(["X"|_]).
