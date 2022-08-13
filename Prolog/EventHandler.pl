@@ -26,8 +26,13 @@ eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmand
 
 initializeShoot([_|Location], [Shoot|Position], NewPokeball) :-  
     (OnShoot, Direction, Speed) = Shoot, 
-	(true, Direction, Speed) = NewShoot,
+	(true, Direction, 4) = NewShoot,
+    % OnShoot é true quando a pokeball está em movimento
+    % A pokeboll deve continuar se movendo linearmente
     (OnShoot ->  NewPokeball = [Shoot|Position];
+    % OnShoot é inicializado como false na mesma posição no pokemon
+    % a pokebola está fora do mapa ou foi interceptada, logo vira uma pokeball que move-se
+    % deve inicializar na mesma posição do pokemon que está atirando essa ao apertar a tecla
     NewPokeball = [NewShoot|Location]).
 
 moveUp([Name|Location], [Name, (X, NewY)]) :- 
