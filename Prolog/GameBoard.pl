@@ -27,15 +27,9 @@ play(game, [], [], [], [], []) :-
 play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :-
     sleep(1),
 
-    write("event"), nl,
-
     eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander),
 
-    write("render"), nl,
-
     render(game, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, Obstacles),
-    
-    write("update"), nl,
     
     updateCollisions(NewPokeballBulbasaur, NewPokeballCharmander, Obstacles, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles), 
 
@@ -43,10 +37,6 @@ play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacl
 
     checkGameOver(FinalBulbasaur, FinalCharmander, NewGameState),
     
-    nl, write(FinalPokeballBulbasaur), nl,
-    write(FinalPokeballCharmander), nl,
-    write(NewObstacles), nl, 
-
     play(NewGameState, FinalBulbasaur, FinalPokeballBulbasaur, FinalCharmander, FinalPokeballCharmander, NewObstacles).
 
 play(over, Bulbasaur, _, Charmander, _, _) :- 

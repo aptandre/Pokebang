@@ -7,7 +7,6 @@ render(menu, _, _, _, _, _) :-
     show_menu().
 
 render(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :- 
-    write("here"),
     show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles).
 
 render(over, Bulbasaur, _, Charmander, _, _) :-

@@ -48,11 +48,11 @@ resolveCollision("O", [Shoot|[PokeballPosition]], NewPokeball) :-
     NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition], !.
 
 updatePlayers(Bulbasaur, Charmander, PokeballBulbasaur, PokeballCharmander, FinalBulbasaur, FinalCharmander) :-
-    deathPokemon(Bulbasaur, PokeballCharmander, FinalBulbasaur), 
+    deathPokemon(Bulbasaur, PokeballCharmander, FinalBulbasaur),
     deathPokemon(Charmander, PokeballBulbasaur, FinalCharmander).
 
 deathPokemon([Name|Location], [Shoot|PokeballPosition], FinalPokemon) :-
     (
-        Location = PokeballPosition -> FinalPokemon = ["X"|Location] ;
+        Location = PokeballPosition ->  FinalPokemon = ["X"|Location] ;
         FinalPokemon = [Name|Location]
     ).

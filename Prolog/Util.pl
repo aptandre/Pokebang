@@ -36,6 +36,7 @@ loser(["X"|_]).
 
 checkGameOver([Bulbasaur|_], [Charmander|_], NewGameState):- 
     (   
-        Bulbasaur =:= "X"; Charmander  =:= "X" -> NewGameState = over;
+        Bulbasaur =:= "X" -> NewGameState = over;
+        Charmander  =:= "X" -> NewGameState = over;
         NewGameState = game
     ).
