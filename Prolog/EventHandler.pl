@@ -15,12 +15,44 @@ eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmand
     
     (
         stopGame(Key) -> false;
-        bulbasaurUp(Key) -> moveUp(Bulbasaur, NewBulbasaur), NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
-        bulbasaurDown(Key) -> moveDown(Bulbasaur, NewBulbasaur), NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
-        bulbasaurShoot(Key) -> initializeShoot(Bulbasaur, PokeballBulbasaur, NewPokeball), moveShoot(NewPokeball, NewPokeballBulbasaur), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballCharmander = PokeballCharmander;
-        charmanderUp(Key) -> moveUp(Charmander, NewCharmander), NewBulbasaur = Bulbasaur, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander;
-        charmanderDown(Key) -> moveDown(Charmander, NewCharmander), NewBulbasaur = Bulbasaur, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander; 
-        charmanderShoot(Key) ->  initializeShoot(Charmander, PokeballCharmander, NewPokeball), moveShoot(NewPokeball, NewPokeballCharmander), NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur;
+        bulbasaurUp(Key) -> 
+            moveUp(Bulbasaur, NewBulbasaur), 
+            NewCharmander = Charmander, 
+            NewPokeballBulbasaur = PokeballBulbasaur, 
+            NewPokeballCharmander = PokeballCharmander;
+
+        bulbasaurDown(Key) -> 
+            moveDown(Bulbasaur, NewBulbasaur),
+            NewCharmander = Charmander, 
+            NewPokeballBulbasaur = PokeballBulbasaur, 
+            NewPokeballCharmander = PokeballCharmander;
+
+        bulbasaurShoot(Key) -> 
+            initializeShoot(Bulbasaur, PokeballBulbasaur, NewPokeball), 
+            moveShoot(NewPokeball, NewPokeballBulbasaur), 
+            NewBulbasaur = Bulbasaur, 
+            NewCharmander = Charmander, 
+            NewPokeballCharmander = PokeballCharmander;
+
+        charmanderUp(Key) -> 
+            moveUp(Charmander, NewCharmander), 
+            NewBulbasaur = Bulbasaur, 
+            NewPokeballBulbasaur = PokeballBulbasaur, 
+            NewPokeballCharmander = PokeballCharmander;
+
+        charmanderDown(Key) -> 
+            moveDown(Charmander, NewCharmander), 
+            NewBulbasaur = Bulbasaur, 
+            NewPokeballBulbasaur = PokeballBulbasaur, 
+            NewPokeballCharmander = PokeballCharmander; 
+        
+        charmanderShoot(Key) ->  
+            initializeShoot(Charmander, PokeballCharmander, NewPokeball), 
+            moveShoot(NewPokeball, NewPokeballCharmander), 
+            NewBulbasaur = Bulbasaur, 
+            NewCharmander = Charmander, 
+            NewPokeballBulbasaur = PokeballBulbasaur;
+
         NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander
     ).
 

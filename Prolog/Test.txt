@@ -32,3 +32,7 @@ aqui
 iterateCollisions([(true, 1, 4), (8, 0)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], NewPokeball).
 
 updateCollisions([(true, 1, 4), (8, 9)], [(true, -1, 4), (16, 12)], [["#", (8, 9)], ["#", (8, 0)], ["@", (12, 6)], ["O", (16, 12)], ["O", (16, 3)]], FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles).
+
+
+movePokeball( [(true, -1, 4), (16, 12)], NewPokeball).
+notMovingPokeball([(true, -1, 4), (16, 12)]).

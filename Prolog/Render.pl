@@ -3,7 +3,7 @@
 :-style_check(-discontiguous).
 :-style_check(-singleton).
 
-render(menu, _, _, _, _, _) :-
+render(menu, _, _, _, _, _) :- 
     show_menu().
 
 render(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :- 

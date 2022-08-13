@@ -21,7 +21,7 @@ show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacle
     insert_pokeballs(PokeballCharmander, IntermidiateBoard1, IntermidiateBoard2), 
     insert_obstacles(Obstacles, IntermidiateBoard2, IntermidiateBoard3),
     insert_pokemon(Bulbasaur, IntermidiateBoard3, IntermidiateBoard4), 
-    insert_pokemon(Charmander, IntermidiateBoard4, FinalBoard),   
+    insert_pokemon(Charmander, IntermidiateBoard4, FinalBoard),      
 
     nl,
     write('------------------- new frame of the game --------------------'),  nl,
