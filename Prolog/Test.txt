@@ -36,3 +36,5 @@ updateCollisions([(true, 1, 4), (8, 9)], [(true, -1, 4), (16, 12)], [["#", (8, 9
 
 movePokeball( [(true, -1, 4), (16, 12)], NewPokeball).
 notMovingPokeball([(true, -1, 4), (16, 12)]).
+
+updateProjectiles([[(true, 1, 4), (12, 6)], [(true, -1, 4), (12, 6)]], NewProjectiles).

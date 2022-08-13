@@ -2,10 +2,12 @@
 :-style_check(-discontiguous).
 :-style_check(-singleton).
 
-updateCollisions(PokeballBulbasaur, PokeballCharmander, ObstaclesList, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles) :-
+updateCollisions(PokeballBulbasaur, PokeballCharmander, ObstaclesList, Projectiles, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles, NewProjectiles) :-
     (
         iterateCollisions(PokeballBulbasaur, ObstaclesList, ObstaclesList, FinalPokeballBulbasaur, IntermidiateObstacles),
-        iterateCollisions(PokeballCharmander, IntermidiateObstacles, IntermidiateObstacles, FinalPokeballCharmander, NewObstacles)
+        iterateCollisions(PokeballCharmander, IntermidiateObstacles, IntermidiateObstacles, FinalPokeballCharmander, NewObstacles),
+        
+        updateProjectiles(Projectiles, NewProjectiles), write(NewProjectiles)
     ). 
 
 
@@ -46,6 +48,18 @@ resolveCollision("O", [Shoot|[PokeballPosition]], NewPokeball) :-
     (_, Direction, Speed) = Shoot, 
     NewOnShoot = false,  
     NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition], !.
+
+updateProjectiles([ProjectileRight|[ProjectileLeft]], NewProjectiles) :- 
+    initializeProjectile(ProjectileRight, ActualProjectileRight),
+    movePokeball(ActualProjectileRight, MovedProjectileRight), 
+    movePokeball(ProjectileLeft, MovedProjectileLeft),
+    NewProjectiles = [MovedProjectileRight, MovedProjectileLeft].
+
+initializeProjectile([Shoot|Position], NewProjectile) :-  
+    (OnShoot, Direction, Speed) = Shoot, 
+	(true, Direction, Speed) = NewShoot,
+    (OnShoot ->  NewProjectile = [Shoot|Position];
+    NewProjectile = [NewShoot|(12, 6)]).
 
 updatePlayers(Bulbasaur, Charmander, PokeballBulbasaur, PokeballCharmander, FinalBulbasaur, FinalCharmander) :-
     deathPokemon(Bulbasaur, PokeballCharmander, FinalBulbasaur),

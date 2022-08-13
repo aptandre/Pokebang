@@ -6,3 +6,5 @@ initialShoot([Head|Tail], Pokeball) :-
     [(X, Y)] = Tail,
     (X =:= 0-> Direction is 1 ; Direction is -1),
     Pokeball = [(false, Direction, 4), (X, Y)].
+
+initialProjectiles([[(true, 1, 4), (12, 6)], [(true, -1, 4), (12, 6)]]).

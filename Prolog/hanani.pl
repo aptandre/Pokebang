@@ -2,102 +2,70 @@
 :-style_check(-discontiguous).
 :-style_check(-singleton).
 
-eventHandler(menu, NewGameState, _, _, _, _, _, _, _, _) :-
-    get_single_char(Key),
-
+updateCollisions(PokeballBulbasaur, PokeballCharmander, ObstaclesList, Projectiles, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles, NewProjectiles) :-
     (
-        startKey(Key) -> NewGameState = game;
-        NewGameState = menu
-    ).
+        iterateCollisions(PokeballBulbasaur, ObstaclesList, ObstaclesList, FinalPokeballBulbasaur, IntermidiateObstacles),
+        iterateCollisions(PokeballCharmander, IntermidiateObstacles, IntermidiateObstacles, FinalPokeballCharmander, NewObstacles),
+        updateProjectiles(Projectiles, NewProjectiles)
+    ). 
 
-eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander) :-
-    get_single_char(Key), 
 
-    write("travou"), nl,
-
+% ENQUANTO A POKEBOLA ESTÁ NA MESMA POSIÇÃO DA COLISÃO É NECESSÁRIO QUE
+% O TIRO SE MOVA AUTOMATICAMENTE PARA QUE PARE DE HAVER COLISÃO
+% DAI AS COISAS SÃO MÁGICAS E FUNCIONAM
+iterateCollisions(Pokeball, [], ObstaclesList, NewPokeball, NewObstacles):- 
+    NewPokeball = Pokeball, NewObstacles = ObstaclesList, !.
+iterateCollisions(Pokeball, [Obstacle|Tail], ObstaclesList, NewPokeball, NewObstacles) :- 
+    [(OnShoot, _, _)|[PokeballPosition]] = Pokeball,
+    [Type, ObstaclePosition] = Obstacle,
+    checkCollision(ObstaclePosition, PokeballPosition) -> 
     (
-        bulbasaurUp(Key) ->
-            write("bulbasaurUp"), nl,
-            moveUp(Bulbasaur, NewBulbasaur), 
-            NewCharmander = Charmander, 
-            movePokeball(PokeballBulbasaur, NewPokeballBulbasaur),
-            movePokeball(PokeballCharmander, NewPokeballCharmander); 
+        resolveCollision(Type, Pokeball, OtherPokeball), 
+        removeObstacle(Type, Obstacle, ObstaclesList, OtherObstacles), 
+        iterateCollisions(OtherPokeball, Tail, OtherObstacles, NewPokeball, NewObstacles)
+    );
+    iterateCollisions(Pokeball, Tail, ObstaclesList, NewPokeball, NewObstacles).
 
-        bulbasaurDown(Key) ->
-            write("bulbasaurDown"), nl,
-            moveDown(Bulbasaur, NewBulbasaur), 
-            NewCharmander = Charmander, 
-            movePokeball(PokeballBulbasaur, NewPokeballBulbasaur),
-            movePokeball(PokeballCharmander, NewPokeballCharmander);
+checkCollision(ObstaclePosition, PokeballPosition) :-
+    ObstaclePosition = PokeballPosition.
 
-        bulbasaurShoot(Key) -> 
-            initializeShoot(Bulbasaur, PokeballBulbasaur, NewPokeball),
-            movePokeball(NewPokeball, NewPokeballBulbasaur), 
-            NewBulbasaur = Bulbasaur, 
-            NewCharmander = Charmander, 
-            NewPokeballCharmander = PokeballCharmander;
+removeObstacle("O", _, ObstaclesList, ObstaclesList) :- !.
+removeObstacle("@", _, ObstaclesList, ObstaclesList) :- !.
+removeObstacle(_,  Obstacle, [Obstacle|Tail], Tail) :- !.
+removeObstacle(Type,  Obstacle, [Head|Tail], [Head|Other]) :- 
+    removeObstacle(Type,  Obstacle, Tail, Other).
 
-        charmanderUp(Key) -> 
-            moveUp(Charmander, NewCharmander), 
-            NewBulbasaur = Bulbasaur,
-            movePokeball(PokeballBulbasaur, NewPokeballBulbasaur),
-            movePokeball(PokeballCharmander, NewPokeballCharmander);
-        
-        charmanderDown(Key) -> 
-            moveDown(Charmander, NewCharmander),
-            NewBulbasaur = Bulbasaur, 
-            movePokeball(PokeballBulbasaur, NewPokeballBulbasaur), 
-            movePokeball(PokeballCharmander);
+resolveCollision("#",  [Shoot|[PokeballPosition]], NewPokeball):-
+    (OnShoot, Direction, _) = Shoot, 
+    NewSpeed is 2,
+    NewPokeball = [(OnShoot, Direction, NewSpeed), PokeballPosition],!.
+resolveCollision("@", [Shoot|[PokeballPosition]], NewPokeball):- 
+    (_, Direction, Speed) = Shoot, 
+    NewOnShoot = false,  
+    NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition], !.
+resolveCollision("O", [Shoot|[PokeballPosition]], NewPokeball) :-
+    (_, Direction, Speed) = Shoot, 
+    NewOnShoot = false,  
+    NewPokeball = [(NewOnShoot, Direction, Speed), PokeballPosition], !.
 
-        charmanderShoot(Key) -> 
-            initializeShoot(Charmander, PokeballCharmander, NewPokeball), 
-            movePokeball(NewPokeball, NewPokeballCharmander), 
-            NewBulbasaur = Bulbasaur, 
-            NewCharmander = Charmander, 
-            NewPokeballBulbasaur = PokeballBulbasaur;
-        
-        NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander
-    ).
+updateProjectiles([ProjectileRight|[ProjectileLeft]], NewProjectiles) :- 
+    initializeProjectile(ProjectileRight, ActualProjectileRight),
+    movePokeball(ActualProjectileRight, MovedProjectileRight), 
+    movePokeball(ProjectileLeft, MovedProjectileLeft),
+    NewProjectiles = [MovedProjectileRight, MovedProjectileLeft].
 
-initializeShoot([_|Location], [Shoot|Position], NewPokeball) :-  
+initializeProjectile([Shoot|Position], NewProjectile) :-  
     (OnShoot, Direction, Speed) = Shoot, 
 	(true, Direction, Speed) = NewShoot,
-    % OnShoot é true quando a pokeball está em movimento
-    % A pokeboll deve continuar se movendo linearmente
-    (OnShoot ->  NewPokeball = [Shoot|Position];
-    % OnShoot é inicializado como false na mesma posição no pokemon
-    % a pokebola está fora do mapa ou foi interceptada, logo vira uma pokeball que move-se
-    % deve inicializar na mesma posição do pokemon que está atirando essa ao apertar a tecla
-    NewPokeball = [NewShoot|Location]).
+    (OnShoot ->  NewProjectile = [Shoot|Position];
+    NewProjectile = [NewShoot|(12, 6)]).
 
-movePokeball([Shoot|Position], NewPokeball) :-
-    (OnShoot, _, _) = Shoot, 
+updatePlayers(Bulbasaur, Charmander, PokeballBulbasaur, PokeballCharmander, FinalBulbasaur, FinalCharmander) :-
+    deathPokemon(Bulbasaur, PokeballCharmander, FinalBulbasaur),
+    deathPokemon(Charmander, PokeballBulbasaur, FinalCharmander).
+
+deathPokemon([Name|Location], [Shoot|PokeballPosition], FinalPokemon) :-
     (
-        OnShoot -> moveShoot([Shoot|Position], NewPokeball);
-        NewPokeball = [Shoot|Position]
-    ).
-
-moveShoot([Shoot|Position], NewPokeball) :- 
-    (OnShoot, Direction, Speed) = Shoot, 
-    [(X, Y)] = Position, 
-    (   
-        Direction =:= -1, constraintsLeft(X) -> NewX is X, NewOnShoot = false;
-        Direction =:= 1, constraintsRight(X) -> NewX is X, NewOnShoot = false;
-        NewX is X + (Direction * Speed), NewOnShoot = true
-    ), 
-    NewPokeball = [(NewOnShoot, Direction, Speed), (NewX, Y)].
-
-
-moveUp([Name|Location], [Name, (X, NewY)]) :- 
-    [(X, Y)] = Location,
-    (
-        constraintsUp(Y) -> NewY is Y;
-        NewY is Y - 3
-    ).
-
-moveDown([Name|Location], [Name, (X, NewY)]) :- 
-    [(X, Y)] = Location,
-    (
-        constraintsDown(Y) -> NewY is Y;
-        NewY is Y + 3
+        Location = PokeballPosition ->  FinalPokemon = ["X"|Location] ;
+        FinalPokemon = [Name|Location]
     ).

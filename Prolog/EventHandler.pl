@@ -15,14 +15,12 @@ eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmand
 
     (
         bulbasaurUp(Key) ->
-            write("bulbasaurUp"), nl,
             moveUp(Bulbasaur, NewBulbasaur), 
             NewCharmander = Charmander, 
             movePokeball(PokeballBulbasaur, NewPokeballBulbasaur),
             movePokeball(PokeballCharmander, NewPokeballCharmander); 
 
         bulbasaurDown(Key) ->
-            write("bulbasaurDown"), nl,
             moveDown(Bulbasaur, NewBulbasaur), 
             NewCharmander = Charmander, 
             movePokeball(PokeballBulbasaur, NewPokeballBulbasaur),
@@ -67,24 +65,6 @@ initializeShoot([_|Location], [Shoot|Position], NewPokeball) :-
     % a pokebola está fora do mapa ou foi interceptada, logo vira uma pokeball que move-se
     % deve inicializar na mesma posição do pokemon que está atirando essa ao apertar a tecla
     NewPokeball = [NewShoot|Location]).
-
-movePokeball([Shoot|Position], NewPokeball) :-
-    (OnShoot, _, _) = Shoot, 
-    (
-        OnShoot -> moveShoot([Shoot|Position], NewPokeball);
-        NewPokeball = [Shoot|Position]
-    ).
-
-moveShoot([Shoot|Position], NewPokeball) :- 
-    (OnShoot, Direction, Speed) = Shoot, 
-    [(X, Y)] = Position, 
-    (   
-        Direction =:= -1, constraintsLeft(X) -> NewX is X, NewOnShoot = false;
-        Direction =:= 1, constraintsRight(X) -> NewX is X, NewOnShoot = false;
-        NewX is X + (Direction * Speed), NewOnShoot = true
-    ), 
-    NewPokeball = [(NewOnShoot, Direction, Speed), (NewX, Y)].
-
 
 moveUp([Name|Location], [Name, (X, NewY)]) :- 
     [(X, Y)] = Location,

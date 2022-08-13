@@ -15,13 +15,14 @@ show_menu():-
 print_menu([]) :- nl, nl, nl.
 print_menu([Head|Tail]) :- write(Head), nl, print_menu(Tail).
 
-show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles) :-
+show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles, Projectiles) :-
     generate_board(13, Board), 
     insert_pokeballs(PokeballBulbasaur, Board, IntermidiateBoard1), 
     insert_pokeballs(PokeballCharmander, IntermidiateBoard1, IntermidiateBoard2), 
-    insert_obstacles(Obstacles, IntermidiateBoard2, IntermidiateBoard3),
-    insert_pokemon(Bulbasaur, IntermidiateBoard3, IntermidiateBoard4), 
-    insert_pokemon(Charmander, IntermidiateBoard4, FinalBoard),      
+    insert_projectiles(Projectiles, IntermidiateBoard2, IntermidiateBoard3), 
+    insert_obstacles(Obstacles, IntermidiateBoard3, IntermidiateBoard4),
+    insert_pokemon(Bulbasaur, IntermidiateBoard4, IntermidiateBoard5), 
+    insert_pokemon(Charmander, IntermidiateBoard5, FinalBoard),      
 
     nl,
     write('------------------- new frame of the game --------------------'),  nl,
@@ -49,6 +50,11 @@ insert_pokeballs([Head|Tail], Board, NewBoard):-
         OnShoot -> insert_on_board(X, Y, '+', Board, NewBoard);
         NewBoard = Board
     ).
+
+insert_projectiles([], IntermidiateBoard, NewBoard) :- NewBoard = IntermidiateBoard.
+insert_projectiles([Head|Tail], Board, NewBoard) :- 
+    insert_pokeballs(Head, Board, IntermidiateBoard), 
+    insert_projectiles(Tail, IntermidiateBoard, NewBoard).
 
 insert_obstacles([], IntermidiateBoard, NewBoard) :- NewBoard = IntermidiateBoard.
 insert_obstacles([Head|Tail], Board, NewBoard) :-
