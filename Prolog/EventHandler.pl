@@ -90,12 +90,12 @@ moveUp([Name|Location], [Name, (X, NewY)]) :-
     [(X, Y)] = Location,
     (
         constraintsUp(Y) -> NewY is Y;
-        NewY is Y - 3
+        NewY is Y - 1
     ).
 
 moveDown([Name|Location], [Name, (X, NewY)]) :- 
     [(X, Y)] = Location,
     (
         constraintsDown(Y) -> NewY is Y;
-        NewY is Y + 3
+        NewY is Y + 1
     ).
