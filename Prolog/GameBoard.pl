@@ -36,7 +36,6 @@ play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacl
 
     updatePlayers(NewBulbasaur, NewCharmander, FinalPokeballBulbasaur, FinalPokeballCharmander, FinalBulbasaur, FinalCharmander),
 
-    nl, write(NewProjectiles), nl,
     checkGameOver(FinalBulbasaur, FinalCharmander, NewGameState),
     
     play(NewGameState, FinalBulbasaur, FinalPokeballBulbasaur, FinalCharmander, FinalPokeballCharmander, NewObstacles, NewProjectiles).

@@ -1,4 +1,0 @@
-render -> só renderiza se for OnShoot é True
-aperto d -> OnShoot sai de false pra True, X + 4
-(se estiver a ponto de colidir, na real X + 4 = Obstaculo) -> 
-    se for @ ou O....... On Shoot é False

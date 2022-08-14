@@ -5,9 +5,8 @@
 updateCollisions(PokeballBulbasaur, PokeballCharmander, ObstaclesList, Projectiles, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles, NewProjectiles) :-
     (
         iterateCollisions(PokeballBulbasaur, ObstaclesList, ObstaclesList, FinalPokeballBulbasaur, IntermidiateObstacles),
-        iterateCollisions(PokeballCharmander, IntermidiateObstacles, IntermidiateObstacles, FinalPokeballCharmander, NewObstacles),
-        
-        updateProjectiles(Projectiles, NewProjectiles), write(NewProjectiles)
+        iterateCollisions(PokeballCharmander, IntermidiateObstacles, IntermidiateObstacles, FinalPokeballCharmander, NewObstacles)
+        , updateProjectiles(Projectiles, NewProjectiles)
     ). 
 
 
@@ -51,15 +50,16 @@ resolveCollision("O", [Shoot|[PokeballPosition]], NewPokeball) :-
 
 updateProjectiles([ProjectileRight|[ProjectileLeft]], NewProjectiles) :- 
     initializeProjectile(ProjectileRight, ActualProjectileRight),
+    initializeProjectile(ProjectileLeft, ActualProjectileLeft),
     movePokeball(ActualProjectileRight, MovedProjectileRight), 
-    movePokeball(ProjectileLeft, MovedProjectileLeft),
+    movePokeball(ActualProjectileLeft, MovedProjectileLeft),
     NewProjectiles = [MovedProjectileRight, MovedProjectileLeft].
 
 initializeProjectile([Shoot|Position], NewProjectile) :-  
     (OnShoot, Direction, Speed) = Shoot, 
 	(true, Direction, Speed) = NewShoot,
     (OnShoot ->  NewProjectile = [Shoot|Position];
-    NewProjectile = [NewShoot|(12, 6)]).
+    NewProjectile = [NewShoot|[(12, 6)]]).
 
 updatePlayers(Bulbasaur, Charmander, PokeballBulbasaur, PokeballCharmander, FinalBulbasaur, FinalCharmander) :-
     deathPokemon(Bulbasaur, PokeballCharmander, FinalBulbasaur),
