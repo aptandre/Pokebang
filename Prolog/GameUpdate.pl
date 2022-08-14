@@ -9,10 +9,6 @@ updateCollisions(PokeballBulbasaur, PokeballCharmander, ObstaclesList, Projectil
         , updateProjectiles(Projectiles, NewProjectiles)
     ). 
 
-
-% ENQUANTO A POKEBOLA ESTÁ NA MESMA POSIÇÃO DA COLISÃO É NECESSÁRIO QUE
-% O TIRO SE MOVA AUTOMATICAMENTE PARA QUE PARE DE HAVER COLISÃO
-% DAI AS COISAS SÃO MÁGICAS E FUNCIONAM
 iterateCollisions(Pokeball, [], ObstaclesList, NewPokeball, NewObstacles):- 
     NewPokeball = Pokeball, NewObstacles = ObstaclesList, !.
 iterateCollisions(Pokeball, [Obstacle|Tail], ObstaclesList, NewPokeball, NewObstacles) :- 
@@ -61,9 +57,12 @@ initializeProjectile([Shoot|Position], NewProjectile) :-
     (OnShoot ->  NewProjectile = [Shoot|Position];
     NewProjectile = [NewShoot|[(12, 6)]]).
 
-updatePlayers(Bulbasaur, Charmander, PokeballBulbasaur, PokeballCharmander, FinalBulbasaur, FinalCharmander) :-
-    deathPokemon(Bulbasaur, PokeballCharmander, FinalBulbasaur),
-    deathPokemon(Charmander, PokeballBulbasaur, FinalCharmander).
+updatePlayers(Bulbasaur, Charmander, Projectiles, PokeballBulbasaur, PokeballCharmander, FinalBulbasaur, FinalCharmander) :-
+    [ProjectileRight|[ProjectileLeft]] = Projectiles,
+    deathPokemon(Bulbasaur, PokeballCharmander, IntermidiateBulbasaur),
+    deathPokemon(Charmander, PokeballBulbasaur, IntermidiateCharmander),
+    deathPokemon(IntermidiateBulbasaur, ProjectileLeft, FinalBulbasaur),
+    deathPokemon(IntermidiateCharmander, ProjectileRight, FinalCharmander).
 
 deathPokemon([Name|Location], [Shoot|PokeballPosition], FinalPokemon) :-
     (

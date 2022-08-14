@@ -24,11 +24,13 @@ show_game(Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacle
     insert_pokemon(Bulbasaur, IntermidiateBoard4, IntermidiateBoard5), 
     insert_pokemon(Charmander, IntermidiateBoard5, FinalBoard),      
 
+    nl, nl, nl,
+    write('============= continue jogando!!'),  
     nl,
-    write('------------------- new frame of the game --------------------'),  nl,
     print_board(FinalBoard),
     nl,
-    write('---------------------------------------------------------------'),  nl.
+    write('================================='),
+    nl, nl, nl.
 
 generate_board(Length, Board) :- 
     length(Board, Length), 
@@ -84,8 +86,11 @@ print_line([Head|Tail]):-
 
 show_winner(Bulbasaur, Charmander):-
     (
+        
+        loser(Bulbasaur), loser(Charmander) -> print_winner_vileplum();
         winner(Bulbasaur) -> print_winner_bulbasaur();
         winner(Charmander) -> print_winner_charmander()
+        
     ).
 
 print_winner_bulbasaur():- 
@@ -102,6 +107,16 @@ print_winner_charmander():-
     L0 = "-------------------------------------------------------------------------------------------------",
     L1 = "|                                         Game Over                                              |",
     L2 = "|                                      Charmander Wins!                                          |",
+
+    List = [L0, L1, L2, L0],
+    
+    nl, nl, nl,
+    print_menu(List).
+
+print_winner_vileplum():- 
+    L0 = "-------------------------------------------------------------------------------------------------",
+    L1 = "|                                         Game Over                                             |",
+    L2 = "|                                      Vileplum Wins!                                           |",
 
     List = [L0, L1, L2, L0],
     

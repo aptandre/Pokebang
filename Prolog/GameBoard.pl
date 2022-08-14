@@ -21,25 +21,24 @@ play(game, [], [], [], [], [], []) :-
     initialShoot(NewCharmander, NewPokeballCharmander),
     initialProjectiles(NewProjectiles),
 
-    render(game, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, NewObstacles, NewProjectiles),
-
     play(game, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, NewObstacles, NewProjectiles).
 
 play(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles, Projectiles) :-
     sleep(1),
 
+    render(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles, Projectiles),
+
     eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, NewBulbasaur, NewCharmander, NewPokeballBulbasaur, NewPokeballCharmander),
 
-    render(game, NewBulbasaur, NewPokeballBulbasaur, NewCharmander, NewPokeballCharmander, Obstacles, Projectiles),
-    
     updateCollisions(NewPokeballBulbasaur, NewPokeballCharmander, Obstacles, Projectiles, FinalPokeballBulbasaur, FinalPokeballCharmander, NewObstacles, NewProjectiles), 
 
-    updatePlayers(NewBulbasaur, NewCharmander, FinalPokeballBulbasaur, FinalPokeballCharmander, FinalBulbasaur, FinalCharmander),
+    updatePlayers(NewBulbasaur, NewCharmander, NewProjectiles, FinalPokeballBulbasaur, FinalPokeballCharmander, FinalBulbasaur, FinalCharmander),
 
     checkGameOver(FinalBulbasaur, FinalCharmander, NewGameState),
     
     play(NewGameState, FinalBulbasaur, FinalPokeballBulbasaur, FinalCharmander, FinalPokeballCharmander, NewObstacles, NewProjectiles).
 
-play(over, Bulbasaur, _, Charmander, _, _, _) :- 
+play(over, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles, Projectiles):- 
+    render(game, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmander, Obstacles, Projectiles),
     render(over, Bulbasaur, _, Charmander, _, _, _), 
     halt.
