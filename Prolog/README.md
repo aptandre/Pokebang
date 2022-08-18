@@ -51,7 +51,3 @@ _**“POKEBANG!”**_ é um jogo inspirado nos antigos jogos shooter 2D com os p
 &nbsp;&nbsp;&nbsp;**Rhydon -** intercepta um projétil;
 
 &nbsp;&nbsp;&nbsp;**Slowpoke -** ao ser atingido por um projétil, diminui a velocidade do mesmo;
-
-# 👨‍💻 AUTORES
-
-### [@aptandre](https://github.com/aptandre) [@leinharr]() [@gabrielvsc](https://www.github.com/gabrielvsc) [@jonngab](https://github.com/jonngab) [@laysa]()
