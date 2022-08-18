@@ -23,3 +23,11 @@ Existem três obstáculos que aparecem aleatoriamente entre os jogadores:
 &nbsp;&nbsp;&nbsp;**Rhydon -** intercepta um projétil;
 
 &nbsp;&nbsp;&nbsp;**Slowpoke -** ao ser atingido por um projétil, diminui a velocidade do mesmo;
+
+# 👨‍💻 AUTORES
+
+[@aptandre](https://github.com/aptandre) 
+[@lethiz](https://github.com/lethiz) 
+[@gabrielvsc](https://www.github.com/gabrielvsc)
+[@jonngab](https://github.com/jonngab) 
+[@laysa]()
