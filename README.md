@@ -1,6 +1,6 @@
 # 📑 PROJETO PLP 
 
-&nbsp; Repositório para desenvolver o projeto proposto pela disciplina de **Paradigmas de Linguagem de Programação**, ministrada pelo professor **Everton Leandro Galdino** no período 2021.2 - UFCG, utilizando as linguagens de programação [Haskell](https://github.com/aptandre/BANG/tree/main/Haskell/bang) e [Prolog]().
+&nbsp; Repositório para desenvolver o projeto proposto pela disciplina de **Paradigmas de Linguagem de Programação**, ministrada pelo professor **Everton Leandro Galdino** no período 2021.2 - UFCG, utilizando as linguagens de programação [Haskell](https://github.com/aptandre/BANG/tree/main/Haskell/bang) e [Prolog](https://github.com/aptandre/BANG/tree/main/Prolog).
 
 # <img src="https://cdn-icons-png.flaticon.com/512/188/188918.png?w=826&t=st=1657547419~exp=1657548019~hmac=fb3e922e92807a21bb9cf2c1a3a453e3b7d45432045977b093ac344f4a23b03f" width=30px> _POKEBANG!_
 
