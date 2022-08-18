@@ -35,11 +35,11 @@ _**“POKEBANG!”**_ é um jogo inspirado nos antigos jogos shooter 2D com os p
 
 ### JOGADOR 2 ( CHARMANDER )
 
-&nbsp;&nbsp;&nbsp;**↑ -** MOVIMENTA PARA CIMA
+&nbsp;&nbsp;&nbsp;**I -** MOVIMENTA PARA CIMA
 
-&nbsp;&nbsp;&nbsp;**↓ -** MOVIMENTA PARA BAIXO
+&nbsp;&nbsp;&nbsp;**K -** MOVIMENTA PARA BAIXO
 
-&nbsp;&nbsp;**← -** ATIRA
+&nbsp;&nbsp;**J -** ATIRA
 
 
 ## <img src="https://cdn-icons-png.flaticon.com/512/188/188918.png?w=826&t=st=1657547419~exp=1657548019~hmac=fb3e922e92807a21bb9cf2c1a3a453e3b7d45432045977b093ac344f4a23b03f" width=30px> OBSTÁCULOS
