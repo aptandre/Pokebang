@@ -38,7 +38,7 @@ eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmand
             movePokeball(NewPokeball, NewPokeballBulbasaur), 
             NewBulbasaur = Bulbasaur, 
             NewCharmander = Charmander, 
-            NewPokeballCharmander = PokeballCharmander;
+            movePokeball(PokeballCharmander, NewPokeballCharmander);
 
         % Move o charmander para cima
         charmanderUp(Key) -> 
@@ -60,7 +60,7 @@ eventHandler(game, _, Bulbasaur, PokeballBulbasaur, Charmander, PokeballCharmand
             movePokeball(NewPokeball, NewPokeballCharmander), 
             NewBulbasaur = Bulbasaur, 
             NewCharmander = Charmander, 
-            NewPokeballBulbasaur = PokeballBulbasaur;
+            movePokeball(PokeballBulbasaur, NewPokeballBulbasaur);
         
         NewBulbasaur = Bulbasaur, NewCharmander = Charmander, NewPokeballBulbasaur = PokeballBulbasaur, NewPokeballCharmander = PokeballCharmander
     ).
@@ -70,7 +70,7 @@ initializeShoot([_|Location], [Shoot|Position], NewPokeball) :-
     % Recebe o estado de Shoot atual do tiro do pokemon
     (OnShoot, Direction, Speed) = Shoot, 
     % Define um novo estado de Shoot para uso, caso necessário
-	(true, Direction, Speed) = NewShoot,
+	(true, Direction, 4) = NewShoot,
     % OnShoot é true quando a pokeball está em movimento
     % OnShoot é inicializado como false na mesma posição no pokemon
     % Se a OnShoot é false pokebola está fora do mapa ou foi interceptada, 
