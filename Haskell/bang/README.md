@@ -60,10 +60,3 @@ As instalações abaixo podem durar alguns minutos.
 &nbsp;&nbsp;&nbsp;**Rhydon -** intercepta um projétil;
 
 &nbsp;&nbsp;&nbsp;**Slowpoke -** ao ser atingido por um projétil, diminui a velocidade do mesmo;
-
-<!-- LINK DO YOUTUBE -->
-
-## 👨‍💻 AUTORES
-
-
-### [@aptandre](https://github.com/aptandre) [@leinharr]() [@gabrielvsc](https://www.github.com/gabrielvsc) [@jonngab](https://github.com/jonngab) [@laysa]()
