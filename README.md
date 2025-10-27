@@ -6,7 +6,7 @@ O presente repositório comporta o desenvolvimento de um projeto proposto pela d
 
 # <img src="https://cdn-icons-png.flaticon.com/512/188/188918.png?w=826&t=st=1657547419~exp=1657548019~hmac=fb3e922e92807a21bb9cf2c1a3a453e3b7d45432045977b093ac344f4a23b03f" width=30px> _POKEBANG!_
 
-<img width="1185" height="728" alt="Captura de tela 2025-10-27 102134" src="https://github.com/user-attachments/assets/bfee6aa0-6961-4c4a-8343-289e5fd4ccf7" />
+![BANG2025-10-2710-23-28](https://github.com/user-attachments/assets/780b0c88-7224-40f7-b0e1-a16c3239653c)
 
 **“Pokebang!”** é um jogo inspirado nos antigos jogos da franquia Pokémon combinado com elementos de um jogo shooter 2D. É essencialmente um jogo baseado em uma disputa entre pokemóns, no qual dois jogadores entram em uma batalha de disparos, o primeiro a acertar o adversário detêm a vitória!
 
